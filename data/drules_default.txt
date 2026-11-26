@@ -3,7 +3,7 @@
 # A color is written once, or once per variant separated by '/' when the variants differ.
 variants: light dark
 named-colors:
-  Arrow3D #0050AAFF/#0041C8FF
+  Arrow3D #0034C759
   Arrow3DObsolete #4882AAC8
   Arrow3DOutline #00FFFFFF
   Arrow3DShadow #C23C3C3C

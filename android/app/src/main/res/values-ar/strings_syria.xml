@@ -208,4 +208,8 @@
   <string name="syria_status_auto_stopped">أُوقف تلقائياً</string>
   <string name="syria_auto_stopped_detail">أُوقف تلقائياً: لا حركة منذ 10 دقائق</string>
   <string name="syria_auto_stop_text">لم تتحرك منذ 10 دقائق، فأوقف التطبيق التسجيل والموقع المباشر لتوفير البطارية. عندما تقود سيارة أو تركب فيها، ابدأ التسجيل من جديد.</string>
+  <string name="syria_voice_prompt_title">التوجيه الصوتي</string>
+  <string name="syria_voice_prompt_message">لا يوجد على هذا الهاتف صوت %s، لذلك لا يستطيع التطبيق نطق الاتجاهات. نزّله مرة واحدة (يلزم الإنترنت) لتسمع كل منعطف أثناء القيادة.</string>
+  <string name="syria_voice_prompt_download">تنزيل</string>
+  <string name="syria_voice_prompt_later">ليس الآن</string>
 </resources>

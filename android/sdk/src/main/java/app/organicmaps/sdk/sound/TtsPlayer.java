@@ -251,21 +251,30 @@ public enum TtsPlayer
         {
           Logger.d(TAG, "System TTS engine changed – reloading TTS engine");
           mReloadTriggered = true;
-          if (mTts != null)
-          {
-            mTts.shutdown();
-            mTts = null;
-          }
-          // Clear lockdown for the new engine; clear mInitializing because a pending
-          // old-engine callback will detect its stale generation and bail without resetting it.
-          mUnavailable = false;
-          mInitializing = false;
-          initialize(mContext);
+          reload();
         }
       };
       mContext.getContentResolver().registerContentObserver(Settings.Secure.getUriFor("tts_default_synth"), false,
                                                             mTtsEngineObserver);
     }
+  }
+
+  /**
+   * Re-creates the engine so it sees voice data installed since it started (the engine does not tell),
+   * and picks the language again from {@link Config.TTS}. Also lifts a lockdown caused by missing languages.
+   */
+  public void reload()
+  {
+    if (mTts != null)
+    {
+      mTts.shutdown();
+      mTts = null;
+    }
+    // Clear lockdown for the new engine; clear mInitializing because a pending
+    // old-engine callback will detect its stale generation and bail without resetting it.
+    mUnavailable = false;
+    mInitializing = false;
+    initialize(mContext);
   }
 
   private static boolean isReady()

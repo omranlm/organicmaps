@@ -234,4 +234,9 @@ Remember that road conditions, traffic laws and road signs always take priority 
   <string name="syria_status_auto_stopped">Auto stopped</string>
   <string name="syria_auto_stopped_detail">Auto stopped: no movement for 10 minutes</string>
   <string name="syria_auto_stop_text">You have not moved for 10 minutes, so the app stopped the recording and live location to save your battery. When you drive or ride in a car, start a recording again.</string>
+  <!-- Navigation started without a text-to-speech voice in the app language (VoicePrompt); %s: language name. -->
+  <string name="syria_voice_prompt_title">Voice directions</string>
+  <string name="syria_voice_prompt_message">This phone has no %s voice, so the app cannot speak the directions. Download it once (internet needed) to hear every turn while you drive.</string>
+  <string name="syria_voice_prompt_download">Download</string>
+  <string name="syria_voice_prompt_later">Not now</string>
 </resources>

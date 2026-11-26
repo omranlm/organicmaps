@@ -68,6 +68,7 @@ import app.organicmaps.syria.NarrationDialog;
 import app.organicmaps.syria.SyriaDefaults;
 import app.organicmaps.syria.SyriaLocale;
 import app.organicmaps.syria.SyriaPrefs;
+import app.organicmaps.syria.VoicePrompt;
 import app.organicmaps.syria.account.LoginActivity;
 import app.organicmaps.syria.tracking.ActivityTrackingService;
 import app.organicmaps.syria.tracking.TrackingActivity;
@@ -1429,6 +1430,8 @@ public class MwmActivity extends BaseMwmFragmentActivity
     ThemeSwitcher.INSTANCE.synchronizeMapStyle(this, mMapController.isRenderingActive());
     mMapButtonsViewModel.setLayoutMode(MapButtonsController.LayoutMode.navigation);
     refreshLightStatusBar();
+    // Syria: offer to download a voice when directions cannot be spoken in the app language.
+    VoicePrompt.onNavigationStarted(this);
 
     // Don't start the background navigation service without fine location.
     if (!LocationUtils.checkFineLocationPermission(this))

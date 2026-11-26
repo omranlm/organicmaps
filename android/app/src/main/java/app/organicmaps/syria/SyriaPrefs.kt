@@ -37,6 +37,8 @@ object SyriaPrefs {
     private const val KEY_NOTIFICATION_PERMISSION_ASKED = "notification_permission_asked"
     private const val KEY_TUTORIAL_DONE = "tutorial_done"
     private const val KEY_DRIVING_REMINDER_AT = "driving_reminder_at"
+    private const val KEY_VOICE_PROMPT_AT = "voice_prompt_at"
+    private const val KEY_VOICE_DOWNLOAD_AT = "voice_download_at"
     private const val KEY_LIVE = "live_location"
     private const val KEY_LARGE_FONTS_DEFAULT = "large_fonts_default_applied"
     private const val KEY_KEEP_SCREEN_ON_DEFAULT = "keep_screen_on_default_applied"
@@ -268,6 +270,20 @@ object SyriaPrefs {
     @JvmStatic
     fun setDrivingReminderAt(context: Context, timeMs: Long) {
         prefs(context).edit().putLong(KEY_DRIVING_REMINDER_AT, timeMs).apply()
+    }
+
+    /** When the "download a voice for directions" prompt was last shown (VoicePrompt). */
+    fun voicePromptAt(context: Context): Long = prefs(context).getLong(KEY_VOICE_PROMPT_AT, 0L)
+
+    fun setVoicePromptAt(context: Context, timeMs: Long) {
+        prefs(context).edit().putLong(KEY_VOICE_PROMPT_AT, timeMs).apply()
+    }
+
+    /** The user went to download a voice from the prompt; 0 once directions use it. */
+    fun voiceDownloadAt(context: Context): Long = prefs(context).getLong(KEY_VOICE_DOWNLOAD_AT, 0L)
+
+    fun setVoiceDownloadAt(context: Context, timeMs: Long) {
+        prefs(context).edit().putLong(KEY_VOICE_DOWNLOAD_AT, timeMs).apply()
     }
 
     @JvmStatic

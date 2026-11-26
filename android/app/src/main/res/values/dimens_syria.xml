@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- Top of the help + traffic light stack (map_buttons_syria_stack): below the top panels in portrait. -->
+  <dimen name="syria_buttons_top">@dimen/action_bar_extended_height</dimen>
+</resources>

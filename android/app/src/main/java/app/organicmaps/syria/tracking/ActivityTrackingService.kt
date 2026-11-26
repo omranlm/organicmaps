@@ -33,6 +33,7 @@ import org.json.JSONObject
  */
 class ActivityTrackingService : Service(), LocationListener {
     private val engine = TrackingEngine()
+    private val stillWatch = StillWatch()
     private lateinit var db: TrackingDb
     private var backgroundMode: BackgroundMode? = null
     private var backgroundModeCheckedAt = 0L
@@ -69,8 +70,9 @@ class ActivityTrackingService : Service(), LocationListener {
             ACTION_START -> startSession()
             ACTION_PAUSE -> pauseSession()
             ACTION_RESUME -> resumeSession()
-            ACTION_STOP -> {
-                stopSession()
+            ACTION_STOP, ACTION_STOP_NOT_MOVING -> {
+                val byUser = intent?.action == ACTION_STOP
+                stopSession(if (byUser) Session.STOP_REASON_USER else Session.STOP_REASON_NOT_MOVING)
                 stopSelf()
                 return START_NOT_STICKY
             }
@@ -112,7 +114,9 @@ class ActivityTrackingService : Service(), LocationListener {
         logEvent("tracking_start", BackgroundMode.payload(this, backgroundMode!!))
         mirrorMapLine(true)
         SyncWorker.schedulePeriodic(this)
+        stillWatch.reset()
         DrivingReminder.cancel(this)
+        AutoStop.cancel(this)
         Logger.i(TAG, "Session $sessionId started")
     }
 
@@ -139,23 +143,26 @@ class ActivityTrackingService : Service(), LocationListener {
         db.insertSegment(Segment(segmentId, sessionId, seq, now, null))
         db.updateSessionStatus(sessionId, TrackingDb.STATUS_ACTIVE, null)
         logEvent("tracking_resume", null)
+        stillWatch.reset()
         checkBackgroundMode(force = true)
         mirrorMapLine(true)
     }
 
-    private fun stopSession() {
+    /** [reason]: who ended the trip, [Session.STOP_REASON_USER] or [Session.STOP_REASON_NOT_MOVING]. */
+    private fun stopSession(reason: String) {
         if (engine.status == TrackingEngine.Status.IDLE) return
         val now = now()
         val sessionId = engine.sessionId ?: return
         engine.segmentId?.let { db.closeSegment(it, now) }
         val result = engine.stop(now)
-        db.updateSessionStatus(sessionId, TrackingDb.STATUS_STOPPED, now)
+        db.updateSessionStatus(sessionId, TrackingDb.STATUS_STOPPED, now, reason)
         db.updateSessionProgress(sessionId, result.distanceM, result.movingTimeS, result.pointCount)
-        val payload = JSONObject()
+        // The battery settings at the end of every trip, next to those at its start (tracking_start).
+        val payload = BackgroundMode.payload(this)
             .put("distanceM", result.distanceM)
             .put("movingTimeS", result.movingTimeS)
             .put("points", result.pointCount)
-            .put("batteryMode", BackgroundMode.current(this).key)
+            .put("reason", reason)
         db.insertEvent(TrackEvent(UUID.randomUUID().toString(), "tracking_stop", now, sessionId, payload.toString()))
         saveMapLine()
         SyncWorker.enqueueNow(this)
@@ -206,6 +213,12 @@ class ActivityTrackingService : Service(), LocationListener {
         )
         val sessionId = engine.sessionId ?: return
         val segmentId = engine.segmentId ?: return
+        // Every fix counts here, also the inaccurate ones the recording skips: they show the user is indoors.
+        if (stillWatch.offer(fix.timeMs, fix.lat, fix.lon, fix.speedMps, fix.accuracyM)) {
+            stillWatch.reset()
+            AutoStop.stopAll(this)
+            return
+        }
         when (engine.offer(fix)) {
             is TrackingEngine.Decision.Stored -> {
                 db.insertPoint(
@@ -346,6 +359,7 @@ class ActivityTrackingService : Service(), LocationListener {
         const val ACTION_RESUME = "app.organicmaps.syria.tracking.RESUME"
         const val ACTION_STOP = "app.organicmaps.syria.tracking.STOP"
         const val ACTION_RESTORE = "app.organicmaps.syria.tracking.RESTORE"
+        private const val ACTION_STOP_NOT_MOVING = "app.organicmaps.syria.tracking.STOP_NOT_MOVING"
 
         /** Requested refresh interval while a session is active. */
         const val INTERVAL_MS = 5000L
@@ -374,6 +388,9 @@ class ActivityTrackingService : Service(), LocationListener {
         @JvmStatic fun resume(context: Context) = send(context, ACTION_RESUME)
 
         @JvmStatic fun stop(context: Context) = send(context, ACTION_STOP)
+
+        /** Ends the trip because the user has not moved; see [AutoStop]. */
+        fun stopNotMoving(context: Context) = send(context, ACTION_STOP_NOT_MOVING)
 
         /** Brings a session that was open when the process died back into the service. */
         @JvmStatic

@@ -203,4 +203,9 @@
   <string name="syria_guide_live_title">إرسال الموقع مباشرة</string>
   <string name="syria_guide_live_text">شارك موقعك مباشرة أيضاً أثناء القيادة، لتظهر حركة المرور في هذه اللحظة.</string>
   <string name="syria_guide_tap_hint">اضغط على الزر المحدَّد</string>
+  <string name="syria_auto_stop_channel">الإيقاف التلقائي</string>
+  <string name="syria_auto_stop_title">أنت لا تتحرك</string>
+  <string name="syria_status_auto_stopped">أُوقف تلقائياً</string>
+  <string name="syria_auto_stopped_detail">أُوقف تلقائياً: لا حركة منذ 10 دقائق</string>
+  <string name="syria_auto_stop_text">لم تتحرك منذ 10 دقائق، فأوقف التطبيق التسجيل والموقع المباشر لتوفير البطارية. عندما تقود سيارة أو تركب فيها، ابدأ التسجيل من جديد.</string>
 </resources>

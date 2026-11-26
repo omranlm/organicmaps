@@ -610,6 +610,7 @@ class TrackingActivity : BaseMwmFragmentActivity() {
             append(getString(R.string.syria_moving_time)).append(": ")
                 .append(SyriaFormat.duration(this@TrackingActivity, session.movingTimeS)).append('\n')
             append(getString(R.string.syria_points)).append(": ").append(session.pointCount).append('\n')
+            if (session.isAutoStopped) append(getString(R.string.syria_auto_stopped_detail)).append('\n')
             append(syncState)
         }
         val builder = MaterialAlertDialogBuilder(this)
@@ -655,7 +656,8 @@ class TrackingActivity : BaseMwmFragmentActivity() {
             val context = this@TrackingActivity
             holder.title.text = startedText(session)
             holder.subtitle.text = ActivityTrackingService.formatKm(context, session.distanceM) + " · " +
-                getString(R.string.syria_points) + " " + session.pointCount
+                getString(R.string.syria_points) + " " + session.pointCount +
+                if (session.isAutoStopped) " · " + getString(R.string.syria_status_auto_stopped) else ""
             holder.times.text = getString(R.string.syria_total_time) + ": " +
                 SyriaFormat.duration(context, totalSeconds(session)) + "  ·  " +
                 getString(R.string.syria_moving_time) + ": " + SyriaFormat.duration(context, session.movingTimeS)

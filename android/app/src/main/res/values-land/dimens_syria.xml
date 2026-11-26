@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- Landscape is short: the stack starts at the top, level with the layers button, so the traffic light
+       stays clear of the zoom buttons. -->
+  <dimen name="syria_buttons_top">0dp</dimen>
+</resources>

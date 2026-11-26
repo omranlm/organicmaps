@@ -38,6 +38,7 @@ import org.json.JSONObject
 class LiveLocationService : Service(), LocationListener {
     private val sender = Executors.newSingleThreadExecutor()
     private var lastSentAt = 0L
+    private val stillWatch = StillWatch()
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -93,6 +94,12 @@ class LiveLocationService : Service(), LocationListener {
 
     override fun onLocationUpdated(location: Location) {
         val now = System.currentTimeMillis()
+        // A running recording watches for itself and stops live location with it.
+        if (stoppedMoving(location, now)) {
+            stillWatch.reset()
+            AutoStop.stopAll(this)
+            return
+        }
         if (now - lastSentAt < MIN_GAP_MS || !SyriaStatus.isOnline()) return
         lastSentAt = now
         val point = JSONObject()
@@ -115,6 +122,18 @@ class LiveLocationService : Service(), LocationListener {
                 Logger.w(TAG, "Live point not sent: ${e.message}")
             }
         }
+    }
+
+    /** The user has not moved for a while; a running recording watches for itself and stops live location too. */
+    private fun stoppedMoving(location: Location, now: Long): Boolean {
+        if (ActivityTrackingService.isRecording()) {
+            stillWatch.reset()
+            return false
+        }
+        val time = if (location.time > 0) location.time else now
+        val speed = if (location.hasSpeed()) location.speed else null
+        val accuracy = if (location.hasAccuracy()) location.accuracy else null
+        return stillWatch.offer(time, location.latitude, location.longitude, speed, accuracy)
     }
 
     private fun batteryPercent(): Int? {

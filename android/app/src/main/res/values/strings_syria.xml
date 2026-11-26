@@ -227,4 +227,11 @@ Remember that road conditions, traffic laws and road signs always take priority 
   <string name="syria_guide_live_title">Send live location</string>
   <string name="syria_guide_live_text">Also share your position live while you drive, to show the traffic right now.</string>
   <string name="syria_guide_tap_hint">Tap the highlighted button</string>
+  <!-- Recording and live location stopped when the user has not moved for 10 minutes (AutoStop, StillWatch.STILL_MS). -->
+  <string name="syria_auto_stop_channel">Automatic stop</string>
+  <string name="syria_auto_stop_title">You are not moving</string>
+  <!-- A trip the app ended itself (AutoStop), in the recordings list and its details. -->
+  <string name="syria_status_auto_stopped">Auto stopped</string>
+  <string name="syria_auto_stopped_detail">Auto stopped: no movement for 10 minutes</string>
+  <string name="syria_auto_stop_text">You have not moved for 10 minutes, so the app stopped the recording and live location to save your battery. When you drive or ride in a car, start a recording again.</string>
 </resources>

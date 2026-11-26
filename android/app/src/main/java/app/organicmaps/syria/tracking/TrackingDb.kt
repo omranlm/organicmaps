@@ -18,7 +18,16 @@ data class Session(
     val pointCount: Int,
     val synced: Boolean,
     val updatedAt: Long,
-)
+    /** Who ended it: [STOP_REASON_USER] (Stop button), [STOP_REASON_NOT_MOVING] (the app); null if open or older. */
+    val stopReason: String? = null,
+) {
+    val isAutoStopped: Boolean get() = stopReason == STOP_REASON_NOT_MOVING
+
+    companion object {
+        const val STOP_REASON_USER = "user"
+        const val STOP_REASON_NOT_MOVING = "not_moving"
+    }
+}
 
 data class Segment(val id: String, val sessionId: String, val seq: Int, val startedAt: Long, val endedAt: Long?)
 
@@ -62,7 +71,7 @@ class TrackingDb private constructor(private val appContext: Context) :
                 id TEXT PRIMARY KEY, status TEXT NOT NULL, started_at INTEGER NOT NULL, ended_at INTEGER, name TEXT,
                 distance_m REAL NOT NULL DEFAULT 0, moving_time_s INTEGER NOT NULL DEFAULT 0,
                 point_count INTEGER NOT NULL DEFAULT 0, synced INTEGER NOT NULL DEFAULT 0,
-                updated_at INTEGER NOT NULL)""",
+                updated_at INTEGER NOT NULL, stop_reason TEXT)""",
         )
         db.execSQL(
             """CREATE TABLE segment (
@@ -85,7 +94,7 @@ class TrackingDb private constructor(private val appContext: Context) :
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        // First schema version.
+        if (oldVersion < 2) db.execSQL("ALTER TABLE session ADD COLUMN stop_reason TEXT")
     }
 
     // ---- sessions
@@ -106,10 +115,11 @@ class TrackingDb private constructor(private val appContext: Context) :
         writableDatabase.update("session", values, "id = ?", arrayOf(id))
     }
 
-    fun updateSessionStatus(id: String, status: String, endedAt: Long?) {
+    fun updateSessionStatus(id: String, status: String, endedAt: Long?, stopReason: String? = null) {
         val values = ContentValues().apply {
             put("status", status)
             if (endedAt != null) put("ended_at", endedAt)
+            if (stopReason != null) put("stop_reason", stopReason)
             put("synced", 0)
             put("updated_at", System.currentTimeMillis())
         }
@@ -315,6 +325,7 @@ class TrackingDb private constructor(private val appContext: Context) :
         put("point_count", pointCount)
         put("synced", if (synced) 1 else 0)
         put("updated_at", updatedAt)
+        put("stop_reason", stopReason)
     }
 
     private fun Cursor.toSession() = Session(
@@ -328,6 +339,7 @@ class TrackingDb private constructor(private val appContext: Context) :
         pointCount = getInt(getColumnIndexOrThrow("point_count")),
         synced = getInt(getColumnIndexOrThrow("synced")) != 0,
         updatedAt = getLong(getColumnIndexOrThrow("updated_at")),
+        stopReason = getStringOrNull("stop_reason"),
     )
 
     private fun Cursor.toSegment() = Segment(
@@ -389,7 +401,7 @@ class TrackingDb private constructor(private val appContext: Context) :
         const val STATUS_STOPPED = "stopped"
 
         private const val DB_NAME = "syria_tracking.db"
-        private const val DB_VERSION = 1
+        private const val DB_VERSION = 2
         private const val SQLITE_MAX_VARIABLES = 500
 
         @Volatile

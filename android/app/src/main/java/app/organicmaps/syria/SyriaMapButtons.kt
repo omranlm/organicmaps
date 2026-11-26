@@ -73,7 +73,7 @@ object SyriaMapButtons {
     fun placeBelowTopPanel(frame: View?, margin: Int, statusButton: View?) {
         val stack = frame?.findViewById<View>(R.id.syria_buttons_stack) ?: return
         val params = stack.layoutParams as? ViewGroup.MarginLayoutParams ?: return
-        val defaultTop = frame.resources.getDimensionPixelSize(R.dimen.action_bar_extended_height)
+        val defaultTop = frame.resources.getDimensionPixelSize(R.dimen.syria_buttons_top)
         // Organic Maps' own recording status button sits at that margin when it is shown.
         val status = statusButton?.takeIf { it.visibility == View.VISIBLE }?.height ?: 0
         val top = if (margin < 0) defaultTop else maxOf(defaultTop, margin + status)

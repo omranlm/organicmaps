@@ -35,6 +35,7 @@ import app.organicmaps.sdk.location.TrackRecorder;
 import app.organicmaps.syria.SyriaLocale;
 import app.organicmaps.syria.SyriaServer;
 import app.organicmaps.syria.SyriaStatus;
+import app.organicmaps.syria.TripNotification;
 import app.organicmaps.syria.tracking.ActivityTrackingService;
 import app.organicmaps.syria.tracking.DrivingReminder;
 import app.organicmaps.syria.tracking.LiveLocationService;
@@ -315,5 +316,7 @@ public class MwmApplication extends Application implements Application.ActivityL
     final PendingIntent pendingIntent =
         PendingIntent.getActivity(this, 0, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT | FLAG_IMMUTABLE);
     NavigationService.setOpenAppPendingIntent(pendingIntent);
+    // Syria: trip progress, time and distance left and the destination in the navigation notification.
+    NavigationService.setTripNotificationDecorator(TripNotification.INSTANCE);
   }
 }

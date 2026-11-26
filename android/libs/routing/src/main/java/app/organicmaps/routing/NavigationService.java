@@ -77,6 +77,20 @@ public class NavigationService extends Service implements LocationListener
     sOrganicMaps = organicMaps;
   }
 
+  /** Adds trip details (progress, time and distance left, destination) to the navigation notification. */
+  public interface TripNotificationDecorator
+  {
+    void decorate(@NonNull Context context, @NonNull NotificationCompat.Builder builder, @NonNull RoutingInfo info);
+  }
+
+  @Nullable
+  private static TripNotificationDecorator sTripNotificationDecorator;
+
+  public static void setTripNotificationDecorator(@Nullable TripNotificationDecorator decorator)
+  {
+    sTripNotificationDecorator = decorator;
+  }
+
   public static void setCarNotificationExtender(@Nullable NotificationCompat.Extender carNotificationExtender)
   {
     sCarNotificationExtender = carNotificationExtender;
@@ -373,6 +387,9 @@ public class NavigationService extends Service implements LocationListener
     }
     if (mLastTurnBitmap != null)
       notificationBuilder.setLargeIcon(mLastTurnBitmap);
+
+    if (sTripNotificationDecorator != null)
+      sTripNotificationDecorator.decorate(this, notificationBuilder, routingInfo);
 
     if (sCarNotificationExtender != null)
       notificationBuilder.extend(sCarNotificationExtender);

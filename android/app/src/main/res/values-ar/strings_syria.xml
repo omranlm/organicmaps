@@ -212,4 +212,6 @@
   <string name="syria_voice_prompt_message">لا يوجد على هذا الهاتف صوت %s، لذلك لا يستطيع التطبيق نطق الاتجاهات. نزّله مرة واحدة (يلزم الإنترنت) لتسمع كل منعطف أثناء القيادة.</string>
   <string name="syria_voice_prompt_download">تنزيل</string>
   <string name="syria_voice_prompt_later">ليس الآن</string>
+  <string name="syria_trip_progress">أُنجز %1$d%% · %2$s · %3$s · الوصول %4$s</string>
+  <string name="syria_trip_destination">إلى %s</string>
 </resources>

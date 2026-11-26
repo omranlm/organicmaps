@@ -47,6 +47,8 @@
     Services (FGS)) notifications from an app.
   //-->
   <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+  <!-- Syria: the navigation notification as an Android 16 Live Update (status bar chip with the time left). -->
+  <uses-permission android:name="android.permission.POST_PROMOTED_NOTIFICATIONS" />
 
   <queries>
     <intent>

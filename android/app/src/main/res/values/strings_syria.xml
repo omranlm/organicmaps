@@ -239,4 +239,9 @@ Remember that road conditions, traffic laws and road signs always take priority 
   <string name="syria_voice_prompt_message">This phone has no %s voice, so the app cannot speak the directions. Download it once (internet needed) to hear every turn while you drive.</string>
   <string name="syria_voice_prompt_download">Download</string>
   <string name="syria_voice_prompt_later">Not now</string>
+  <!-- Navigation notification (TripNotification). %1$d: percent of the trip done, %2$s: time left ("4 min"),
+       %3$s: distance left, %4$s: arrival time. -->
+  <string name="syria_trip_progress">%1$d%% done · %2$s · %3$s · arrive %4$s</string>
+  <!-- %s: the destination. -->
+  <string name="syria_trip_destination">To %s</string>
 </resources>

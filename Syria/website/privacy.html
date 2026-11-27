@@ -13,10 +13,8 @@
     var KEY = 'som-lang', lang = null, m = /[?&]lang=(ar|en)(?:&|$)/i.exec(location.search);
     if (m) { lang = m[1].toLowerCase(); try { localStorage.setItem(KEY, lang); } catch (e) {} }
     if (!lang) { try { var s = localStorage.getItem(KEY); if (s === 'ar' || s === 'en') lang = s; } catch (e) {} }
-    if (!lang) {
-      var l = navigator.languages && navigator.languages.length ? navigator.languages : (navigator.language ? [navigator.language] : []);
-      lang = !l.length || l.some(function (x) { return /^ar\b/i.test(x); }) ? 'ar' : 'en';
-    }
+    // Arabic by default; English only when the visitor chose it (switcher or ?lang=en).
+    if (!lang) lang = 'ar';
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
   })();
@@ -70,7 +68,7 @@
   }
   html[lang="ar"] [lang="en"], html[lang="en"] [lang="ar"] { display: none !important; }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; scroll-padding-top: 16px; }
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::after { animation: none !important; } }
   body { margin: 0; background: var(--bg); color: var(--text); font: 400 17px/1.85 var(--body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
   h1, h2, h3 { font-family: var(--display); margin: 0; line-height: 1.35; }
@@ -99,6 +97,10 @@
                   background: radial-gradient(55% 80% at 80% 40%, rgba(12, 124, 112, .26), transparent 70%); }
   [dir="ltr"] .hero::before { background: radial-gradient(55% 80% at 20% 40%, rgba(12, 124, 112, .26), transparent 70%); }
   .topbar { display: flex; align-items: center; gap: 16px; padding-top: 16px; padding-bottom: 16px; position: relative; z-index: 2; }
+  /* The top bar stays visible while the page scrolls. */
+  .sticky-bar { position: sticky; top: 0; z-index: 50; background: var(--ink); color: #fff;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, .06), 0 8px 20px -12px rgba(0, 0, 0, .55); }
+  .sticky-bar .topbar { padding-top: 10px; padding-bottom: 10px; }
   .lockup { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; }
   .lockup svg { width: 30px; height: 38px; }
   .lang-switch { display: inline-flex; margin-inline-start: auto; padding: 3px; gap: 2px; border-radius: 999px;
@@ -134,7 +136,7 @@
   .toc a:hover { border-color: var(--teal); }
   @media (min-width: 900px) {
     .layout { grid-template-columns: 250px 1fr; gap: 36px; align-items: start; }
-    .toc { position: sticky; top: 16px; background: var(--ink); border: 0; padding: 20px 0 20px; overflow: hidden; }
+    .toc { position: sticky; top: 80px; background: var(--ink); border: 0; padding: 20px 0 20px; overflow: hidden; }
     .toc h2 { color: #aeb6c2; padding-inline: 20px; margin-bottom: 14px; }
     .toc h2 .dot { box-shadow: 0 0 0 3px #fff, 0 0 0 5px #6b7a8c; }
     .toc ol { display: grid; gap: 2px; padding-inline: 10px 46px; position: relative; }
@@ -243,7 +245,7 @@
   </defs>
 </svg>
 
-<header class="hero">
+<div class="sticky-bar">
   <div class="wrap topbar">
     <a class="lockup" href="index.html" aria-label="Syria Organic Maps"><svg viewBox="0 0 240 300" aria-hidden="true"><use href="#mark-dark"/></svg><span class="wordmark">Syria <span>Organic Maps</span></span></a>
     <nav class="lang-switch" aria-label="Language · اللغة">
@@ -251,6 +253,9 @@
       <a href="?lang=en" hreflang="en" data-set-lang="en">English</a>
     </nav>
   </div>
+</div>
+
+<header class="hero">
   <div class="wrap hero-body">
     <div>
       <a class="back" href="index.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6"/></svg><span lang="ar">العودة إلى الصفحة الرئيسية</span><span lang="en">Back to the home page</span></a>

@@ -23,10 +23,8 @@
     var KEY = 'som-lang', lang = null, m = /[?&]lang=(ar|en)(?:&|$)/i.exec(location.search);
     if (m) { lang = m[1].toLowerCase(); try { localStorage.setItem(KEY, lang); } catch (e) {} }
     if (!lang) { try { var s = localStorage.getItem(KEY); if (s === 'ar' || s === 'en') lang = s; } catch (e) {} }
-    if (!lang) {
-      var l = navigator.languages && navigator.languages.length ? navigator.languages : (navigator.language ? [navigator.language] : []);
-      lang = !l.length || l.some(function (x) { return /^ar\b/i.test(x); }) ? 'ar' : 'en';
-    }
+    // Arabic by default; English only when the visitor chose it (switcher or ?lang=en).
+    if (!lang) lang = 'ar';
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
   })();
@@ -87,7 +85,9 @@
          box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--road); margin: 5px; }
 
   /* Header: charcoal with the road */
-  .top { background: var(--ink); color: #fff; }
+  /* The header stays visible while the page scrolls. */
+  .top { background: var(--ink); color: #fff; position: sticky; top: 0; z-index: 50;
+    box-shadow: 0 8px 20px -12px rgba(0, 0, 0, .55); }
   .topbar { display: flex; align-items: center; gap: 12px; padding-top: 14px; padding-bottom: 14px; }
   .brand { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; min-width: 0; }
   .brand svg { width: 30px; height: 38px; flex: none; }

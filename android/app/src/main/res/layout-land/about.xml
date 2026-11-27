@@ -15,132 +15,33 @@
       android:layout_height="wrap_content"
       android:orientation="vertical">
 
-      <androidx.constraintlayout.widget.ConstraintLayout
+      <include
+        layout="@layout/syria_about"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_half"
-        android:orientation="horizontal">
+        android:layout_marginStart="@dimen/margin_base"
+        android:layout_marginTop="@dimen/margin_base"
+        android:layout_marginEnd="@dimen/margin_base" />
 
-        <LinearLayout
-          android:id="@+id/linearLayout1"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:orientation="vertical"
-          android:layout_marginEnd="@dimen/margin_base"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toStartOf="@+id/imageView3"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toTopOf="parent"
-          app:layout_constraintVertical_bias="0.5">
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_base"
+        android:layout_marginEnd="@dimen/margin_base"
+        android:layout_marginBottom="@dimen/margin_half"
+        android:text="@string/about_proposition_2"
+        android:textAppearance="@style/MwmTextAppearance.Body1"
+        android:textColor="?android:textColorPrimary" />
 
-          <TextView
-            android:id="@+id/version"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:selectAllOnFocus="true"
-            android:textAlignment="center"
-            android:textAppearance="@style/MwmTextAppearance.Body3"
-            android:textIsSelectable="true"
-            tools:text="2021.10.15-15-Google" />
-
-          <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/about_headline"
-            android:textAlignment="center"
-            android:textAppearance="@style/MwmTextAppearance.Headline"
-            android:textColor="?android:textColorPrimary"
-            app:layout_constraintTop_toTopOf="@id/version" />
-
-          <!-- Syria Organic Maps: fork notice and link to the website / privacy policy. -->
-          <TextView
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginBottom="@dimen/margin_half"
-              android:text="@string/syria_about_title"
-              android:textAppearance="@style/MwmTextAppearance.Body1"
-              android:textColor="?android:textColorPrimary"
-              android:textStyle="bold" />
-
-          <TextView
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginBottom="@dimen/margin_half"
-              android:text="@string/syria_about_fork"
-              android:textAppearance="@style/MwmTextAppearance.Body1"
-              android:textColor="?android:textColorPrimary" />
-
-          <TextView
-              android:id="@+id/syria_about_website"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginBottom="@dimen/margin_base"
-              android:background="?attr/selectableItemBackground"
-              android:paddingTop="@dimen/margin_quarter"
-              android:paddingBottom="@dimen/margin_quarter"
-              android:text="@string/syria_about_website"
-              android:textAppearance="@style/MwmTextAppearance.Body1"
-              android:textColor="?colorAccent" />
-        </LinearLayout>
-
-        <ImageView
-          android:id="@+id/imageView3"
-          android:layout_width="@dimen/about_logo"
-          android:layout_height="@dimen/about_logo"
-          android:contentDescription="@string/app_name"
-          app:srcCompat="@drawable/logo"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
-          app:layout_constraintHorizontal_bias="0.5"
-          app:layout_constraintStart_toEndOf="@+id/linearLayout1"
-          app:layout_constraintTop_toTopOf="parent"
-          app:tint="?attr/colorLogo" />
-
-        <LinearLayout
-          android:id="@+id/linearLayout2"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="@dimen/margin_half"
-          android:layout_marginStart="@dimen/margin_base"
-          android:orientation="vertical"
-          android:gravity="start"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintStart_toEndOf="@+id/imageView3"
-          app:layout_constraintTop_toTopOf="parent"
-          app:layout_constraintVertical_bias="0.5">
-          <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_gravity="center">
-
-          <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/margin_half"
-            android:text="@string/syria_about_proposition_1"
-            android:textAppearance="@style/MwmTextAppearance.Body1"
-            android:textColor="?android:textColorPrimary" />
-
-          <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/margin_half"
-            android:text="@string/about_proposition_2"
-            android:textAppearance="@style/MwmTextAppearance.Body1"
-            android:textColor="?android:textColorPrimary" />
-
-          <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/margin_half"
-            android:text="@string/about_proposition_3"
-            android:textAppearance="@style/MwmTextAppearance.Body1"
-            android:textColor="?android:textColorPrimary" />
-          </LinearLayout>
-        </LinearLayout>
-      </androidx.constraintlayout.widget.ConstraintLayout>
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_base"
+        android:layout_marginEnd="@dimen/margin_base"
+        android:layout_marginBottom="@dimen/margin_half"
+        android:text="@string/about_proposition_3"
+        android:textAppearance="@style/MwmTextAppearance.Body1"
+        android:textColor="?android:textColorPrimary" />
 
       <TextView
         android:layout_width="match_parent"

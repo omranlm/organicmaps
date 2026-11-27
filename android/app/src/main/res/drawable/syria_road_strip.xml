@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The brand's road: a grey band with a white dashed centre line, used as a separator. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+  <item>
+    <shape android:shape="rectangle">
+      <solid android:color="#404E5E" />
+    </shape>
+  </item>
+  <item>
+    <shape android:shape="line">
+      <stroke android:width="3dp" android:color="#F2F2F2" android:dashWidth="18dp" android:dashGap="14dp" />
+    </shape>
+  </item>
+</layer-list>

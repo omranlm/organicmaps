@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Brand element: the leaf of the Organic Maps pin. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="36dp"
+    android:height="36dp"
+    android:viewportWidth="32"
+    android:viewportHeight="32">
+  <group android:scaleX="0.5" android:scaleY="0.5" android:translateX="-69" android:translateY="-69.5">
+    <path android:fillColor="#006C35" android:pathData="M144,190c5,-26 28,-40 52,-38 -3,24 -24,41 -52,38z" />
+    <path android:strokeColor="#7FC49A" android:strokeWidth="3" android:strokeLineCap="round"
+        android:pathData="M149,186c14,-11 27,-21 41,-30" />
+  </group>
+</vector>

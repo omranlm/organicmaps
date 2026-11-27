@@ -24,4 +24,10 @@
   <color name="syria_btn_on_anonymous">#FFFFFF</color>
   <color name="syria_close_bg">#37474F</color>
   <color name="syria_close_icon">#FFFFFF</color>
+  <!-- Brand (Syria/brand/identity.html), same in both themes: the About page hero and version history. -->
+  <color name="syria_brand_ink">#21242A</color>
+  <color name="syria_brand_road">#404E5E</color>
+  <color name="syria_brand_teal">#0C7C70</color>
+  <color name="syria_brand_teal_light">#6FD3C3</color>
+  <color name="syria_brand_mist">#C9CFD8</color>
 </resources>

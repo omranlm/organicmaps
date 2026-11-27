@@ -25,7 +25,8 @@ import app.organicmaps.syria.tracking.TrackingEngine
 
 /**
  * Recording button and internet indicator on the map. The button is a traffic light: green while recording,
- * red otherwise, pulsing gently to invite the user to start a recording.
+ * red otherwise. It pulses gently in both states: red invites the user to start a recording, green shows that
+ * the recording is running.
  */
 object SyriaMapButtons {
     @JvmStatic
@@ -40,10 +41,9 @@ object SyriaMapButtons {
     @JvmStatic
     fun bind(owner: LifecycleOwner, frame: View) {
         frame.findViewById<ImageView>(R.id.syria_recording_button)?.let { button ->
-            val pulse = Pulse(button)
-            owner.lifecycle.addObserver(pulse)
-            renderRecording(button, pulse, null)
-            ActivityTrackingService.state().observe(owner) { renderRecording(button, pulse, it?.status) }
+            owner.lifecycle.addObserver(Pulse(button))
+            renderRecording(button, null)
+            ActivityTrackingService.state().observe(owner) { renderRecording(button, it?.status) }
         }
         val activity = frame.context.findActivity()
         frame.findViewById<View>(R.id.syria_live_indicator)?.let { live ->
@@ -94,9 +94,9 @@ object SyriaMapButtons {
     @JvmStatic
     fun isRecording(status: TrackingEngine.Status?): Boolean = status == TrackingEngine.Status.ACTIVE
 
-    private fun renderRecording(button: ImageView, pulse: Pulse, status: TrackingEngine.Status?) {
-        val recording = isRecording(status)
-        button.setImageResource(if (recording) R.drawable.ic_syria_lamp_green else R.drawable.ic_syria_lamp_red)
+    private fun renderRecording(button: ImageView, status: TrackingEngine.Status?) {
+        val lamp = if (isRecording(status)) R.drawable.ic_syria_lamp_green else R.drawable.ic_syria_lamp_red
+        button.setImageResource(lamp)
         button.contentDescription = button.context.getString(
             when (status ?: TrackingEngine.Status.IDLE) {
                 TrackingEngine.Status.ACTIVE -> R.string.syria_status_active
@@ -104,33 +104,14 @@ object SyriaMapButtons {
                 TrackingEngine.Status.IDLE -> R.string.syria_status_idle
             },
         )
-        pulse.setEnabled(!recording)
     }
 
-    /** Slow "breathing" of the red light; runs only while the map is visible. */
+    /** Slow "breathing" of the light; runs only while the map is visible. */
     private class Pulse(private val view: View) : DefaultLifecycleObserver {
-        private var enabled = false
-        private var started = false
         private var animator: ObjectAnimator? = null
 
-        fun setEnabled(value: Boolean) {
-            enabled = value
-            update()
-        }
-
         override fun onStart(owner: LifecycleOwner) {
-            started = true
-            update()
-        }
-
-        override fun onStop(owner: LifecycleOwner) {
-            started = false
-            update()
-        }
-
-        private fun update() {
-            if (enabled && started) {
-                if (animator != null) return
+            if (animator == null) {
                 animator = ObjectAnimator.ofPropertyValuesHolder(
                     view,
                     PropertyValuesHolder.ofFloat(View.SCALE_X, 1f, PULSE_SCALE),
@@ -142,12 +123,14 @@ object SyriaMapButtons {
                     interpolator = AccelerateDecelerateInterpolator()
                     start()
                 }
-            } else {
-                animator?.cancel()
-                animator = null
-                view.scaleX = 1f
-                view.scaleY = 1f
             }
+        }
+
+        override fun onStop(owner: LifecycleOwner) {
+            animator?.cancel()
+            animator = null
+            view.scaleX = 1f
+            view.scaleY = 1f
         }
     }
 

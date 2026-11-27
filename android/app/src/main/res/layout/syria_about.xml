@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Syria Organic Maps part of the About page (portrait and landscape): the brand, the idea behind the map and
+     our links. The Organic Maps part follows it in about.xml. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+  <LinearLayout
+      android:id="@+id/syria_about_hero"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@drawable/syria_about_hero"
+      android:gravity="center_horizontal"
+      android:orientation="vertical"
+      android:paddingTop="@dimen/margin_base_plus">
+
+    <ImageView
+        android:layout_width="@dimen/about_logo"
+        android:layout_height="@dimen/about_logo"
+        android:contentDescription="@string/app_name"
+        app:srcCompat="@drawable/logo_on_dark" />
+
+    <!-- The app name is always written in Latin letters; "Organic Maps" is coloured in code. -->
+    <TextView
+        android:id="@+id/syria_about_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_half"
+        android:text="@string/syria_brand_name"
+        android:textAppearance="@style/MwmTextAppearance.Headline"
+        android:textColor="#FFFFFF"
+        android:textDirection="ltr"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_base"
+        android:layout_marginEnd="@dimen/margin_base"
+        android:gravity="center_horizontal"
+        android:text="@string/syria_about_slogan"
+        android:textColor="@color/syria_brand_teal_light"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_half"
+        android:selectAllOnFocus="true"
+        android:textAppearance="@style/MwmTextAppearance.Body3"
+        android:textColor="@color/syria_brand_mist"
+        android:textDirection="ltr"
+        android:textIsSelectable="true"
+        tools:text="2026.11.27-2-Google" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_marginTop="@dimen/margin_base"
+        android:background="@drawable/syria_road_strip" />
+  </LinearLayout>
+
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/margin_base"
+      android:layout_marginBottom="@dimen/margin_base"
+      android:text="@string/syria_about_headline"
+      android:textAlignment="center"
+      android:textAppearance="@style/MwmTextAppearance.Headline"
+      android:textColor="?android:textColorPrimary" />
+
+  <!-- The idea behind the map, from the brand's identity board. -->
+  <TextView
+      style="@style/SyriaAboutTitle"
+      android:text="@string/syria_about_idea_title" />
+
+  <TextView
+      style="@style/SyriaAboutText"
+      android:layout_marginBottom="@dimen/margin_base"
+      android:text="@string/syria_about_idea" />
+
+  <TextView
+      style="@style/SyriaAboutBrandElement"
+      android:text="@string/syria_about_element_split"
+      app:drawableStartCompat="@drawable/ic_syria_brand_split" />
+
+  <TextView
+      style="@style/SyriaAboutBrandElement"
+      android:text="@string/syria_about_element_road"
+      app:drawableStartCompat="@drawable/ic_syria_brand_road" />
+
+  <TextView
+      style="@style/SyriaAboutBrandElement"
+      android:text="@string/syria_about_element_roundabout"
+      app:drawableStartCompat="@drawable/ic_syria_brand_roundabout" />
+
+  <TextView
+      style="@style/SyriaAboutBrandElement"
+      android:text="@string/syria_about_element_leaf"
+      app:drawableStartCompat="@drawable/ic_syria_brand_leaf" />
+
+  <TextView
+      style="@style/SyriaAboutBrandElement"
+      android:text="@string/syria_about_element_stars"
+      app:drawableStartCompat="@drawable/ic_syria_brand_stars" />
+
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="12dp"
+      android:layout_marginTop="@dimen/margin_base"
+      android:layout_marginBottom="@dimen/margin_base"
+      android:background="@drawable/syria_road_strip" />
+
+  <!-- Syria Organic Maps: what it is, its links and its versions. -->
+  <TextView
+      style="@style/SyriaAboutTitle"
+      android:text="@string/syria_about_title" />
+
+  <TextView
+      style="@style/SyriaAboutText"
+      android:text="@string/syria_about_fork" />
+
+  <TextView
+      style="@style/SyriaAboutText"
+      android:text="@string/syria_about_proposition_1" />
+
+  <TextView
+      android:id="@+id/syria_about_website"
+      style="@style/MwmWidget.TextView.Item"
+      android:text="@string/syria_about_website"
+      android:textAlignment="viewStart"
+      app:drawableStartCompat="@drawable/ic_website"
+      app:drawableTint="?iconTint" />
+
+  <TextView
+      android:id="@+id/syria_about_community"
+      style="@style/MwmWidget.TextView.Item"
+      android:text="@string/syria_about_community"
+      android:textAlignment="viewStart"
+      app:drawableStartCompat="@drawable/ic_openstreetmap"
+      app:drawableTint="?iconTint" />
+
+  <TextView
+      android:id="@+id/syria_about_source"
+      style="@style/MwmWidget.TextView.Item"
+      android:text="@string/syria_about_source"
+      android:textAlignment="viewStart"
+      app:drawableStartCompat="@drawable/ic_github"
+      app:drawableTint="?iconTint" />
+
+  <TextView
+      android:id="@+id/syria_about_privacy"
+      style="@style/MwmWidget.TextView.Item"
+      android:text="@string/syria_about_privacy"
+      android:textAlignment="viewStart"
+      app:drawableStartCompat="@drawable/ic_syria_privacy"
+      app:drawableTint="?iconTint" />
+
+  <TextView
+      android:id="@+id/syria_about_versions"
+      style="@style/MwmWidget.TextView.Item"
+      android:text="@string/syria_version_history"
+      android:textAlignment="viewStart"
+      app:drawableStartCompat="@drawable/ic_syria_history"
+      app:drawableTint="?iconTint" />
+
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="1dp"
+      android:layout_marginTop="@dimen/margin_half"
+      android:layout_marginBottom="@dimen/margin_base"
+      android:background="?dividerHorizontal" />
+
+  <!-- The Organic Maps details follow, unchanged. -->
+  <TextView
+      style="@style/SyriaAboutTitle"
+      android:text="@string/syria_about_om_title" />
+
+  <TextView
+      style="@style/SyriaAboutText"
+      android:text="@string/syria_about_om_intro" />
+</LinearLayout>

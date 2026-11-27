@@ -1,0 +1,88 @@
+{
+  "_comment": [
+    "Syria Organic Maps versions shown in About > Version history, newest first; the date comes from the version name.",
+    "The first entry has no version: it is the build that contains it (the installed version is shown).",
+    "Before work on the next release starts, set its version to the published one and add a new entry without a version."
+  ],
+  "versions": [
+    {
+      "en": [
+        "New look with the Syria Organic Maps mark: app icon, splash screen and the map menu button",
+        "About page: the idea behind the map, Syria Organic Maps links, the privacy policy and this version history",
+        "The recording light also pulses while it is green and a recording is running"
+      ],
+      "ar": [
+        "شكل جديد بشعار Syria Organic Maps: أيقونة التطبيق وشاشة البدء وزر القائمة على الخريطة",
+        "صفحة «حول»: فكرة الخريطة، وروابط Syria Organic Maps، وسياسة الخصوصية، وسجلّ الإصدارات هذا",
+        "إشارة التسجيل تنبض أيضاً وهي خضراء أثناء التسجيل"
+      ]
+    },
+    {
+      "version": "2026.11.27-1",
+      "en": [
+        "Share a place with a Syria Organic Maps link: it opens the app right on the place, and people without the app see the place on a map with a button to download the app",
+        "Fixes and improvements"
+      ],
+      "ar": [
+        "مشاركة الموقع برابط Syria Organic Maps: يفتح الرابط التطبيق مباشرةً على المكان، ومن لا يملك التطبيق يرى المكان على الخريطة مع زر تنزيل التطبيق",
+        "إصلاحات وتحسينات"
+      ]
+    },
+    {
+      "version": "2026.11.26-16",
+      "en": [
+        "Trip notification while navigating: how much of the trip is done on a progress bar, time and distance left, arrival time, destination and next turn, updated as you drive. On Android 16 the time left also shows in the status bar",
+        "Fixes and improvements from Organic Maps"
+      ],
+      "ar": [
+        "إشعار الرحلة أثناء الملاحة: نسبة ما قطعته من الرحلة على شريط تقدّم، والوقت والمسافة المتبقيان، ووقت الوصول والوجهة والمنعطف التالي، ويتحدّث أثناء القيادة. على أندرويد 16 يظهر الوقت المتبقي أيضاً في شريط الحالة",
+        "إصلاحات وتحسينات من Organic Maps"
+      ]
+    },
+    {
+      "version": "2026.11.26-15",
+      "en": [
+        "Recording and live location stop automatically after 10 minutes without movement, with a notification reminding you to record when you drive (traffic jams do not stop it)",
+        "Your position arrow is now green so it stands out from the route line, and the recording light sits higher in landscape",
+        "When navigation starts and the phone has no Arabic voice, the app offers to download it in one tap",
+        "Fixes and improvements from Organic Maps"
+      ],
+      "ar": [
+        "يتوقف التسجيل والموقع المباشر تلقائياً بعد 10 دقائق دون حركة، مع إشعار يذكّرك بالتسجيل عند القيادة (الازدحام لا يوقفه)",
+        "سهم موقعك أخضر الآن ليتميّز عن خط الطريق، وإشارة التسجيل أعلى في الوضع الأفقي",
+        "عند بدء الملاحة دون صوت عربي على الهاتف، يعرض التطبيق تنزيله بضغطة واحدة",
+        "إصلاحات وتحسينات من Organic Maps"
+      ]
+    },
+    {
+      "version": "2026.11.25-1",
+      "en": [
+        "\"Are you driving?\" reminder at 10 km/h or more without a recording; it opens the recording screen and guides you to start recording and live location",
+        "Alternative routes in route planning, and avoiding stairs and difficult trails",
+        "Fixes and improvements from Organic Maps"
+      ],
+      "ar": [
+        "تذكير «هل تقود؟» عند السير بسرعة 10 كم/س أو أكثر دون تسجيل، يفتح شاشة التسجيل ويرشدك إلى بدء التسجيل والموقع المباشر",
+        "مسارات بديلة عند تخطيط الطريق، وتجنّب الأدراج والطرق الوعرة",
+        "إصلاحات وتحسينات من Organic Maps"
+      ]
+    },
+    {
+      "version": "2026.11.19-9",
+      "en": [
+        "First version: Arabic first, with the map of Syria downloaded on the first launch",
+        "Record your trips and share your live location; recordings are kept on the phone until you are online",
+        "Sign in with your phone number and a PIN, with Telegram, or record without an account",
+        "Spoken \"Drive safely\" notice before every car navigation",
+        "Battery setting card on the recording screen, and a notice when a new version is out"
+      ],
+      "ar": [
+        "الإصدار الأول: العربية أولاً، وخريطة سوريا تُنزَّل عند أول تشغيل",
+        "سجّل مشاويرك وشارك موقعك المباشر، وتبقى التسجيلات على الهاتف حتى يعود الاتصال",
+        "الدخول برقم هاتفك ورمز PIN، أو عبر تلغرام، أو التسجيل دون حساب",
+        "تنبيه «قُد بأمان» مقروء بالصوت قبل كل ملاحة بالسيارة",
+        "بطاقة إعداد البطارية في شاشة التسجيل، وإشعار عند صدور إصدار جديد"
+      ]
+    }
+  ]
+}

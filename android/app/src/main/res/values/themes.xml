@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+  <!-- Syria: the brand's charcoal behind the splash mark (Syria/brand/app_icons.py). -->
   <style name="MwmTheme.Splash">
-    <item name="android:windowBackground">@color/bg_primary</item>
+    <item name="android:windowBackground">@color/syria_brand_ink</item>
     <item name="android:textColorPrimary">@color/white_primary</item>
-    <item name="android:navigationBarColor">@color/bg_primary</item>
-    <item name="android:statusBarColor">@color/bg_primary</item>
+    <item name="android:navigationBarColor">@color/syria_brand_ink</item>
+    <item name="android:statusBarColor">@color/syria_brand_ink</item>
 
     <item name="android:windowSplashScreenBackground" tools:targetApi="31">?android:windowBackground</item>
     <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="31">@drawable/system_splash</item>

@@ -150,7 +150,28 @@
   <string name="syria_about_title">About Syria Organic Maps</string>
   <string name="syria_about_fork">This app is a fork of the open-source Organic Maps app, customised for Syria with local Syria OpenStreetMap data. It is developed and maintained by the OpenStreetMap Syria community.</string>
   <string name="syria_about_proposition_1">No ads. Your activity is recorded only when you start a recording.</string>
-  <string name="syria_about_website">Website and privacy policy</string>
+  <string name="syria_about_website">Website</string>
+  <!-- About page: the brand (Syria/brand/identity.html). The app name is always written in Latin letters. -->
+  <string name="syria_brand_name" translatable="false">Syria Organic Maps</string>
+  <string name="syria_about_slogan">Every trip draws the map</string>
+  <string name="syria_about_headline">Free for everyone, made with optimism</string>
+  <string name="syria_about_idea_title">The idea behind the map</string>
+  <string name="syria_about_idea">Drivers record their trips. The roads they drive show where streets are missing from the map of Syria, and the OpenStreetMap Syria community adds them to OpenStreetMap, open to everyone. Our mark joins the two projects behind the app, OpenStreetMap Syria and Organic Maps:</string>
+  <string name="syria_about_element_split"><b>The split</b>\nHalf charcoal, half teal, as in the OpenStreetMap Syria logo.</string>
+  <string name="syria_about_element_road"><b>The road</b>\nThe route a driver records.</string>
+  <string name="syria_about_element_roundabout"><b>The roundabout</b>\nWhere you are now, and the recording button in the app.</string>
+  <string name="syria_about_element_leaf"><b>The pin and the leaf</b>\nFrom Organic Maps: an open map with no ads that respects its users.</string>
+  <string name="syria_about_element_stars"><b>The three stars</b>\nA small Syrian touch.</string>
+  <string name="syria_about_community">OpenStreetMap Syria community</string>
+  <string name="syria_about_source">Source code</string>
+  <string name="syria_about_privacy">Privacy policy</string>
+  <string name="syria_about_om_title">About Organic Maps</string>
+  <string name="syria_about_om_intro">Syria Organic Maps is built on Organic Maps. Below are the details of the original app.</string>
+  <string name="syria_version_history">Version history</string>
+  <!-- Badge next to the installed version in the version history. -->
+  <string name="syria_version_this">This version</string>
+  <!-- Not a text: which notes of res/raw/syria_version_history.json to show ("en" or "ar"). -->
+  <string name="syria_version_history_language">en</string>
   <!-- Downloader list: when a downloaded map was last downloaded or updated on this phone. -->
   <string name="syria_downloader_updated">Last updated: %s</string>
 

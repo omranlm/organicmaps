@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Styles of the Syria Organic Maps additions. -->
+<resources>
+  <!-- About page (layout/syria_about.xml). -->
+  <style name="SyriaAboutTitle">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_marginBottom">@dimen/margin_half</item>
+    <item name="android:textAppearance">@style/MwmTextAppearance.Title</item>
+    <item name="android:textColor">?android:textColorPrimary</item>
+    <item name="android:textStyle">bold</item>
+  </style>
+
+  <style name="SyriaAboutText">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_marginBottom">@dimen/margin_half</item>
+    <item name="android:textAppearance">@style/MwmTextAppearance.Body1</item>
+    <item name="android:textColor">?android:textColorPrimary</item>
+  </style>
+
+  <!-- One element of the brand mark: its icon, then "<b>name</b>\nmeaning". -->
+  <style name="SyriaAboutBrandElement">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_marginBottom">@dimen/margin_base</item>
+    <item name="android:drawablePadding">@dimen/margin_base</item>
+    <item name="android:gravity">center_vertical|start</item>
+    <item name="android:textAlignment">viewStart</item>
+    <item name="android:textAppearance">@style/MwmTextAppearance.Body2</item>
+    <item name="android:textColor">?android:textColorPrimary</item>
+  </style>
+</resources>

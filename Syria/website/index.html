@@ -5,76 +5,555 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Syria Organic Maps — خرائط سوريا دون اتصال</title>
 <meta name="description" content="Syria Organic Maps: تطبيق خرائط وملاحة دون اتصال بالإنترنت لسوريا، مبني على Organic Maps وبيانات OpenStreetMap، ويطوّره مجتمع OpenStreetMap سوريا.">
+<meta name="theme-color" content="#21242A">
+<link rel="alternate" hreflang="ar" href="https://organicmaps.openstreetmap.sy/?lang=ar">
+<link rel="alternate" hreflang="en" href="https://organicmaps.openstreetmap.sy/?lang=en">
+<script>
+  // Language before first paint: ?lang= wins (and is remembered), then the saved choice, then the browser:
+  // Arabic unless the browser prefers only non-Arabic languages.
+  (function () {
+    var KEY = 'som-lang', lang = null, m = /[?&]lang=(ar|en)(?:&|$)/i.exec(location.search);
+    if (m) { lang = m[1].toLowerCase(); try { localStorage.setItem(KEY, lang); } catch (e) {} }
+    if (!lang) { try { var s = localStorage.getItem(KEY); if (s === 'ar' || s === 'en') lang = s; } catch (e) {} }
+    if (!lang) {
+      var l = navigator.languages && navigator.languages.length ? navigator.languages : (navigator.language ? [navigator.language] : []);
+      lang = !l.length || l.some(function (x) { return /^ar\b/i.test(x); }) ? 'ar' : 'en';
+    }
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  /* Brand tokens: the same as the admin dashboard (syria-om-api/admin/src/styles/app.css). */
   :root {
-    --bg: #f7f8f6;
+    --ink: #21242a;
+    --road: #404e5e;
+    --teal: #0c7c70;
+    --teal-deep: #006560;
+    --teal-light: #6fd3c3;
+    --leaf: #006c35;
+    --red: #c1272d;
+    --cloud: #f2f2f2;
+    --bg: #f7f5f0;
     --surface: #ffffff;
-    --text: #1d2420;
-    --muted: #57615b;
-    --accent: #1f7a4d;
-    --accent-soft: #e3f1e9;
-    --border: #dfe4e0;
-    --green: #2e7d32;
-    --orange: #ef6c00;
-    --red: #c62828;
+    --surface-2: #fbfaf7;
+    --text: #21242a;
+    --muted: #5f6672;
+    --line: #e4e0d6;
+    --line-strong: #dad6cc;
+    --tint: #e3f2ee;
+    --link: #006560;
+    --leaf-ui: #006c35;
+    --shadow: 0 1px 0 rgba(33, 36, 42, .04), 0 14px 34px -22px rgba(33, 36, 42, .35);
+    --focus: 0 0 0 3px rgba(12, 124, 112, .35);
+    --display: "Readex Pro", "IBM Plex Sans Arabic", system-ui, sans-serif;
+    --body: "IBM Plex Sans Arabic", "Readex Pro", system-ui, sans-serif;
+    --radius: 18px;
     color-scheme: light dark;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #121614;
-      --surface: #1b211e;
-      --text: #e8ece9;
-      --muted: #a4aea8;
-      --accent: #5cc08b;
-      --accent-soft: #1f3329;
-      --border: #2c3530;
+      --bg: #15171b;
+      --surface: #1d2026;
+      --surface-2: #20242a;
+      --text: #eceef1;
+      --muted: #9aa3b0;
+      --line: #2c3139;
+      --line-strong: #363c46;
+      --tint: rgba(111, 211, 195, .12);
+      --link: #6fd3c3;
+      --leaf-ui: #4cc38a;
+      --shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 16px 36px -24px rgba(0, 0, 0, .8);
+      --focus: 0 0 0 3px rgba(111, 211, 195, .35);
     }
   }
+  html[lang="ar"] [lang="en"], html[lang="en"] [lang="ar"] { display: none !important; }
   * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: "Noto Kufi Arabic", "Noto Sans Arabic", "Segoe UI", Tahoma, system-ui, sans-serif;
-    line-height: 1.8;
-    font-size: 17px;
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::after { animation: none !important; } }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 400 17px/1.75 var(--body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  h1, h2, h3 { font-family: var(--display); margin: 0; line-height: 1.3; }
+  p { margin: 0; }
+  a { color: var(--link); }
+  a:focus-visible, button:focus-visible { outline: none; box-shadow: var(--focus); border-radius: 10px; }
+  bdi { unicode-bidi: isolate; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+  .i { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  .wordmark { font: 700 17px/1.1 var(--display); white-space: nowrap; letter-spacing: -.01em; direction: ltr; unicode-bidi: isolate; }
+  .wordmark span { color: var(--teal-light); }
+
+  /* The roundabout: red dot in a white ring on a road-grey ring. */
+  .dot { display: inline-block; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--red);
+         box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--road); margin: 5px; }
+  /* The road: grey asphalt with a dashed white centre line. */
+  .road { height: 34px; background: var(--road); position: relative; overflow: hidden; }
+  .road::after { content: ""; position: absolute; inset: calc(50% - 2px) -60px auto; height: 4px;
+                 background: repeating-linear-gradient(90deg, var(--cloud) 0 26px, transparent 26px 48px);
+                 animation: drive 2.6s linear infinite; }
+  [dir="rtl"] .road::after { animation-direction: reverse; }
+  @keyframes drive { to { transform: translateX(48px); } }
+
+  /* Header and hero */
+  .hero { background: var(--ink); color: #fff; position: relative; overflow: hidden; }
+  .hero::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+                  background: radial-gradient(60% 70% at 85% 30%, rgba(12, 124, 112, .28), transparent 70%); }
+  [dir="ltr"] .hero::before { background: radial-gradient(60% 70% at 15% 30%, rgba(12, 124, 112, .28), transparent 70%); }
+  .topbar { display: flex; align-items: center; gap: 16px; padding-top: 16px; padding-bottom: 16px; position: relative; z-index: 2; }
+  .lockup { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; }
+  .lockup svg { width: 30px; height: 38px; }
+  .toplinks { display: none; gap: 4px; margin-inline-start: auto; }
+  .toplinks a { color: #c9cfd8; text-decoration: none; font: 500 14.5px var(--display); padding: 6px 10px; border-radius: 10px; }
+  .toplinks a:hover { background: rgba(255, 255, 255, .07); color: #fff; }
+  .lang-switch { display: inline-flex; margin-inline-start: auto; padding: 3px; gap: 2px; border-radius: 999px;
+                 background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .12); }
+  .toplinks + .lang-switch { margin-inline-start: 8px; }
+  .lang-switch a { color: #c9cfd8; text-decoration: none; font: 600 13.5px/1 var(--display); padding: 8px 12px; border-radius: 999px; }
+  .lang-switch a:hover { color: #fff; }
+  html[lang="ar"] .lang-switch [data-set-lang="ar"], html[lang="en"] .lang-switch [data-set-lang="en"] { background: var(--teal); color: #fff; }
+  .lang-switch [data-set-lang="ar"] { font-family: "IBM Plex Sans Arabic", var(--display); }
+
+  .hero-body { display: grid; grid-template-columns: 1fr; gap: 18px; align-items: center; padding-top: 8px; padding-bottom: 46px; position: relative; z-index: 1; }
+  .hero-mark { width: 118px; height: 148px; justify-self: center; filter: drop-shadow(0 18px 30px rgba(0, 0, 0, .45)); order: -1; }
+  .eyebrow { display: flex; align-items: center; gap: 8px; color: #aeb6c2; font: 500 14px var(--display); }
+  .hero h1 { margin-top: 10px; }
+  .hero h1 .wordmark { display: block; font-size: clamp(20px, 2.4vw, 26px); }
+  [dir="rtl"] .hero h1 .wordmark { text-align: right; }
+  .slogan { display: block; font-weight: 700; font-size: clamp(40px, 7.4vw, 76px); line-height: 1.15; margin-top: 10px; letter-spacing: -.01em; }
+  .slogan em { font-style: normal; color: var(--teal-light); display: block; }
+  .lead { color: #c9cfd8; margin-top: 16px; max-width: 56ch; font-size: 1.05rem; }
+  .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border-radius: 14px;
+         font: 600 16px var(--display); text-decoration: none; border: 1px solid transparent; transition: background .15s, border-color .15s, transform .05s; }
+  .btn:active { transform: translateY(1px); }
+  .btn.primary { background: var(--teal); color: #fff; }
+  .btn.primary:hover { background: var(--teal-deep); }
+  .btn.ghost { color: #fff; border-color: rgba(255, 255, 255, .25); }
+  .btn.ghost:hover { border-color: var(--teal-light); }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 0; padding: 0; list-style: none; }
+  .badges li { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; font: 500 13.5px var(--display);
+               color: #dff4f0; background: rgba(111, 211, 195, .12); border: 1px solid rgba(111, 211, 195, .2); }
+  .hero .road { margin-top: -1px; }
+
+  .toc { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 18px 16px 0; }
+  .toc a { font: 500 14px var(--display); text-decoration: none; color: var(--text); background: var(--surface); border: 1px solid var(--line);
+           padding: 6px 14px; border-radius: 999px; }
+  .toc a:hover { border-color: var(--teal); }
+
+  @media (min-width: 900px) {
+    .toplinks { display: flex; }
+    .toc { display: none; }
+    .hero-body { grid-template-columns: 1.35fr 1fr; padding-top: 28px; padding-bottom: 70px; }
+    .hero-mark { width: 250px; height: 312px; order: 0; }
   }
-  a { color: var(--accent); }
-  .wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
-  header.hero { padding: 40px 0 28px; text-align: center; }
-  .logo { width: min(320px, 80%); height: auto; display: block; margin: 0 auto 12px; }
-  h1 { font-size: clamp(1.6rem, 4vw, 2.3rem); margin: 0 0 8px; line-height: 1.4; }
-  .lead { color: var(--muted); font-size: 1.1rem; margin: 0 auto; max-width: 720px; }
-  .badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 18px; }
-  .badge { background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 4px 14px; font-size: .9rem; font-weight: 600; }
-  nav.toc { display: flex; flex-wrap: wrap; gap: 6px 18px; justify-content: center; padding: 10px 0 26px; font-size: .95rem; }
-  section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px 20px; margin: 0 0 18px; }
-  h2 { font-size: 1.35rem; margin: 0 0 12px; line-height: 1.5; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
-  .card { border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
-  .card h3 { font-size: 1.05rem; margin: 0 0 4px; }
-  .card p { margin: 0; color: var(--muted); font-size: .97rem; }
-  .new { border-color: var(--accent); background: var(--accent-soft); }
-  .new p { color: var(--text); }
-  .dots { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px; font-size: .95rem; }
-  .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-inline-end: 6px; vertical-align: middle; }
-  ul { padding-inline-start: 22px; margin: 6px 0; }
-  li { margin: 4px 0; }
-  .downloads { display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0; }
-  .dl { display: inline-flex; flex-direction: column; gap: 2px; padding: 12px 18px; border-radius: 12px; text-decoration: none;
-        background: var(--accent); color: #fff; font-weight: 700; min-width: 220px; }
-  .dl.alt { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent); }
-  .dl small { font-weight: 400; opacity: .9; }
-  .note { border-inline-start: 4px solid var(--accent); padding: 6px 14px; background: var(--accent-soft); border-radius: 8px; }
-  footer { text-align: center; color: var(--muted); font-size: .9rem; padding: 10px 0 40px; }
-  bdi, .ltr { unicode-bidi: isolate; direction: ltr; }
+
+  /* Sections */
+  .section { padding: 56px 0; }
+  .sec-head { max-width: 680px; margin-bottom: 28px; }
+  .label { display: flex; align-items: center; gap: 8px; font: 600 13px/1 var(--display); letter-spacing: .02em; color: var(--muted); margin-bottom: 12px; }
+  .sec-head h2 { font-size: clamp(26px, 3.4vw, 36px); font-weight: 700; }
+  .sec-head p { color: var(--muted); margin-top: 10px; }
+
+  /* Download: charcoal | road | teal, like the split pin */
+  .split { display: grid; grid-template-columns: 1fr; border-radius: 22px; overflow: hidden; box-shadow: var(--shadow); }
+  .split .gap { height: 22px; background: var(--road); position: relative; }
+  .split .gap::after { content: ""; position: absolute; inset: 9px 0 auto; height: 4px;
+                       background: repeating-linear-gradient(90deg, var(--cloud) 0 18px, transparent 18px 32px); }
+  .dl { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px 16px; padding: 24px 22px; color: #fff; text-decoration: none; transition: filter .15s; }
+  .dl:hover { filter: brightness(1.08); }
+  .dl.ink { background: var(--ink); }
+  .dl.teal { background: var(--teal); }
+  .dl .phone { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; background: rgba(255, 255, 255, .1); }
+  .dl b { display: block; font: 700 20px/1.3 var(--display); }
+  .dl small { display: block; color: #c9cfd8; font-size: 14.5px; margin-top: 2px; }
+  .dl.teal small { color: #ddf3ef; }
+  .dl .ver { display: inline-block; margin-top: 8px; font: 500 12.5px/1 var(--display); padding: 5px 10px; border-radius: 999px; background: rgba(255, 255, 255, .12); direction: ltr; }
+  .dl .ver:empty { display: none; }
+  .dl .go { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: var(--ink); }
+  .dl.teal .go { color: var(--teal-deep); }
+  @media (min-width: 760px) {
+    .split { grid-template-columns: 1fr 22px 1fr; }
+    .split .gap { height: auto; }
+    .split .gap::after { inset: 0 9px; width: 4px; height: auto; background: repeating-linear-gradient(180deg, var(--cloud) 0 18px, transparent 18px 32px); }
+    .dl { padding: 30px 28px; }
+  }
+
+  /* Steps joined by the road, numbered with roundabouts */
+  .steps { list-style: none; margin: 34px 0 0; padding: 0; display: grid; gap: 18px; position: relative; counter-reset: step; }
+  .steps::before { content: ""; position: absolute; inset-block: 10px; inset-inline-start: 15px; width: 14px; background: var(--road); border-radius: 7px; }
+  .steps::after { content: ""; position: absolute; inset-block: 16px; inset-inline-start: 20px; width: 4px;
+                  background: repeating-linear-gradient(180deg, var(--cloud) 0 12px, transparent 12px 22px); }
+  .steps li { position: relative; z-index: 1; display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: start; counter-increment: step; }
+  .steps li::before { content: counter(step); width: 30px; height: 30px; margin: 7px; border-radius: 50%; background: var(--red); color: #fff;
+                      font: 700 14px/30px var(--display); text-align: center; box-shadow: 0 0 0 4px #fff, 0 0 0 7px var(--road); }
+  .steps .card { padding: 14px 18px; }
+  .steps h3 { font-size: 17px; }
+  .steps p { color: var(--muted); font-size: 15.5px; margin-top: 2px; }
+  @media (min-width: 760px) {
+    .steps { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .steps::before { inset-block: 15px auto; inset-inline: 22px; width: auto; height: 14px; }
+    .steps::after { inset-block: 20px auto; inset-inline: 28px; width: auto; height: 4px; background: repeating-linear-gradient(90deg, var(--cloud) 0 12px, transparent 12px 22px); }
+    .steps li { grid-template-columns: 1fr; grid-template-rows: 44px 1fr; gap: 12px; }
+  }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+
+  /* The curving road between sections */
+  .wave { position: relative; height: 72px; margin: 0 0 -8px; }
+  .wave svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .wave .dot { position: absolute; left: 50%; top: 30%; transform: translate(-50%, -50%); width: 16px; height: 16px; margin: 0;
+               box-shadow: 0 0 0 4px #fff, 0 0 0 7px var(--road); }
+
+  /* Feature cards */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .feat { padding: 20px; display: grid; gap: 10px; align-content: start; transition: border-color .15s, transform .15s; }
+  .feat:hover { border-color: var(--teal); transform: translateY(-2px); }
+  .tile { width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center; background: var(--tint); color: var(--teal); }
+  @media (prefers-color-scheme: dark) { .tile { color: var(--teal-light); } }
+  .feat h3 { font-size: 17.5px; font-weight: 600; }
+  .feat p { color: var(--muted); font-size: 15.5px; line-height: 1.7; margin-top: 4px; }
+  /* Phones: icon beside the text keeps the long lists short. */
+  @media (max-width: 599px) {
+    .feat { grid-template-columns: 44px 1fr; gap: 6px 14px; padding: 16px; }
+    .feat .states { grid-column: 2; }
+  }
+
+  /* What's new: on charcoal */
+  .dark { background: var(--ink); color: #fff; position: relative; }
+  @media (prefers-color-scheme: dark) { .dark { background: #0e1013; border-block: 1px solid var(--line); } }
+  .dark .label { color: #aeb6c2; }
+  .dark .label .dot, .footer .dot { box-shadow: 0 0 0 3px #fff, 0 0 0 5px #6b7a8c; }
+  .dark .sec-head p { color: #c9cfd8; }
+  .dark .feat { background: rgba(255, 255, 255, .045); border-color: rgba(255, 255, 255, .09); box-shadow: none; }
+  .dark .feat:hover { border-color: var(--teal-light); }
+  .dark .feat p { color: #c9cfd8; }
+  .dark .tile { background: rgba(111, 211, 195, .13); color: var(--teal-light); }
+  .tile.ar-glyph { font: 700 22px/1 "IBM Plex Sans Arabic", var(--display); }
+  .tile .dot { width: 12px; height: 12px; }
+  .states { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 14px; color: #c9cfd8; margin-top: 4px; }
+  .states span { display: inline-flex; align-items: center; gap: 6px; }
+  .states i { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+  .dark .feat.wide { grid-column: 1 / -1; }
+  @media (min-width: 760px) { .dark .feat.wide { grid-column: span 2; } }
+
+  /* Data: split teal promise | uses */
+  .data { display: grid; grid-template-columns: 1fr; gap: 18px; }
+  @media (min-width: 900px) { .data { grid-template-columns: 1fr 1.35fr; align-items: stretch; } }
+  .promise { background: var(--teal); color: #fff; border-radius: 22px; padding: 28px 26px; position: relative; overflow: hidden; display: grid; gap: 14px; align-content: center; }
+  .promise::after { content: ""; position: absolute; inset: auto -40px -40px auto; width: 190px; height: 190px; border-radius: 50%; background: rgba(255, 255, 255, .06); }
+  [dir="rtl"] .promise::after { inset: auto auto -40px -40px; }
+  .promise .leafmark { width: 54px; height: 54px; border-radius: 16px; background: #fff; display: grid; place-items: center; }
+  .promise h3 { font-size: 22px; }
+  .promise p { color: #e6f6f3; }
+  .promise .btn { justify-self: start; background: #fff; color: var(--teal-deep); position: relative; z-index: 1; }
+  .promise .btn:hover { background: var(--cloud); }
+  .uses { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .uses li { display: grid; grid-template-columns: 40px 1fr; gap: 14px; padding: 16px 18px; }
+  .uses .leaf { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--tint); }
+  .uses b { font: 600 16.5px var(--display); display: block; }
+  .uses p { color: var(--muted); font-size: 15.5px; margin-top: 2px; }
+  .leaf-i { width: 24px; height: 24px; }
+
+  /* About */
+  .about { display: grid; grid-template-columns: 1fr; gap: 18px; align-items: stretch; }
+  @media (min-width: 900px) { .about { grid-template-columns: 1.4fr 1fr; } }
+  .about .card { padding: 24px; }
+  .about ul { margin: 14px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+  .about li { display: flex; gap: 10px; align-items: flex-start; color: var(--muted); font-size: 15.5px; }
+  .about li .dot { width: 8px; height: 8px; margin: 9px 4px 0; box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--road); }
+  .osm-panel { background: #fff; border-radius: 22px; border: 1px solid var(--line); display: grid; place-items: center; padding: 24px; box-shadow: var(--shadow); }
+  .osm-panel svg { width: min(190px, 46vw); height: auto; display: block; margin: 0 auto; }
+  .osm-panel p { color: #5f6672; font: 500 14px var(--display); text-align: center; margin-top: 8px; }
+
+  /* Footer */
+  .footer { background: var(--ink); color: #c9cfd8; margin-top: 56px; }
+  .footer .inner { display: grid; gap: 22px; padding-top: 34px; padding-bottom: 40px; }
+  @media (min-width: 760px) { .footer .inner { grid-template-columns: 1fr auto; align-items: center; } }
+  .footer .lockup svg { width: 40px; height: 50px; }
+  .footer .tag { font: 500 15px var(--display); color: #aeb6c2; margin-top: 4px; }
+  .footer nav { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+  .footer a { color: #fff; }
+  .footer .copy { font-size: 14px; color: #aeb6c2; grid-column: 1 / -1; border-top: 1px solid rgba(255, 255, 255, .1); padding-top: 16px; }
 </style>
 </head>
-<body>
-<div class="wrap">
+<body id="top">
+
+<!-- Shared symbols from the brand kit (Syria/brand/mark.svg). -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <clipPath id="pinclip"><path d="M120 292C120 292 22 196 22 110a98 98 0 0 1 196 0c0 86-98 182-98 182z"/></clipPath>
+    <symbol id="mark" viewBox="0 0 240 300">
+      <g clip-path="url(#pinclip)">
+        <rect width="120" height="300" fill="#21242A"/>
+        <rect x="120" width="120" height="300" fill="#0C7C70"/>
+        <path d="M-10 52C40 50 92 70 112 112" fill="none" stroke="#404E5E" stroke-width="22"/>
+        <path d="M-10 52C40 50 92 70 112 112" fill="none" stroke="#F2F2F2" stroke-width="4" stroke-dasharray="10 9"/>
+        <path d="M120 0V112" stroke="#404E5E" stroke-width="22"/>
+        <path d="M120 4V100" stroke="#F2F2F2" stroke-width="4" stroke-dasharray="10 9"/>
+        <path d="M120 130V300" stroke="#404E5E" stroke-width="22"/>
+        <path d="M120 140V300" stroke="#FFFFFF" stroke-width="8"/>
+        <path d="M144 190c5-26 28-40 52-38-3 24-24 41-52 38z" fill="#006C35"/>
+        <path d="M149 186c14-11 27-21 41-30" fill="none" stroke="#0C7C70" stroke-width="3" stroke-linecap="round"/>
+      </g>
+      <circle cx="120" cy="124" r="36" fill="#404E5E"/>
+      <circle cx="120" cy="124" r="28" fill="#FFFFFF"/>
+      <circle cx="120" cy="124" r="17" fill="#C1272D"/>
+      <g fill="#C1272D">
+        <path d="M42 8l3.5 10.8h11.3l-9.2 6.7 3.5 10.8-9.1-6.7-9.2 6.7 3.5-10.8-9.2-6.7h11.4z" transform="rotate(-12 42 22)"/>
+        <path d="M70 30l2.8 8.6h9l-7.3 5.3 2.8 8.6-7.3-5.3-7.3 5.3 2.8-8.6-7.3-5.3h9z" transform="rotate(-8 70 41)"/>
+        <path d="M92 52l2.1 6.5h6.8l-5.5 4 2.1 6.5-5.5-4-5.5 4 2.1-6.5-5.5-4h6.8z"/>
+      </g>
+    </symbol>
+    <symbol id="mark-dark" viewBox="0 0 240 300">
+      <path d="M120 292C120 292 22 196 22 110a98 98 0 0 1 196 0c0 86-98 182-98 182z" fill="none" stroke="#F2F2F2" stroke-width="10"/>
+      <use href="#mark"/>
+    </symbol>
+    <symbol id="leaf" viewBox="0 0 24 24">
+      <path d="M3.5 20.5C5 11 11.5 4.6 21 4c-.6 9.6-7.2 16.3-17.5 16.5z" fill="currentColor"/>
+      <path d="M5.5 18.5C10 14.6 14 11 18.4 7" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
 
 <header class="hero">
-  <svg class="logo" role="img" aria-label="OpenStreetMap Syria" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 2560 1600">
+  <div class="wrap topbar">
+    <a class="lockup" href="#top" aria-label="Syria Organic Maps"><svg viewBox="0 0 240 300" aria-hidden="true"><use href="#mark-dark"/></svg><span class="wordmark">Syria <span>Organic Maps</span></span></a>
+    <nav class="toplinks" aria-label="المحتويات">
+      <a href="#download"><span lang="ar">التنزيل</span><span lang="en">Download</span></a>
+      <a href="#features"><span lang="ar">الميزات</span><span lang="en">Features</span></a>
+      <a href="#new"><span lang="ar">الجديد</span><span lang="en">What's new</span></a>
+      <a href="#data"><span lang="ar">البيانات</span><span lang="en">Data</span></a>
+      <a href="#about"><span lang="ar">عن المشروع</span><span lang="en">About</span></a>
+      <a href="privacy.html"><span lang="ar">الخصوصية</span><span lang="en">Privacy</span></a>
+    </nav>
+    <nav class="lang-switch" aria-label="Language · اللغة">
+      <a href="?lang=ar" hreflang="ar" data-set-lang="ar">العربية</a>
+      <a href="?lang=en" hreflang="en" data-set-lang="en">English</a>
+    </nav>
+  </div>
+
+  <div class="wrap hero-body">
+    <div>
+      <p class="eyebrow"><i class="dot"></i><span lang="ar">مع مجتمع <bdi>OpenStreetMap</bdi> سوريا</span><span lang="en">By the OpenStreetMap Syria community</span></p>
+      <h1>
+        <span class="wordmark">Syria <span>Organic Maps</span></span>
+        <span class="slogan" lang="ar">كل مشوار <em>يرسم الخريطة</em></span>
+        <span class="slogan" lang="en">Every trip <em>draws the map</em></span>
+      </h1>
+      <p class="lead" lang="ar">تطبيق خرائط وملاحة يعمل دون اتصال بالإنترنت، مخصّص لسوريا ومبني على بيانات <bdi>OpenStreetMap</bdi> المحلية لسوريا، ويطوّره ويصونه مجتمع <bdi>OpenStreetMap</bdi> سوريا لدعم التنقّل في سوريا.</p>
+      <p class="lead" lang="en">A maps and navigation app that works without internet, made for Syria and built on local OpenStreetMap data for Syria. The OpenStreetMap Syria community develops and maintains it to support getting around in Syria.</p>
+      <div class="cta">
+        <a class="btn primary" href="#download"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 20h16"/></svg><span lang="ar">نزّل التطبيق</span><span lang="en">Download the app</span></a>
+        <a class="btn ghost" href="#new"><span lang="ar">الجديد في نسخة سوريا</span><span lang="en">New in the Syria edition</span></a>
+      </div>
+      <ul class="badges">
+        <li><span lang="ar">مجاني ومفتوح المصدر</span><span lang="en">Free and open source</span></li>
+        <li><span lang="ar">يعمل دون إنترنت</span><span lang="en">Works offline</span></li>
+        <li><span lang="ar">العربية أولاً</span><span lang="en">Arabic first</span></li>
+        <li><span lang="ar">بلا إعلانات</span><span lang="en">No ads</span></li>
+      </ul>
+    </div>
+    <svg class="hero-mark" viewBox="0 0 240 300" role="img" aria-label="Syria Organic Maps"><use href="#mark-dark"/></svg>
+  </div>
+  <div class="road" aria-hidden="true"></div>
+</header>
+
+<nav class="toc" aria-label="المحتويات">
+  <a href="#download"><span lang="ar">تنزيل التطبيق</span><span lang="en">Download the app</span></a>
+  <a href="#features"><span lang="ar">ميزات Organic Maps</span><span lang="en">Organic Maps features</span></a>
+  <a href="#new"><span lang="ar">الجديد في نسخة سوريا</span><span lang="en">New in the Syria edition</span></a>
+  <a href="#data"><span lang="ar">لماذا نجمع البيانات</span><span lang="en">Why we collect data</span></a>
+  <a href="#about"><span lang="ar">عن المشروع</span><span lang="en">About the project</span></a>
+  <a href="privacy.html"><span lang="ar">سياسة الخصوصية</span><span lang="en">Privacy policy</span></a>
+</nav>
+
+<main>
+<section id="download" class="section">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="label"><i class="dot"></i><span lang="ar">ابدأ من هنا</span><span lang="en">Start here</span></p>
+      <h2><span lang="ar">تنزيل التطبيق</span><span lang="en">Download the app</span></h2>
+      <p lang="ar">التطبيق لأجهزة أندرويد. اختر النسخة المناسبة لهاتفك:</p>
+      <p lang="en">The app is for Android phones. Choose the version that suits your phone:</p>
+    </div>
+    <div class="split">
+      <a class="dl ink" href="apps/SyriaOrganicMaps-google.apk" download>
+        <span class="phone"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></span>
+        <span>
+          <b lang="ar">معظم هواتف أندرويد</b><b lang="en">Most Android phones</b>
+          <small lang="ar"><bdi>Samsung</bdi> و<bdi>Xiaomi</bdi> وغيرها</small><small lang="en">Samsung, Xiaomi and others</small>
+          <span class="ver" data-flavor="google"></span>
+        </span>
+        <span class="go"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12m-5-5 5 5 5-5M5 20h14"/></svg></span>
+      </a>
+      <span class="gap" aria-hidden="true"></span>
+      <a class="dl teal" href="apps/SyriaOrganicMaps-huawei.apk" download>
+        <span class="phone"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></span>
+        <span>
+          <b lang="ar">هواتف <bdi>Huawei</bdi></b><b lang="en">Huawei phones</b>
+          <small lang="ar">من دون خدمات <bdi>Google</bdi></small><small lang="en">Without Google services</small>
+          <span class="ver" data-flavor="huawei"></span>
+        </span>
+        <span class="go"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12m-5-5 5 5 5-5M5 20h14"/></svg></span>
+      </a>
+    </div>
+    <ol class="steps">
+      <li><div class="card">
+        <h3 lang="ar">نزّل</h3><h3 lang="en">Download</h3>
+        <p lang="ar">نزّل النسخة المناسبة لهاتفك.</p><p lang="en">Download the version that suits your phone.</p>
+      </div></li>
+      <li><div class="card">
+        <h3 lang="ar">ثبّت</h3><h3 lang="en">Install</h3>
+        <p lang="ar">بعد التنزيل افتح الملف، واسمح للمتصفح بتثبيت التطبيقات إذا طلب الهاتف ذلك.</p>
+        <p lang="en">After downloading, open the file, and allow the browser to install apps if your phone asks.</p>
+      </div></li>
+      <li><div class="card">
+        <h3 lang="ar">حدّث</h3><h3 lang="en">Update</h3>
+        <p lang="ar">عند صدور نسخة جديدة يُعلمك التطبيق بنفسه، وتبقى خرائطك وتسجيلاتك كما هي.</p>
+        <p lang="en">When a new version is out, the app tells you itself, and your maps and recordings stay as they are.</p>
+      </div></li>
+    </ol>
+  </div>
+</section>
+
+<div class="wave" aria-hidden="true">
+  <svg viewBox="0 0 1200 80" preserveAspectRatio="none">
+    <path d="M-20 62C240 62 380 20 600 24S960 66 1220 44" fill="none" stroke="#404E5E" stroke-width="18" vector-effect="non-scaling-stroke"/>
+    <path d="M-20 62C240 62 380 20 600 24S960 66 1220 44" fill="none" stroke="#F2F2F2" stroke-width="3" stroke-dasharray="14 12" vector-effect="non-scaling-stroke"/>
+  </svg>
+  <i class="dot"></i>
+</div>
+
+<section id="features" class="section">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="label"><i class="dot"></i><span lang="ar">من <bdi>Organic Maps</bdi></span><span lang="en">From Organic Maps</span></p>
+      <h2><span lang="ar">ميزات <bdi>Organic Maps</bdi> التي يتضمّنها التطبيق</span><span lang="en">Organic Maps features included in the app</span></h2>
+    </div>
+    <div class="grid">
+      <div class="card feat"><span class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></svg></span>
+        <div lang="ar"><h3>خرائط دون اتصال</h3><p>نزّل الخريطة مرة واحدة واستخدمها في كل مكان من دون إنترنت ومن دون استهلاك باقة البيانات.</p></div>
+        <div lang="en"><h3>Offline maps</h3><p>Download the map once and use it everywhere, with no internet and without using up your data plan.</p></div></div>
+      <div class="card feat"><span class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 4.5 21 12 17l7.5 4z"/></svg></span>
+        <div lang="ar"><h3>ملاحة خطوة بخطوة</h3><p>مسارات للسيارات والمشي والدراجات، مع إرشاد صوتي ونقاط توقّف متعدّدة وإعادة حساب المسار.</p></div>
+        <div lang="en"><h3>Turn-by-turn navigation</h3><p>Routes for driving, walking and cycling, with voice guidance, multiple stops and route recalculation.</p></div></div>
+      <div class="card feat"><span class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span>
+        <div lang="ar"><h3>بحث سريع</h3><p>ابحث عن العناوين والمحلات والمستشفيات والصيدليات ومحطات الوقود والمطاعم، بالعربية أو الإنجليزية.</p></div>
+        <div lang="en"><h3>Fast search</h3><p>Find addresses, shops, hospitals, pharmacies, fuel stations and restaurants, in Arabic or English.</p></div></div>
+      <div class="card feat"><span class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg></span>
+        <div lang="ar"><h3>العلامات والمسارات</h3><p>احفظ الأماكن المفضّلة ونظّمها في قوائم، واستورد وصدّر ملفات <bdi>KML</bdi> و<bdi>KMZ</bdi> و<bdi>GPX</bdi> و<bdi>GeoJSON</bdi>.</p></div>
+        <div lang="en"><h3>Bookmarks and tracks</h3><p>Save your favourite places and organise them in lists, and import and export KML, KMZ, GPX and GeoJSON files.</p></div></div>
+      <div class="card feat"><span class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m2.5 20 6.5-11 4 6.5 3-4.5 5.5 9z"/></svg></span>
+        <div lang="ar"><h3>خطوط الكنتور والمشي الجبلي</h3><p>خطوط الارتفاع ومسارات المشي والدراجات لرحلات الطبيعة.</p></div>
+        <div lang="en"><h3>Contour lines and hiking</h3><p>Contour lines, and hiking and cycling trails for trips into nature.</p></div></div>
+      <div class="card feat"><span class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16zM13 7l4 4"/></svg></span>
+        <div lang="ar"><h3>تعديل الخريطة</h3><p>أضف مكاناً ناقصاً أو صحّح معلومة، فتصل التعديلات إلى <bdi>OpenStreetMap</bdi> ويستفيد منها الجميع.</p></div>
+        <div lang="en"><h3>Edit the map</h3><p>Add a missing place or fix a detail, and your edits reach OpenStreetMap for everyone to benefit.</p></div></div>
+      <div class="card feat"><span class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg></span>
+        <div lang="ar"><h3>الوضع الليلي وتوفير البطارية</h3><p>واجهة داكنة للقيادة ليلاً واستهلاك منخفض للبطارية.</p></div>
+        <div lang="en"><h3>Night mode and battery saving</h3><p>A dark interface for driving at night, and low battery use.</p></div></div>
+      <div class="card feat"><span class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4.5 6v6c0 4.6 3.2 7.8 7.5 9 4.3-1.2 7.5-4.4 7.5-9V6z"/><path d="m8.8 12 2.4 2.4 4.2-4.6"/></svg></span>
+        <div lang="ar"><h3>احترام المستخدم</h3><p>لا إعلانات ولا أدوات تتبّع تجارية، والشيفرة مفتوحة للجميع.</p></div>
+        <div lang="en"><h3>Respect for you</h3><p>No ads and no commercial trackers, and the code is open to everyone.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="new" class="section dark">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="label"><i class="dot"></i><span lang="ar">صُنع لسوريا</span><span lang="en">Made for Syria</span></p>
+      <h2><span lang="ar">الجديد في نسخة سوريا</span><span lang="en">New in the Syria edition</span></h2>
+    </div>
+    <div class="grid">
+      <div class="card feat"><span class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m-4.5-4.5L12 14l4.5-4.5M4 19.5h16"/></svg></span>
+        <div lang="ar"><h3>خريطة سوريا جاهزة تلقائياً</h3><p>عند التشغيل الأول تُنزَّل خريطة سوريا وخريطة العالم العامة (الحدود وأسماء الدول) من خادمنا تلقائياً.</p></div>
+        <div lang="en"><h3>The Syria map, ready by itself</h3><p>On first launch, the Syria map and the general world map (borders and country names) download from our server automatically.</p></div></div>
+      <div class="card feat"><span class="tile ar-glyph" aria-hidden="true">ع</span>
+        <div lang="ar"><h3>العربية لغة افتراضية</h3><p>الواجهة بالعربية افتراضياً، والإنجليزية متاحة من إعدادات لغة التطبيق في أندرويد.</p></div>
+        <div lang="en"><h3>Arabic by default</h3><p>The interface is in Arabic by default, and English is available from the app language settings in Android.</p></div></div>
+      <div class="card feat"><span class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></span>
+        <div lang="ar"><h3>تسجيل الدخول برقم الهاتف</h3><p>رمز تحقّق برسالة نصية. تسجيل الدخول مطلوب فقط لتسجيل النشاط ومزامنته، أما الخريطة والبحث والملاحة فتعمل دونه.</p></div>
+        <div lang="en"><h3>Sign in with your phone number</h3><p>A verification code by text message. Signing in is only needed to record your activity and sync it; the map, search and navigation work without it.</p></div></div>
+      <div class="card feat"><span class="tile"><i class="dot"></i></span>
+        <div lang="ar"><h3>تسجيل النشاط</h3><p>تسجيل موقعك كل 5 ثوانٍ أثناء الرحلة، مع إيقاف مؤقت واستئناف، وعرض المسافة بالكيلومترات والمدة بالأيام والساعات والدقائق والثواني.</p></div>
+        <div lang="en"><h3>Activity recording</h3><p>Records your location every 5 seconds during a trip, with pause and resume, and shows the distance in kilometres and the duration in days, hours, minutes and seconds.</p></div></div>
+      <div class="card feat"><span class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 0 1-14 5.3M4 12a8 8 0 0 1 14-5.3M18 3v4h-4M6 21v-4h4"/></svg></span>
+        <div lang="ar"><h3>مزامنة دون اتصال</h3><p>تُحفظ البيانات على الهاتف عند انقطاع الإنترنت وتُرسل تلقائياً عند عودته، مع زر «مزامنة الآن».</p></div>
+        <div lang="en"><h3>Works offline, sends later</h3><p>Data is kept on the phone while the internet is down and sent automatically when it is back, with a “Sync now” button.</p></div></div>
+      <div class="card feat"><span class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 13a9 9 0 0 1 17 0M7 15.5a5 5 0 0 1 10 0"/><circle cx="12" cy="18.5" r="1.5"/></svg></span>
+        <div lang="ar"><h3>حالة المزامنة والاتصال على الخريطة</h3><p>زر التسجيل فوق أزرار التكبير يتلوّن حسب حالة المزامنة، وأيقونة صغيرة تبيّن الاتصال بالإنترنت.</p></div>
+        <div lang="en"><h3>Sync and connection status on the map</h3><p>The record button above the zoom buttons changes colour with the sync status, and a small icon shows the internet connection.</p></div>
+        <div class="states">
+          <span><i style="background:#2e7d32"></i><span lang="ar">تمت المزامنة</span><span lang="en">Synced</span></span>
+          <span><i style="background:#ef6c00"></i><span lang="ar">بانتظار المزامنة</span><span lang="en">Waiting to sync</span></span>
+          <span><i style="background:#c62828"></i><span lang="ar">فشلت أو لم تسجّل الدخول</span><span lang="en">Failed, or not signed in</span></span>
+        </div></div>
+      <div class="card feat"><span class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12a8.5 8.5 0 1 0 2.8-6.3L3.5 8.3M3.5 3.5v4.8h4.8M12 7.5V12l3 2"/></svg></span>
+        <div lang="ar"><h3>سجلّ البحث وتحديثات الخريطة</h3><p>تُحفظ عمليات البحث (النص والنتيجة المختارة والموقع) وتنزيلات الخريطة وتحديثاتها لتحسين بيانات الخريطة في سوريا.</p></div>
+        <div lang="en"><h3>Search history and map updates</h3><p>Searches (the text, the chosen result and the location) and map downloads and updates are saved to improve the map data in Syria.</p></div></div>
+      <div class="card feat"><span class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h7.5a3.5 3.5 0 0 0 0-7h-7a3.5 3.5 0 0 1 0-7H16"/></svg></span>
+        <div lang="ar"><h3>تحسين المسار مفعّل افتراضياً</h3><p>عند إضافة عدة نقاط توقّف يُعاد ترتيبها تلقائياً للحصول على أقصر مسار، ويمكن إيقاف ذلك من الإعدادات.</p></div>
+        <div lang="en"><h3>Route optimisation on by default</h3><p>When you add several stops, they are reordered automatically for the shortest route. You can turn this off in Settings.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="data" class="section">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="label"><i class="dot"></i><span lang="ar">بياناتك</span><span lang="en">Your data</span></p>
+      <h2><span lang="ar">لماذا نجمع البيانات وكيف تُستخدم</span><span lang="en">Why we collect data and how it is used</span></h2>
+      <p lang="ar">طُوِّر هذا التطبيق لدعم التنقّل في سوريا. البيانات التي يرسلها المستخدمون المسجّلون (مسارات التسجيل وعمليات البحث وأحداث تحديث الخريطة) تُستخدم من أجل:</p>
+      <p lang="en">This app was developed to support getting around in Syria. The data that signed-in users send (recorded tracks, searches and map update events) is used for:</p>
+    </div>
+    <div class="data">
+      <ul class="uses">
+        <li class="card"><span class="leaf"><svg class="leaf-i" style="color:var(--leaf-ui)" aria-hidden="true"><use href="#leaf"/></svg></span>
+          <div lang="ar"><b>دعم التنقّل في سوريا</b><p>تحسين البحث والمسارات والإرشاد بما يناسب الطرق والأماكن المحلية.</p></div>
+          <div lang="en"><b>Supporting travel in Syria</b><p>Improving search, routes and guidance to suit local roads and places.</p></div></li>
+        <li class="card"><span class="leaf"><svg class="leaf-i" style="color:var(--leaf-ui)" aria-hidden="true"><use href="#leaf"/></svg></span>
+          <div lang="ar"><b>تحسين بيانات <bdi>OpenStreetMap</bdi> في سوريا</b><p>يستخدم مجتمع <bdi>OpenStreetMap</bdi> سوريا هذه البيانات لاكتشاف الطرق الناقصة أو الخاطئة والأماكن التي يبحث عنها الناس ولا يجدونها، ثم يضيفها ويصحّحها في <bdi>OpenStreetMap</bdi>.</p></div>
+          <div lang="en"><b>Improving OpenStreetMap data in Syria</b><p>The OpenStreetMap Syria community uses this data to find missing or wrong roads, and places people search for but cannot find, then adds and corrects them in OpenStreetMap.</p></div></li>
+        <li class="card"><span class="leaf"><svg class="leaf-i" style="color:var(--leaf-ui)" aria-hidden="true"><use href="#leaf"/></svg></span>
+          <div lang="ar"><b>دعم البحث الأكاديمي</b><p>في مجالات نظم المعلومات الجغرافية (<bdi>GIS</bdi>) وأنظمة الملاحة.</p></div>
+          <div lang="en"><b>Supporting academic research</b><p>In geographic information systems (GIS) and navigation systems.</p></div></li>
+        <li class="card"><span class="leaf"><svg class="leaf-i" style="color:var(--leaf-ui)" aria-hidden="true"><use href="#leaf"/></svg></span>
+          <div lang="ar"><b>تحليل حركة المرور</b><p>فهم أنماط الحركة والازدحام وأزمنة التنقّل.</p></div>
+          <div lang="en"><b>Traffic analysis</b><p>Understanding traffic patterns, congestion and travel times.</p></div></li>
+      </ul>
+      <div class="promise">
+        <span class="leafmark"><svg class="leaf-i" style="width:30px;height:30px;color:var(--leaf)" aria-hidden="true"><use href="#leaf"/></svg></span>
+        <h3><span lang="ar">بياناتك ليست للبيع</span><span lang="en">Your data is not for sale</span></h3>
+        <p lang="ar">لا نجمع أي معلومات شخصية غير رقم هاتفك، ولا تُباع البيانات ولا تُستخدم للإعلانات. لا يُشارك مع الباحثين والمجتمع إلا بيانات مجمّعة أو مجهولة الهوية. التفاصيل الكاملة في <a href="privacy.html" style="color:#fff">سياسة الخصوصية</a>.</p>
+        <p lang="en">We collect no personal information other than your phone number, and the data is not sold or used for advertising. Only aggregated or anonymised data is shared with researchers and the community. Full details are in the <a href="privacy.html" style="color:#fff">privacy policy</a>.</p>
+        <a class="btn" href="privacy.html"><span lang="ar">اقرأ سياسة الخصوصية</span><span lang="en">Read the privacy policy</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="section">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="label"><i class="dot"></i><span lang="ar">من نحن</span><span lang="en">Who we are</span></p>
+      <h2><span lang="ar">عن المشروع</span><span lang="en">About the project</span></h2>
+    </div>
+    <div class="about">
+      <div class="card">
+        <p lang="ar"><bdi>Syria Organic Maps</bdi> نسخة مشتقّة (<bdi>fork</bdi>) من تطبيق <a href="https://organicmaps.app" rel="noopener">Organic Maps</a> مفتوح المصدر، مخصّصة لسوريا وتستخدم بيانات <a href="https://www.openstreetmap.org" rel="noopener">OpenStreetMap</a> المحلية لسوريا، ويطوّرها ويصونها مجتمع <a href="https://openstreetmap.sy" rel="noopener">OpenStreetMap سوريا</a>.</p>
+        <p lang="en">Syria Organic Maps is a fork of the open-source <a href="https://organicmaps.app" rel="noopener">Organic Maps</a> app, made for Syria and using local <a href="https://www.openstreetmap.org" rel="noopener">OpenStreetMap</a> data for Syria. It is developed and maintained by the <a href="https://openstreetmap.sy" rel="noopener">OpenStreetMap Syria</a> community.</p>
+        <ul>
+          <li><i class="dot"></i><span lang="ar">بيانات الخريطة © مساهمو <bdi>OpenStreetMap</bdi>، ومتاحة بموجب رخصة قاعدة البيانات المفتوحة <bdi>ODbL</bdi>.</span><span lang="en">Map data © OpenStreetMap contributors, available under the Open Database License (ODbL).</span></li>
+          <li><i class="dot"></i><span lang="ar">التطبيق الأصلي © مطوّرو <bdi>Organic Maps</bdi>، بموجب رخصة <bdi>Apache 2.0</bdi>.</span><span lang="en">Original app © Organic Maps developers, under the Apache 2.0 license.</span></li>
+          <li><i class="dot"></i><span lang="ar">هذه النسخة ليست تابعة رسمياً لمشروع <bdi>Organic Maps</bdi>.</span><span lang="en">This edition is not officially affiliated with the Organic Maps project.</span></li>
+        </ul>
+      </div>
+      <a class="osm-panel" href="https://openstreetmap.sy" rel="noopener" style="text-decoration:none">
+        <span>
+        <svg role="img" aria-label="OpenStreetMap Syria" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="830 110 990 1320">
   <defs>
     <style>
       .st0 {
@@ -165,104 +644,63 @@
     </g>
   </g>
 </svg>
-  <h1>Syria Organic Maps</h1>
-  <p class="lead">تطبيق خرائط وملاحة يعمل دون اتصال بالإنترنت، مخصّص لسوريا ومبني على بيانات OpenStreetMap المحلية لسوريا، ويطوّره ويصونه مجتمع OpenStreetMap سوريا لدعم التنقّل في سوريا.</p>
-  <div class="badges">
-    <span class="badge">مجاني ومفتوح المصدر</span>
-    <span class="badge">يعمل دون إنترنت</span>
-    <span class="badge">العربية أولاً</span>
-    <span class="badge">بلا إعلانات</span>
-  </div>
-</header>
-
-<nav class="toc" aria-label="المحتويات">
-  <a href="#download">تنزيل التطبيق</a>
-  <a href="#features">ميزات Organic Maps</a>
-  <a href="#new">الجديد في نسخة سوريا</a>
-  <a href="#data">لماذا نجمع البيانات</a>
-  <a href="#about">عن المشروع</a>
-  <a href="privacy.html">سياسة الخصوصية</a>
-</nav>
-
-<section id="download">
-  <h2>تنزيل التطبيق</h2>
-  <p>التطبيق لأجهزة أندرويد. اختر النسخة المناسبة لهاتفك:</p>
-  <div class="downloads">
-    <a class="dl" href="apps/SyriaOrganicMaps-google.apk" download>معظم هواتف أندرويد<small>Samsung وXiaomi وغيرها · <span class="ver" data-flavor="google"></span></small></a>
-    <a class="dl alt" href="apps/SyriaOrganicMaps-huawei.apk" download>هواتف Huawei<small>من دون خدمات Google · <span class="ver" data-flavor="huawei"></span></small></a>
-  </div>
-  <p class="note">بعد التنزيل افتح الملف، واسمح للمتصفح بتثبيت التطبيقات إذا طلب الهاتف ذلك. عند صدور نسخة جديدة يُعلمك التطبيق بنفسه، وتبقى خرائطك وتسجيلاتك كما هي.</p>
-</section>
-
-<section id="features">
-  <h2>ميزات Organic Maps التي يتضمّنها التطبيق</h2>
-  <div class="grid">
-    <div class="card"><h3>خرائط دون اتصال</h3><p>نزّل الخريطة مرة واحدة واستخدمها في كل مكان من دون إنترنت ومن دون استهلاك باقة البيانات.</p></div>
-    <div class="card"><h3>ملاحة خطوة بخطوة</h3><p>مسارات للسيارات والمشي والدراجات، مع إرشاد صوتي ونقاط توقّف متعدّدة وإعادة حساب المسار.</p></div>
-    <div class="card"><h3>بحث سريع</h3><p>ابحث عن العناوين والمحلات والمستشفيات والصيدليات ومحطات الوقود والمطاعم، بالعربية أو الإنجليزية.</p></div>
-    <div class="card"><h3>العلامات والمسارات</h3><p>احفظ الأماكن المفضّلة ونظّمها في قوائم، واستورد وصدّر ملفات KML وKMZ وGPX وGeoJSON.</p></div>
-    <div class="card"><h3>خطوط الكنتور والمشي الجبلي</h3><p>خطوط الارتفاع ومسارات المشي والدراجات لرحلات الطبيعة.</p></div>
-    <div class="card"><h3>تعديل الخريطة</h3><p>أضف مكاناً ناقصاً أو صحّح معلومة، فتصل التعديلات إلى OpenStreetMap ويستفيد منها الجميع.</p></div>
-    <div class="card"><h3>الوضع الليلي وتوفير البطارية</h3><p>واجهة داكنة للقيادة ليلاً واستهلاك منخفض للبطارية.</p></div>
-    <div class="card"><h3>احترام المستخدم</h3><p>لا إعلانات ولا أدوات تتبّع تجارية، والشيفرة مفتوحة للجميع.</p></div>
-  </div>
-</section>
-
-<section id="new">
-  <h2>الجديد في نسخة سوريا</h2>
-  <div class="grid">
-    <div class="card new"><h3>خريطة سوريا جاهزة تلقائياً</h3><p>عند التشغيل الأول تُنزَّل خريطة سوريا وخريطة العالم العامة (الحدود وأسماء الدول) من خادمنا تلقائياً.</p></div>
-    <div class="card new"><h3>العربية لغة افتراضية</h3><p>الواجهة بالعربية افتراضياً، والإنجليزية متاحة من إعدادات لغة التطبيق في أندرويد.</p></div>
-    <div class="card new"><h3>تسجيل الدخول برقم الهاتف</h3><p>رمز تحقّق برسالة نصية. تسجيل الدخول مطلوب فقط لتسجيل النشاط ومزامنته، أما الخريطة والبحث والملاحة فتعمل دونه.</p></div>
-    <div class="card new"><h3>تسجيل النشاط</h3><p>تسجيل موقعك كل 5 ثوانٍ أثناء الرحلة، مع إيقاف مؤقت واستئناف، وعرض المسافة بالكيلومترات والمدة بالأيام والساعات والدقائق والثواني.</p></div>
-    <div class="card new"><h3>مزامنة دون اتصال</h3><p>تُحفظ البيانات على الهاتف عند انقطاع الإنترنت وتُرسل تلقائياً عند عودته، مع زر «مزامنة الآن».</p></div>
-    <div class="card new"><h3>حالة المزامنة والاتصال على الخريطة</h3>
-      <p>زر التسجيل فوق أزرار التكبير يتلوّن حسب حالة المزامنة، وأيقونة صغيرة تبيّن الاتصال بالإنترنت.</p>
-      <div class="dots">
-        <span><span class="dot" style="background:var(--green)"></span>تمت المزامنة</span>
-        <span><span class="dot" style="background:var(--orange)"></span>بانتظار المزامنة</span>
-        <span><span class="dot" style="background:var(--red)"></span>فشلت أو لم تسجّل الدخول</span>
-      </div>
+        <p><span lang="ar">مجتمع <bdi>OpenStreetMap</bdi> سوريا</span><span lang="en">OpenStreetMap Syria community</span></p>
+        </span>
+      </a>
     </div>
-    <div class="card new"><h3>سجلّ البحث وتحديثات الخريطة</h3><p>تُحفظ عمليات البحث (النص والنتيجة المختارة والموقع) وتنزيلات الخريطة وتحديثاتها لتحسين بيانات الخريطة في سوريا.</p></div>
-    <div class="card new"><h3>تحسين المسار مفعّل افتراضياً</h3><p>عند إضافة عدة نقاط توقّف يُعاد ترتيبها تلقائياً للحصول على أقصر مسار، ويمكن إيقاف ذلك من الإعدادات.</p></div>
   </div>
 </section>
+</main>
 
-<section id="data">
-  <h2>لماذا نجمع البيانات وكيف تُستخدم</h2>
-  <p>طُوِّر هذا التطبيق لدعم التنقّل في سوريا. البيانات التي يرسلها المستخدمون المسجّلون (مسارات التسجيل وعمليات البحث وأحداث تحديث الخريطة) تُستخدم من أجل:</p>
-  <ul>
-    <li><strong>دعم التنقّل في سوريا:</strong> تحسين البحث والمسارات والإرشاد بما يناسب الطرق والأماكن المحلية.</li>
-    <li><strong>تحسين بيانات OpenStreetMap في سوريا:</strong> يستخدم مجتمع OpenStreetMap سوريا هذه البيانات لاكتشاف الطرق الناقصة أو الخاطئة والأماكن التي يبحث عنها الناس ولا يجدونها، ثم يضيفها ويصحّحها في OpenStreetMap.</li>
-    <li><strong>دعم البحث الأكاديمي:</strong> في مجالات نظم المعلومات الجغرافية (GIS) وأنظمة الملاحة.</li>
-    <li><strong>تحليل حركة المرور:</strong> فهم أنماط الحركة والازدحام وأزمنة التنقّل.</li>
-  </ul>
-  <p class="note">لا نجمع أي معلومات شخصية غير رقم هاتفك، ولا تُباع البيانات ولا تُستخدم للإعلانات. لا يُشارك مع الباحثين والمجتمع إلا بيانات مجمّعة أو مجهولة الهوية. التفاصيل الكاملة في <a href="privacy.html">سياسة الخصوصية</a>.</p>
-</section>
-
-<section id="about">
-  <h2>عن المشروع</h2>
-  <p>Syria Organic Maps نسخة مشتقّة (fork) من تطبيق <a href="https://organicmaps.app" rel="noopener">Organic Maps</a> مفتوح المصدر، مخصّصة لسوريا وتستخدم بيانات <a href="https://www.openstreetmap.org" rel="noopener">OpenStreetMap</a> المحلية لسوريا، ويطوّرها ويصونها مجتمع <a href="https://openstreetmap.sy" rel="noopener">OpenStreetMap سوريا</a>.</p>
-  <ul>
-    <li>بيانات الخريطة © مساهمو OpenStreetMap، ومتاحة بموجب رخصة قاعدة البيانات المفتوحة <bdi>ODbL</bdi>.</li>
-    <li>التطبيق الأصلي © مطوّرو Organic Maps، بموجب رخصة <bdi>Apache 2.0</bdi>.</li>
-    <li>هذه النسخة ليست تابعة رسمياً لمشروع Organic Maps.</li>
-  </ul>
-</section>
-
-<footer>
-  <p><a href="privacy.html">سياسة الخصوصية</a> · <a href="https://openstreetmap.sy" rel="noopener">مجتمع OpenStreetMap سوريا</a></p>
-  <p>© مجتمع OpenStreetMap سوريا</p>
+<footer class="footer">
+  <div class="road" aria-hidden="true"></div>
+  <div class="wrap inner">
+    <div>
+      <a class="lockup" href="#top" aria-label="Syria Organic Maps"><svg viewBox="0 0 240 300" aria-hidden="true"><use href="#mark-dark"/></svg>
+        <span><span class="wordmark">Syria <span>Organic Maps</span></span><span class="tag" style="display:block"><span lang="ar">كل مشوار يرسم الخريطة</span><span lang="en">Every trip draws the map</span></span></span></a>
+    </div>
+    <nav>
+      <a href="privacy.html"><span lang="ar">سياسة الخصوصية</span><span lang="en">Privacy policy</span></a>
+      <a href="https://openstreetmap.sy" rel="noopener"><span lang="ar">مجتمع <bdi>OpenStreetMap</bdi> سوريا</span><span lang="en">OpenStreetMap Syria community</span></a>
+    </nav>
+    <p class="copy"><span lang="ar">© مجتمع <bdi>OpenStreetMap</bdi> سوريا</span><span lang="en">© OpenStreetMap Syria community</span></p>
+  </div>
 </footer>
 
-</div>
 <script>
+(function () {
+  'use strict';
+  var TITLES = {ar: 'Syria Organic Maps — خرائط سوريا دون اتصال', en: 'Syria Organic Maps — offline maps of Syria'};
+  var DESC = {
+    ar: 'Syria Organic Maps: تطبيق خرائط وملاحة دون اتصال بالإنترنت لسوريا، مبني على Organic Maps وبيانات OpenStreetMap، ويطوّره مجتمع OpenStreetMap سوريا.',
+    en: 'Syria Organic Maps: an offline maps and navigation app for Syria, built on Organic Maps and OpenStreetMap data, developed by the OpenStreetMap Syria community.'
+  };
+  var root = document.documentElement;
+  function apply(lang, save) {
+    root.lang = lang;
+    root.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.title = TITLES[lang];
+    document.querySelector('meta[name="description"]').content = DESC[lang];
+    document.querySelectorAll('[data-set-lang]').forEach(function (a) {
+      if (a.dataset.setLang === lang) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+    });
+    if (!save) return;
+    try { localStorage.setItem('som-lang', lang); } catch (e) {}
+    if (/[?&]lang=/.test(location.search)) {
+      try { var u = new URL(location.href); u.searchParams.set('lang', lang); history.replaceState(null, '', u); } catch (e) {}
+    }
+  }
+  document.querySelectorAll('[data-set-lang]').forEach(function (a) {
+    a.addEventListener('click', function (ev) { ev.preventDefault(); apply(a.dataset.setLang, true); });
+  });
+  apply(root.lang === 'en' ? 'en' : 'ar', false);
+
   // The version of each download, from the file the app's "new version" check reads too.
-  fetch('apps/version.json', {cache: 'no-store'}).then(r => r.ok ? r.json() : null).then(v => {
+  fetch('apps/version.json', {cache: 'no-store'}).then(function (r) { return r.ok ? r.json() : null; }).then(function (v) {
     if (!v) return;
-    document.querySelectorAll('.ver').forEach(e => { const f = v[e.dataset.flavor]; if (f) e.textContent = f.versionName; });
-  }).catch(() => {});
+    document.querySelectorAll('.ver').forEach(function (e) { var f = v[e.dataset.flavor]; if (f) e.textContent = f.versionName; });
+  }).catch(function () {});
+})();
 </script>
 </body>
 </html>

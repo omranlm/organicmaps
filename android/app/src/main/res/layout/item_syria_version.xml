@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One version in the version history: a roundabout on the road (the brand's step marker), then its notes. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+  <FrameLayout
+      android:layout_width="28dp"
+      android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/syria_version_road"
+        android:layout_width="6dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12dp"
+        android:background="@color/syria_brand_road" />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="top|center_horizontal"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_syria_brand_roundabout" />
+  </FrameLayout>
+
+  <LinearLayout
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:orientation="vertical"
+      android:paddingStart="@dimen/margin_base"
+      android:paddingBottom="@dimen/margin_base_plus">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+      <TextView
+          android:id="@+id/syria_version_name"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textAppearance="@style/MwmTextAppearance.Body1"
+          android:textColor="?android:textColorPrimary"
+          android:textDirection="ltr"
+          android:textStyle="bold"
+          tools:text="2026.11.27-1" />
+
+      <TextView
+          android:id="@+id/syria_version_this"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="@dimen/margin_half"
+          android:background="@drawable/syria_version_badge"
+          android:paddingStart="8dp"
+          android:paddingTop="1dp"
+          android:paddingEnd="8dp"
+          android:paddingBottom="2dp"
+          android:text="@string/syria_version_this"
+          android:textColor="#FFFFFF"
+          android:textSize="12sp"
+          android:visibility="gone" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/syria_version_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/MwmTextAppearance.Body3"
+        tools:text="27 November 2026" />
+
+    <TextView
+        android:id="@+id/syria_version_notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_quarter"
+        android:textAppearance="@style/MwmTextAppearance.Body2"
+        android:textColor="?android:textColorPrimary" />
+  </LinearLayout>
+</LinearLayout>

@@ -9,77 +9,192 @@
 <meta property="og:description" content="افتح الموقع في التطبيق، أو نزّل التطبيق مجاناً للملاحة دون إنترنت.">
 <meta property="og:site_name" content="Syria Organic Maps">
 <meta name="robots" content="noindex">
+<meta name="theme-color" content="#21242A">
 <!--
   Landing page of the links the app shares: https://organicmaps.openstreetmap.sy/l/<ge0 code>/<name>.
   With the app installed, Android opens such links in the app directly (App Links, see
   /.well-known/assetlinks.json), so this page is only seen without the app, or from browsers that keep links.
   nginx serves this file for every /l/... path (see ../nginx-share-links.conf).
 -->
+<script>
+  // Language before first paint: ?lang= wins (and is remembered), then the saved choice, then the browser:
+  // Arabic unless the browser prefers only non-Arabic languages.
+  (function () {
+    var KEY = 'som-lang', lang = null, m = /[?&]lang=(ar|en)(?:&|$)/i.exec(location.search);
+    if (m) { lang = m[1].toLowerCase(); try { localStorage.setItem(KEY, lang); } catch (e) {} }
+    if (!lang) { try { var s = localStorage.getItem(KEY); if (s === 'ar' || s === 'en') lang = s; } catch (e) {} }
+    if (!lang) {
+      var l = navigator.languages && navigator.languages.length ? navigator.languages : (navigator.language ? [navigator.language] : []);
+      lang = !l.length || l.some(function (x) { return /^ar\b/i.test(x); }) ? 'ar' : 'en';
+    }
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  /* Brand tokens: the same as the admin dashboard (syria-om-api/admin/src/styles/app.css). */
   :root {
-    --bg: #f7f8f6;
+    --ink: #21242a;
+    --road: #404e5e;
+    --teal: #0c7c70;
+    --teal-deep: #006560;
+    --teal-light: #6fd3c3;
+    --red: #c1272d;
+    --cloud: #f2f2f2;
+    --bg: #f7f5f0;
     --surface: #ffffff;
-    --text: #1d2420;
-    --muted: #57615b;
-    --accent: #1f7a4d;
-    --accent-soft: #e3f1e9;
-    --border: #dfe4e0;
+    --surface-2: #fbfaf7;
+    --text: #21242a;
+    --muted: #5f6672;
+    --line: #e4e0d6;
+    --tint: #e3f2ee;
+    --link: #006560;
+    --shadow: 0 1px 0 rgba(33, 36, 42, .04), 0 14px 34px -22px rgba(33, 36, 42, .35);
+    --focus: 0 0 0 3px rgba(12, 124, 112, .35);
+    --display: "Readex Pro", "IBM Plex Sans Arabic", system-ui, sans-serif;
+    --body: "IBM Plex Sans Arabic", "Readex Pro", system-ui, sans-serif;
+    --radius: 18px;
     color-scheme: light dark;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #121614;
-      --surface: #1b211e;
-      --text: #e8ece9;
-      --muted: #a4aea8;
-      --accent: #5cc08b;
-      --accent-soft: #1f3329;
-      --border: #2c3530;
+      --bg: #15171b;
+      --surface: #1d2026;
+      --surface-2: #20242a;
+      --text: #eceef1;
+      --muted: #9aa3b0;
+      --line: #2c3139;
+      --tint: rgba(111, 211, 195, .12);
+      --link: #6fd3c3;
+      --shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 16px 36px -24px rgba(0, 0, 0, .8);
+      --focus: 0 0 0 3px rgba(111, 211, 195, .35);
     }
   }
   * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: "Noto Kufi Arabic", "Noto Sans Arabic", "Segoe UI", Tahoma, system-ui, sans-serif;
-    line-height: 1.7;
-    font-size: 17px;
-  }
-  a { color: var(--accent); }
-  .wrap { max-width: 560px; margin: 0 auto; padding: 16px 16px 40px; }
-  .brand { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: .9rem; text-decoration: none; margin-bottom: 14px; }
-  .brand b { color: var(--accent); }
-  section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 18px 18px; margin: 0 0 14px; }
-  .kicker { color: var(--muted); font-size: .9rem; margin: 0; }
-  h1 { font-size: 1.5rem; margin: 2px 0 4px; line-height: 1.4; overflow-wrap: anywhere; }
-  .coords { color: var(--muted); font-size: .95rem; margin: 0 0 12px; }
-  .map { width: 100%; aspect-ratio: 4 / 3; border: 0; border-radius: 12px; background: var(--accent-soft); display: block; }
-  .btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; width: 100%; padding: 13px 18px; border-radius: 12px;
-         text-decoration: none; font-weight: 700; font-size: 1.05rem; background: var(--accent); color: #fff; border: 1px solid var(--accent); margin-top: 12px; }
-  .btn.alt { background: var(--accent-soft); color: var(--accent); }
-  .btn small { font-weight: 400; font-size: .85rem; opacity: .9; }
-  h2 { font-size: 1.15rem; margin: 0 0 6px; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 400 17px/1.7 var(--body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  h1, h2 { font-family: var(--display); }
+  a { color: var(--link); }
+  a:focus-visible { outline: none; box-shadow: var(--focus); border-radius: 10px; }
   p { margin: 6px 0; }
-  .muted { color: var(--muted); font-size: .95rem; }
-  .row { display: flex; gap: 10px; flex-wrap: wrap; }
-  .row .btn { flex: 1 1 200px; }
-  .links { display: flex; gap: 6px 18px; flex-wrap: wrap; font-size: .95rem; margin-top: 6px; }
-  .error { text-align: center; }
-  footer { text-align: center; color: var(--muted); font-size: .85rem; }
   bdi, .ltr { unicode-bidi: isolate; direction: ltr; }
   [hidden] { display: none !important; }
+  .i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 16px; }
+  .dot { display: inline-block; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--red);
+         box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--road); margin: 5px; }
+
+  /* Header: charcoal with the road */
+  .top { background: var(--ink); color: #fff; }
+  .topbar { display: flex; align-items: center; gap: 12px; padding-top: 14px; padding-bottom: 14px; }
+  .brand { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; min-width: 0; }
+  .brand svg { width: 30px; height: 38px; flex: none; }
+  .brand b { display: block; font: 700 16px/1.15 var(--display); white-space: nowrap; direction: ltr; unicode-bidi: isolate; }
+  .brand b span { color: var(--teal-light); }
+  .brand small { display: block; color: #aeb6c2; font: 500 12.5px/1.4 var(--display); margin-top: 3px; }
+  .lang-switch { display: inline-flex; margin-inline-start: auto; padding: 3px; gap: 2px; border-radius: 999px; flex: none;
+                 background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .12); }
+  .lang-switch a { color: #c9cfd8; text-decoration: none; font: 600 13px/1 var(--display); padding: 8px 11px; border-radius: 999px; }
+  html[lang="ar"] .lang-switch [data-set-lang="ar"], html[lang="en"] .lang-switch [data-set-lang="en"] { background: var(--teal); color: #fff; }
+  .lang-switch [data-set-lang="ar"] { font-family: "IBM Plex Sans Arabic", var(--display); }
+  .road { height: 26px; background: var(--road); position: relative; overflow: hidden; }
+  .road::after { content: ""; position: absolute; inset: calc(50% - 2px) 0 auto; height: 4px;
+                 background: repeating-linear-gradient(90deg, var(--cloud) 0 22px, transparent 22px 40px); }
+
+  main.wrap { padding-top: 20px; padding-bottom: 8px; }
+  section { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 18px; margin: 0 0 14px; }
+  .kicker { display: flex; align-items: center; gap: 8px; color: var(--muted); font: 500 14px/1.5 var(--display); margin: 0; }
+  h1 { font-size: 1.6rem; font-weight: 700; margin: 6px 0 4px; line-height: 1.35; overflow-wrap: anywhere; }
+  .coords { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font: 500 14px var(--display); margin: 0 0 14px;
+            background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px 3px 10px; }
+  .map-frame { position: relative; border-radius: 14px; overflow: hidden; background: var(--tint); box-shadow: inset 0 0 0 1px var(--line); }
+  .map { width: 100%; aspect-ratio: 4 / 3; border: 0; display: block; }
+  .btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; width: 100%; padding: 13px 18px; border-radius: 14px;
+         text-decoration: none; font: 600 1.05rem/1.4 var(--display); background: var(--teal); color: #fff; margin-top: 14px; transition: background .15s; }
+  .btn:hover { background: var(--teal-deep); }
+  .btn small { font: 400 .85rem/1.4 var(--body); opacity: .9; }
+  h2 { font-size: 1.2rem; font-weight: 600; margin: 0 0 4px; }
+  .muted { color: var(--muted); font-size: .95rem; }
+  .error { text-align: center; }
+  .error h1 { margin-top: 0; }
+
+  /* Downloads: charcoal | road | teal */
+  .row { display: grid; grid-template-columns: 1fr; border-radius: 16px; overflow: hidden; margin: 14px 0 8px; }
+  .row .gap { height: 16px; background: var(--road); position: relative; }
+  .row .gap::after { content: ""; position: absolute; inset: 6px 0 auto; height: 4px; background: repeating-linear-gradient(90deg, var(--cloud) 0 14px, transparent 14px 26px); }
+  .dl { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; padding: 16px 18px; color: #fff; text-decoration: none; transition: filter .15s; }
+  .dl:hover { filter: brightness(1.08); }
+  .dl.ink { background: var(--ink); }
+  .dl.teal { background: var(--teal); }
+  .dl b { display: block; font: 600 1.05rem/1.35 var(--display); }
+  .dl small { display: block; color: #c9cfd8; font-size: .85rem; }
+  .dl.teal small { color: #ddf3ef; }
+  .dl .go { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: var(--ink); }
+  .dl.teal .go { color: var(--teal-deep); }
+  @media (min-width: 520px) {
+    .row { grid-template-columns: 1fr 16px 1fr; }
+    .row .gap { height: auto; }
+    .row .gap::after { inset: 0 6px; width: 4px; height: auto; background: repeating-linear-gradient(180deg, var(--cloud) 0 14px, transparent 14px 26px); }
+  }
+
+  .links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .links a { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; color: var(--text); font: 500 14.5px var(--display);
+             padding: 7px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface-2); }
+  .links a:hover { border-color: var(--teal); }
+  footer { text-align: center; color: var(--muted); font-size: .9rem; padding: 6px 16px 32px; }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <a class="brand" href="/"><b>Syria Organic Maps</b> · <span data-t="tagline">خرائط سوريا دون اتصال</span></a>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <clipPath id="pinclip"><path d="M120 292C120 292 22 196 22 110a98 98 0 0 1 196 0c0 86-98 182-98 182z"/></clipPath>
+    <symbol id="mark-dark" viewBox="0 0 240 300">
+      <path d="M120 292C120 292 22 196 22 110a98 98 0 0 1 196 0c0 86-98 182-98 182z" fill="none" stroke="#F2F2F2" stroke-width="10"/>
+      <g clip-path="url(#pinclip)">
+        <rect width="120" height="300" fill="#21242A"/>
+        <rect x="120" width="120" height="300" fill="#0C7C70"/>
+        <path d="M-10 52C40 50 92 70 112 112" fill="none" stroke="#404E5E" stroke-width="22"/>
+        <path d="M-10 52C40 50 92 70 112 112" fill="none" stroke="#F2F2F2" stroke-width="4" stroke-dasharray="10 9"/>
+        <path d="M120 0V112" stroke="#404E5E" stroke-width="22"/>
+        <path d="M120 4V100" stroke="#F2F2F2" stroke-width="4" stroke-dasharray="10 9"/>
+        <path d="M120 130V300" stroke="#404E5E" stroke-width="22"/>
+        <path d="M120 140V300" stroke="#FFFFFF" stroke-width="8"/>
+        <path d="M144 190c5-26 28-40 52-38-3 24-24 41-52 38z" fill="#006C35"/>
+        <path d="M149 186c14-11 27-21 41-30" fill="none" stroke="#0C7C70" stroke-width="3" stroke-linecap="round"/>
+      </g>
+      <circle cx="120" cy="124" r="36" fill="#404E5E"/>
+      <circle cx="120" cy="124" r="28" fill="#FFFFFF"/>
+      <circle cx="120" cy="124" r="17" fill="#C1272D"/>
+      <g fill="#C1272D">
+        <path d="M42 8l3.5 10.8h11.3l-9.2 6.7 3.5 10.8-9.1-6.7-9.2 6.7 3.5-10.8-9.2-6.7h11.4z" transform="rotate(-12 42 22)"/>
+        <path d="M70 30l2.8 8.6h9l-7.3 5.3 2.8 8.6-7.3-5.3-7.3 5.3 2.8-8.6-7.3-5.3h9z" transform="rotate(-8 70 41)"/>
+        <path d="M92 52l2.1 6.5h6.8l-5.5 4 2.1 6.5-5.5-4-5.5 4 2.1-6.5-5.5-4h6.8z"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="wrap topbar">
+    <a class="brand" href="/"><svg viewBox="0 0 240 300" aria-hidden="true"><use href="#mark-dark"/></svg>
+      <span><b>Syria <span>Organic Maps</span></b><small data-t="tagline">خرائط سوريا دون اتصال</small></span></a>
+    <nav class="lang-switch" aria-label="Language · اللغة">
+      <a href="?lang=ar" hreflang="ar" data-set-lang="ar">العربية</a>
+      <a href="?lang=en" hreflang="en" data-set-lang="en">English</a>
+    </nav>
+  </div>
+  <div class="road" aria-hidden="true"></div>
+</header>
+
+<main class="wrap">
   <section id="place" hidden>
-    <p class="kicker" data-t="shared">موقع شاركه معك أحد مستخدمي التطبيق</p>
+    <p class="kicker"><i class="dot"></i><span data-t="shared">موقع شاركه معك أحد مستخدمي التطبيق</span></p>
     <h1 id="name"></h1>
-    <p class="coords"><bdi id="coords"></bdi></p>
-    <iframe id="map" class="map" title="Map" loading="lazy" referrerpolicy="no-referrer"></iframe>
+    <p class="coords"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><bdi id="coords"></bdi></p>
+    <div class="map-frame"><iframe id="map" class="map" title="Map" loading="lazy" referrerpolicy="no-referrer"></iframe></div>
     <a id="open" class="btn" data-hit="open_app" hidden>
       <span data-t="open">افتح في التطبيق</span>
       <small data-t="openHint">إن كان Syria Organic Maps مثبّتاً على هاتفك</small>
@@ -96,13 +211,20 @@
     <p class="muted" data-t="getText">تطبيق مجاني للخرائط والملاحة في سوريا، يعمل دون إنترنت وبالعربية.</p>
     <p class="muted" id="notAndroid" data-t="notAndroid" hidden>التطبيق متوفر حالياً لهواتف أندرويد فقط.</p>
     <div class="row">
-      <a class="btn" href="/apps/SyriaOrganicMaps-google.apk" download data-hit="download_google">
-        <span data-t="dlGoogle">معظم هواتف أندرويد</span>
-        <small><span data-t="dlGoogleHint">Samsung وXiaomi وغيرها</span> <bdi class="ver" data-flavor="google"></bdi></small>
+      <a class="dl ink" href="/apps/SyriaOrganicMaps-google.apk" download data-hit="download_google">
+        <span>
+          <b data-t="dlGoogle">معظم هواتف أندرويد</b>
+          <small><span data-t="dlGoogleHint">Samsung وXiaomi وغيرها</span> <bdi class="ver" data-flavor="google"></bdi></small>
+        </span>
+        <span class="go"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12m-5-5 5 5 5-5M5 20h14"/></svg></span>
       </a>
-      <a class="btn alt" href="/apps/SyriaOrganicMaps-huawei.apk" download data-hit="download_huawei">
-        <span data-t="dlHuawei">هواتف Huawei</span>
-        <small><span data-t="dlHuaweiHint">من دون خدمات Google</span> <bdi class="ver" data-flavor="huawei"></bdi></small>
+      <span class="gap" aria-hidden="true"></span>
+      <a class="dl teal" href="/apps/SyriaOrganicMaps-huawei.apk" download data-hit="download_huawei">
+        <span>
+          <b data-t="dlHuawei">هواتف Huawei</b>
+          <small><span data-t="dlHuaweiHint">من دون خدمات Google</span> <bdi class="ver" data-flavor="huawei"></bdi></small>
+        </span>
+        <span class="go"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12m-5-5 5 5 5-5M5 20h14"/></svg></span>
       </a>
     </div>
     <p class="muted" data-t="afterInstall">بعد التثبيت عُد إلى هذه الصفحة واضغط «افتح في التطبيق» لترى الموقع.</p>
@@ -116,9 +238,9 @@
       <a id="osm" data-hit="other_maps" rel="noopener" target="_blank">OpenStreetMap</a>
     </div>
   </section>
+</main>
 
-  <footer><a href="/" data-t="site">عن التطبيق</a> · <a href="/privacy.html" data-t="privacy">سياسة الخصوصية</a></footer>
-</div>
+<footer><a href="/" data-t="site">عن التطبيق</a> · <a href="/privacy.html" data-t="privacy">سياسة الخصوصية</a></footer>
 
 <script>
 (function () {
@@ -126,7 +248,7 @@
   const PACKAGE = 'sy.openstreetmap.organicmaps';
   const HOST = 'organicmaps.openstreetmap.sy';
 
-  // English for browsers that do not prefer Arabic; Arabic is in the markup.
+  // Arabic is in the markup; the language itself is picked in <head> (?lang=, saved choice, then the browser).
   const EN = {
     tagline: 'offline maps of Syria',
     shared: 'A place shared with you by a user of the app',
@@ -148,12 +270,41 @@
     privacy: 'Privacy policy',
     placeDefault: 'Shared place',
   };
-  const arabic = (navigator.languages || [navigator.language || 'ar']).some(l => /^ar\b/i.test(l));
-  if (!arabic) {
-    document.documentElement.lang = 'en';
-    document.documentElement.dir = 'ltr';
-    document.querySelectorAll('[data-t]').forEach(e => { const s = EN[e.dataset.t]; if (s) e.textContent = s; });
+  const AR = {placeDefault: 'موقع مشترك'};
+  document.querySelectorAll('[data-t]').forEach(e => { AR[e.dataset.t] = e.textContent; });
+  const root = document.documentElement;
+  let lang = root.lang === 'en' ? 'en' : 'ar';
+  let place = null, name = '';
+
+  // The place name (or the default one, in the current language) in the heading, the title and the geo: label.
+  function showTitle() {
+    const dict = lang === 'ar' ? AR : EN;
+    if (!place) { document.title = dict.placeDefault + ' — Syria Organic Maps'; return; }
+    const title = name || dict.placeDefault;
+    document.getElementById('name').textContent = title;
+    document.title = title + ' — Syria Organic Maps';
+    const label = encodeURIComponent(title);
+    document.getElementById('geo').href = 'geo:' + place.lat + ',' + place.lon + '?q=' + place.lat + ',' + place.lon + '(' + label + ')';
   }
+
+  function setLang(l, save) {
+    lang = l;
+    root.lang = l;
+    root.dir = l === 'ar' ? 'rtl' : 'ltr';
+    const dict = l === 'ar' ? AR : EN;
+    document.querySelectorAll('[data-t]').forEach(e => { const s = dict[e.dataset.t]; if (s) e.textContent = s; });
+    document.querySelectorAll('[data-set-lang]').forEach(a => {
+      if (a.dataset.setLang === l) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+    });
+    showTitle();
+    if (!save) return;
+    try { localStorage.setItem('som-lang', l); } catch (e) {}
+    if (/[?&]lang=/.test(location.search)) {
+      try { const u = new URL(location.href); u.searchParams.set('lang', l); history.replaceState(null, '', u); } catch (e) {}
+    }
+  }
+  document.querySelectorAll('[data-set-lang]').forEach(a => a.addEventListener('click', ev => { ev.preventDefault(); setLang(a.dataset.setLang, true); }));
+  setLang(lang, false);
 
   // Counts visits and taps by kind only (no ids, no coordinates), for the admin "Shared links" card.
   function hit(kind) {
@@ -196,16 +347,13 @@
 
   // /l/<code>[/<name>]
   const parts = location.pathname.replace(/^\/l\/?/, '').split('/');
-  const place = decodeGe0(parts[0] || '');
+  place = decodeGe0(parts[0] || '');
   if (!place) {
     document.getElementById('bad').hidden = false;
     return;
   }
-  let name = '';
   try { name = decodeURIComponent((parts.slice(1).join('/') || '').replace(/_/g, ' ')).trim(); } catch (e) { name = ''; }
-  const title = name || (arabic ? 'موقع مشترك' : EN.placeDefault);
-  document.getElementById('name').textContent = title;
-  document.title = title + ' — Syria Organic Maps';
+  showTitle();
   const ll = place.lat.toFixed(5) + ', ' + place.lon.toFixed(5);
   document.getElementById('coords').textContent = ll;
 
@@ -224,8 +372,6 @@
     open.hidden = false;
   }
 
-  const label = encodeURIComponent(title);
-  document.getElementById('geo').href = 'geo:' + place.lat + ',' + place.lon + '?q=' + place.lat + ',' + place.lon + '(' + label + ')';
   document.getElementById('geo').hidden = !isAndroid;
   document.getElementById('gmaps').href = 'https://www.google.com/maps/search/?api=1&query=' + place.lat + '%2C' + place.lon;
   document.getElementById('osm').href = 'https://www.openstreetmap.org/?mlat=' + place.lat + '&mlon=' + place.lon + '#map=17/' + place.lat + '/' + place.lon;

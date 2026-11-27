@@ -18,6 +18,7 @@ import app.organicmaps.base.BaseMwmFragment;
 import app.organicmaps.sdk.Framework;
 import app.organicmaps.sdk.util.Constants;
 import app.organicmaps.sdk.util.DateUtils;
+import app.organicmaps.syria.SyriaAbout;
 import app.organicmaps.util.Graphics;
 import app.organicmaps.util.SharingUtils;
 import app.organicmaps.util.Utils;
@@ -53,8 +54,7 @@ public class HelpFragment extends BaseMwmFragment implements View.OnClickListene
     if (osmPresentationView != null)
       osmPresentationView.setText(getString(R.string.osm_presentation, dataVersion));
 
-    root.findViewById(R.id.syria_about_website)
-        .setOnClickListener(v -> Utils.openUrl(requireContext(), BuildConfig.SYRIA_WEBSITE_URL));
+    SyriaAbout.bind(root);
     setupItem(R.id.news, true, root);
     setupItem(R.id.web, true, root);
     setupItem(R.id.email, true, root);

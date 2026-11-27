@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Brand element: the split, half charcoal and half teal as in the OpenStreetMap Syria logo. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="36dp"
+    android:height="36dp"
+    android:viewportWidth="32"
+    android:viewportHeight="32">
+  <path android:fillColor="#21242A" android:pathData="M7,7h9v18h-9a4,4 0,0 1,-4,-4v-10a4,4 0,0 1,4,-4z" />
+  <path android:fillColor="#0C7C70" android:pathData="M16,7h9a4,4 0,0 1,4,4v10a4,4 0,0 1,-4,4h-9z" />
+  <path android:strokeColor="#F2F2F2" android:strokeWidth="1.5" android:pathData="M16,8.5v3M16,14.5v3M16,20.5v3" />
+  <path android:strokeColor="#8A94A3" android:strokeWidth="0.75"
+      android:pathData="M7,7h18a4,4 0,0 1,4,4v10a4,4 0,0 1,-4,4h-18a4,4 0,0 1,-4,-4v-10a4,4 0,0 1,4,-4z" />
+</vector>

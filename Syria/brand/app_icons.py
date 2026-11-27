@@ -9,6 +9,7 @@ Writes into android/libs/branding/src/main/res:
                                                     adaptive launcher icon (Android 8+, themed icons on 13+)
 - mipmap-*/ic_launcher.png, mipmap-*/ic_launcher_round.png   launcher icon before Android 8
 and android/app/ic_launcher-playstore.png (512 px).
+Website (Syria/website): favicon.svg, favicon.ico (16, 32, 48) and apple-touch-icon.png (180), the launcher tile.
 
 Vector drawables have no dashed strokes, so the dashes of mark.svg are expanded into segments here. The PNGs are
 rendered from the same geometry with headless Chrome.
@@ -19,11 +20,13 @@ Usage: python Syria/brand/app_icons.py [--chrome PATH]
 import argparse
 import math
 import os
+import struct
 import subprocess
 import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 RES = os.path.join(ROOT, "android", "libs", "branding", "src", "main", "res")
+WEBSITE = os.path.join(ROOT, "Syria", "website")
 CHROME = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
 
 INK, ROAD, TEAL, LEAF, RED, CLOUD, WHITE = "#21242A", "#404E5E", "#0C7C70", "#006C35", "#C1272D", "#F2F2F2", "#FFFFFF"
@@ -207,6 +210,10 @@ def launcher_svg(px, shape):
     elif shape == "square":
         tile = f'<rect width="{px}" height="{px}" fill="{LAUNCHER_BACKGROUND}"/>'
         s, tx, ty = frame(px, px * 0.68)
+    elif shape == "favicon":
+        # Browser tab: the whole square and a bigger mark, so the pin still reads at 16 px.
+        tile = f'<rect width="{px}" height="{px}" rx="{px * 0.22}" fill="{LAUNCHER_BACKGROUND}"/>'
+        s, tx, ty = frame(px, px * 0.84)
     else:
         m = px * 0.04
         tile = (f'<rect x="{m}" y="{m}" width="{px - 2 * m}" height="{px - 2 * m}" rx="{px * 0.18}" '
@@ -227,6 +234,20 @@ def render_png(svg, px, out, chrome):
              f"--user-data-dir={os.path.join(tmp, 'profile')}", "file:///" + page.replace("\\", "/")],
             check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
         )
+
+
+def write_ico(pngs, out):
+    """ICO with PNG images (every current browser reads them): pngs is a list of (size, path)."""
+    blobs = [(px, open(path, "rb").read()) for px, path in pngs]
+    head = struct.pack("<HHH", 0, 1, len(blobs))
+    offset = len(head) + 16 * len(blobs)
+    entries, data = b"", b""
+    for px, blob in blobs:
+        entries += struct.pack("<BBBBHHII", px % 256, px % 256, 0, 0, 1, 32, len(blob), offset + len(data))
+        data += blob
+    with open(out, "wb") as f:
+        f.write(head + entries + data)
+    print("wrote", os.path.relpath(out, ROOT))
 
 
 def write(path, text):
@@ -283,6 +304,18 @@ def main():
     render_png(launcher_svg(512, "square"), 512, os.path.join(ROOT, "android", "app", "ic_launcher-playstore.png"),
                args.chrome)
     print("rendered Play Store icon")
+
+    # Website favicons: the launcher tile, so the browser tab looks like the installed app.
+    write(os.path.join(WEBSITE, "favicon.svg"), launcher_svg(64, "favicon") + "\n")
+    with tempfile.TemporaryDirectory() as tmp:
+        pngs = []
+        for px in (16, 32, 48):
+            pngs.append((px, os.path.join(tmp, f"{px}.png")))
+            render_png(launcher_svg(px, "favicon"), px, pngs[-1][1], args.chrome)
+        write_ico(pngs, os.path.join(WEBSITE, "favicon.ico"))
+    # iOS rounds the corners itself and wants no transparency.
+    render_png(launcher_svg(180, "square"), 180, os.path.join(WEBSITE, "apple-touch-icon.png"), args.chrome)
+    print("rendered website icons")
 
 
 if __name__ == "__main__":

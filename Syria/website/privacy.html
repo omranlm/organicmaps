@@ -6,9 +6,11 @@
 <title>سياسة الخصوصية — Syria Organic Maps</title>
 <meta name="description" content="سياسة الخصوصية لتطبيق Syria Organic Maps: ما البيانات التي نجمعها، ولماذا، وكيف نحميها، وما حقوقك.">
 <meta name="theme-color" content="#21242A">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script>
-  // Language before first paint: ?lang= wins (and is remembered), then the saved choice, then the browser:
-  // Arabic unless the browser prefers only non-Arabic languages.
+  // Language before first paint: ?lang= wins (and is remembered), then the saved choice, then Arabic.
   (function () {
     var KEY = 'som-lang', lang = null, m = /[?&]lang=(ar|en)(?:&|$)/i.exec(location.search);
     if (m) { lang = m[1].toLowerCase(); try { localStorage.setItem(KEY, lang); } catch (e) {} }

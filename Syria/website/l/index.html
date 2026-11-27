@@ -10,6 +10,9 @@
 <meta property="og:site_name" content="Syria Organic Maps">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#21242A">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <!--
   Landing page of the links the app shares: https://organicmaps.openstreetmap.sy/l/<ge0 code>/<name>.
   With the app installed, Android opens such links in the app directly (App Links, see
@@ -17,8 +20,7 @@
   nginx serves this file for every /l/... path (see ../nginx-share-links.conf).
 -->
 <script>
-  // Language before first paint: ?lang= wins (and is remembered), then the saved choice, then the browser:
-  // Arabic unless the browser prefers only non-Arabic languages.
+  // Language before first paint: ?lang= wins (and is remembered), then the saved choice, then Arabic.
   (function () {
     var KEY = 'som-lang', lang = null, m = /[?&]lang=(ar|en)(?:&|$)/i.exec(location.search);
     if (m) { lang = m[1].toLowerCase(); try { localStorage.setItem(KEY, lang); } catch (e) {} }
@@ -248,7 +250,7 @@
   const PACKAGE = 'sy.openstreetmap.organicmaps';
   const HOST = 'organicmaps.openstreetmap.sy';
 
-  // Arabic is in the markup; the language itself is picked in <head> (?lang=, saved choice, then the browser).
+  // Arabic is in the markup; the language itself is picked in <head> (?lang=, saved choice, then Arabic).
   const EN = {
     tagline: 'offline maps of Syria',
     shared: 'A place shared with you by a user of the app',

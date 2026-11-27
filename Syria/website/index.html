@@ -6,11 +6,13 @@
 <title>Syria Organic Maps — خرائط سوريا دون اتصال</title>
 <meta name="description" content="Syria Organic Maps: تطبيق خرائط وملاحة دون اتصال بالإنترنت لسوريا، مبني على Organic Maps وبيانات OpenStreetMap، ويطوّره مجتمع OpenStreetMap سوريا.">
 <meta name="theme-color" content="#21242A">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="alternate" hreflang="ar" href="https://organicmaps.openstreetmap.sy/?lang=ar">
 <link rel="alternate" hreflang="en" href="https://organicmaps.openstreetmap.sy/?lang=en">
 <script>
-  // Language before first paint: ?lang= wins (and is remembered), then the saved choice, then the browser:
-  // Arabic unless the browser prefers only non-Arabic languages.
+  // Language before first paint: ?lang= wins (and is remembered), then the saved choice, then Arabic.
   (function () {
     var KEY = 'som-lang', lang = null, m = /[?&]lang=(ar|en)(?:&|$)/i.exec(location.search);
     if (m) { lang = m[1].toLowerCase(); try { localStorage.setItem(KEY, lang); } catch (e) {} }

@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+# The backend, the dashboard and the big map and app downloads are not pages.
+Disallow: /api/
+Disallow: /admin/
+Disallow: /mapdata/
+Disallow: /apps/
+# The home page reads the app version from here.
+Allow: /apps/version.json
+
+Sitemap: https://organicmaps.openstreetmap.sy/sitemap.xml

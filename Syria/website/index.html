@@ -5,12 +5,99 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Syria Organic Maps — خرائط سوريا دون اتصال</title>
 <meta name="description" content="Syria Organic Maps: تطبيق خرائط وملاحة دون اتصال بالإنترنت لسوريا، مبني على Organic Maps وبيانات OpenStreetMap، ويطوّره مجتمع OpenStreetMap سوريا.">
+<meta name="keywords" content="خرائط سوريا, خريطة سوريا دون إنترنت, ملاحة سوريا, GPS سوريا, خرائط أوفلاين, OpenStreetMap سوريا, Organic Maps, Syria map, offline maps Syria, Syria navigation app, Damascus map, Aleppo map">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="OpenStreetMap Syria">
+<meta name="application-name" content="Syria Organic Maps">
+<meta name="geo.region" content="SY">
+<meta name="geo.placename" content="Syria">
 <meta name="theme-color" content="#21242A">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="alternate" hreflang="ar" href="https://organicmaps.openstreetmap.sy/?lang=ar">
+<link rel="manifest" href="/site.webmanifest">
+<!-- Crawlers see Arabic at / (the default) and English at /?lang=en. -->
+<link rel="alternate" hreflang="ar" href="https://organicmaps.openstreetmap.sy/">
 <link rel="alternate" hreflang="en" href="https://organicmaps.openstreetmap.sy/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://organicmaps.openstreetmap.sy/">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<!-- Link previews (Open Graph and X): crawlers that don't run scripts get the Arabic texts. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Syria Organic Maps">
+<meta property="og:url" content="https://organicmaps.openstreetmap.sy/">
+<meta property="og:title" content="Syria Organic Maps — خرائط سوريا دون اتصال">
+<meta property="og:description" content="تطبيق خرائط وملاحة لسوريا يعمل دون إنترنت، مجاني ومفتوح المصدر وبلا إعلانات، مبني على بيانات OpenStreetMap ويطوّره مجتمع OpenStreetMap سوريا.">
+<meta property="og:locale" content="ar_SY">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:image" content="https://organicmaps.openstreetmap.sy/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="شعار Syria Organic Maps وعبارة: كل مشوار يرسم الخريطة">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image:alt" content="شعار Syria Organic Maps وعبارة: كل مشوار يرسم الخريطة">
+<script type="application/ld+json" id="ld">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://organicmaps.openstreetmap.sy/#org",
+      "name": "OpenStreetMap Syria",
+      "alternateName": "مجتمع OpenStreetMap سوريا",
+      "url": "https://openstreetmap.sy",
+      "logo": "https://organicmaps.openstreetmap.sy/icon-512.png",
+      "sameAs": ["https://github.com/osm-syria"]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://organicmaps.openstreetmap.sy/#website",
+      "url": "https://organicmaps.openstreetmap.sy/",
+      "name": "Syria Organic Maps",
+      "inLanguage": ["ar", "en"],
+      "publisher": {"@id": "https://organicmaps.openstreetmap.sy/#org"}
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://organicmaps.openstreetmap.sy/#webpage",
+      "url": "https://organicmaps.openstreetmap.sy/",
+      "name": "Syria Organic Maps — خرائط سوريا دون اتصال",
+      "inLanguage": "ar",
+      "isPartOf": {"@id": "https://organicmaps.openstreetmap.sy/#website"},
+      "about": {"@id": "https://organicmaps.openstreetmap.sy/#app"},
+      "primaryImageOfPage": "https://organicmaps.openstreetmap.sy/og-image.png"
+    },
+    {
+      "@type": "MobileApplication",
+      "@id": "https://organicmaps.openstreetmap.sy/#app",
+      "name": "Syria Organic Maps",
+      "description": "تطبيق خرائط وملاحة لسوريا يعمل دون إنترنت، مبني على Organic Maps وبيانات OpenStreetMap، ويطوّره مجتمع OpenStreetMap سوريا. Offline maps and navigation for Syria, built on Organic Maps and OpenStreetMap data.",
+      "url": "https://organicmaps.openstreetmap.sy/",
+      "image": "https://organicmaps.openstreetmap.sy/og-image.png",
+      "operatingSystem": "Android",
+      "applicationCategory": "TravelApplication",
+      "applicationSubCategory": "Navigation",
+      "inLanguage": ["ar", "en"],
+      "countriesSupported": "SY",
+      "isAccessibleForFree": true,
+      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+      "downloadUrl": [
+        "https://organicmaps.openstreetmap.sy/apps/SyriaOrganicMaps-google.apk",
+        "https://organicmaps.openstreetmap.sy/apps/SyriaOrganicMaps-huawei.apk"
+      ],
+      "featureList": [
+        "Offline maps of Syria", "Turn-by-turn navigation with voice guidance", "Offline search",
+        "Bookmarks and tracks (KML, KMZ, GPX, GeoJSON)", "Contour lines and hiking trails",
+        "OpenStreetMap editing", "Trip recording and live location sharing", "No ads"
+      ],
+      "license": "https://www.apache.org/licenses/LICENSE-2.0",
+      "isBasedOn": {"@type": "SoftwareApplication", "name": "Organic Maps", "url": "https://organicmaps.app"},
+      "author": {"@id": "https://organicmaps.openstreetmap.sy/#org"},
+      "publisher": {"@id": "https://organicmaps.openstreetmap.sy/#org"}
+    }
+  ]
+}
+</script>
 <script>
   // Language before first paint: ?lang= wins (and is remembered), then the saved choice, then Arabic.
   (function () {
@@ -21,6 +108,11 @@
     if (!lang) lang = 'ar';
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    // Canonical from the address only (never the saved choice), so each hreflang URL points to itself.
+    var link = document.createElement('link');
+    link.rel = 'canonical';
+    link.href = 'https://organicmaps.openstreetmap.sy/' + (m && lang === 'en' ? '?lang=en' : '');
+    document.head.appendChild(link);
   })();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -706,6 +798,15 @@
   fetch('apps/version.json', {cache: 'no-store'}).then(function (r) { return r.ok ? r.json() : null; }).then(function (v) {
     if (!v) return;
     document.querySelectorAll('.ver').forEach(function (e) { var f = v[e.dataset.flavor]; if (f) e.textContent = f.versionName; });
+    // The same version in the structured data, for search engines that run scripts.
+    var ld = document.getElementById('ld');
+    if (v.google && ld) {
+      try {
+        var data = JSON.parse(ld.textContent);
+        data['@graph'].forEach(function (n) { if (n['@type'] === 'MobileApplication') n.softwareVersion = v.google.versionName; });
+        ld.textContent = JSON.stringify(data);
+      } catch (e) {}
+    }
   }).catch(function () {});
 })();
 </script>

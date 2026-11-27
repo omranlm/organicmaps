@@ -9,7 +9,8 @@ Writes into android/libs/branding/src/main/res:
                                                     adaptive launcher icon (Android 8+, themed icons on 13+)
 - mipmap-*/ic_launcher.png, mipmap-*/ic_launcher_round.png   launcher icon before Android 8
 and android/app/ic_launcher-playstore.png (512 px).
-Website (Syria/website): favicon.svg, favicon.ico (16, 32, 48) and apple-touch-icon.png (180), the launcher tile.
+Website (Syria/website): favicon.svg, favicon.ico (16, 32, 48), apple-touch-icon.png (180) and icon-192/512.png,
+the launcher tile.
 
 Vector drawables have no dashed strokes, so the dashes of mark.svg are expanded into segments here. The PNGs are
 rendered from the same geometry with headless Chrome.
@@ -315,6 +316,9 @@ def main():
         write_ico(pngs, os.path.join(WEBSITE, "favicon.ico"))
     # iOS rounds the corners itself and wants no transparency.
     render_png(launcher_svg(180, "square"), 180, os.path.join(WEBSITE, "apple-touch-icon.png"), args.chrome)
+    # Web manifest and search engine logo: full squares with the mark inside the maskable safe zone.
+    for px in (192, 512):
+        render_png(launcher_svg(px, "square"), px, os.path.join(WEBSITE, f"icon-{px}.png"), args.chrome)
     print("rendered website icons")
 
 

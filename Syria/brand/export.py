@@ -25,6 +25,8 @@ PNGS = [
     ("designs/sticker.html", "sticker-200x100mm.png", 1000, 500, 3, False),
     ("designs/badge.html", "badge-80mm.png", 800, 800, 2, True),
     ("designs/post.html", "post-1080.png", 1080, 1080, 1, False),
+    # Also the website's link preview: copy it to Syria/website/og-image.png.
+    ("designs/og-card.html", "og-card-1200x630.png", 1200, 630, 1, False),
     ("brochure-a5.html?page=1", "brochure-a5-page1.png", 559, 794, 3, False),
     ("brochure-a5.html?page=2", "brochure-a5-page2.png", 559, 794, 3, False),
     ("brochure-a5.html?page=3", "brochure-a5-page3.png", 559, 794, 3, False),

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>صورة المشاركة للموقع — Syria Organic Maps</title>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* Link preview of the website (Open Graph / Twitter card), 1200 × 630 px: Syria/website/og-image.png. */
+  @page { size: 1200px 630px; margin: 0; }
+  * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  html, body { margin: 0; }
+  .card { width: 1200px; height: 630px; background: #21242A; color: #fff; position: relative; overflow: hidden;
+          font-family: "Readex Pro", "IBM Plex Sans Arabic", sans-serif; }
+  .card::before { content: ""; position: absolute; inset: 0;
+                  background: radial-gradient(55% 75% at 22% 40%, rgba(12, 124, 112, .38), transparent 70%); }
+  .mark { position: absolute; left: 150px; top: 58px; width: 300px; height: 375px; filter: drop-shadow(0 24px 34px rgba(0, 0, 0, .5)); }
+  .text { position: absolute; right: 80px; top: 70px; width: 620px; }
+  .wordmark { font-size: 40px; font-weight: 700; direction: ltr; text-align: right; letter-spacing: -.01em; }
+  .wordmark span { color: #6FD3C3; }
+  h1 { margin: 26px 0 0; font: 700 76px/1.18 "IBM Plex Sans Arabic", sans-serif; }
+  h1 em { font-style: normal; color: #6FD3C3; display: block; }
+  p { margin: 22px 0 0; font: 500 30px/1.45 "IBM Plex Sans Arabic", sans-serif; color: #C9CFD8; text-wrap: balance; }
+  .road { position: absolute; left: 0; right: 0; bottom: 0; height: 96px; background: #404E5E; }
+  .road::after { content: ""; position: absolute; left: 0; right: 0; top: 44px; height: 8px;
+                 background: repeating-linear-gradient(90deg, #F2F2F2 0 52px, transparent 52px 92px); }
+  .url { position: absolute; right: 80px; bottom: 26px; z-index: 1; font: 500 26px/1 "Readex Pro", sans-serif; direction: ltr;
+         background: #0C7C70; padding: 10px 24px 12px; border-radius: 30px; }
+</style>
+</head>
+<body data-images="../export/og-card-1200x630.png" data-home="../index.html">
+<div class="card">
+  <img class="mark" src="../mark-dark.svg" alt="">
+  <div class="text">
+    <div class="wordmark">Syria <span>Organic Maps</span></div>
+    <h1>كل مشوار <em>يرسم الخريطة</em></h1>
+    <p>خرائط وملاحة لسوريا تعمل دون إنترنت، مجانية ومفتوحة المصدر</p>
+  </div>
+  <div class="road"></div>
+  <div class="url">organicmaps.openstreetmap.sy</div>
+</div>
+<script src="../toolbar.js"></script>
+</body>
+</html>

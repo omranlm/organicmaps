@@ -65,7 +65,8 @@ APKs land in `android/app/build/outputs/apk/<flavor>/<type>/`; signed release bu
 
 ## Running the whole thing locally
 
-1. Backend: `cd ../syria-om-api && cp .env.example .env && docker compose up -d --build` (API :3000, PostGIS :5433, maps :8080).
+1. Backend ([osm-syria/syria-om-api](https://github.com/osm-syria/syria-om-api), cloned next to this repo):
+   `cd ../syria-om-api && cp .env.example .env && docker compose up -d --build` (API :3000, PostGIS :5433, maps :8080).
 2. Maps: publish a map set with `maps-pipeline/` (see its README) so `maps-pipeline/out/maps/<version>/Syria.mwm` exists.
    The server publishes World + WorldCoasts (from the Organic Maps CDN) + Syria. `data/countries.json` in this repo
    lists exactly those three and its `v` must equal the version folder on the server (currently 261116);

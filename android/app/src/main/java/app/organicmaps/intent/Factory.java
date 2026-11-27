@@ -22,6 +22,7 @@ import app.organicmaps.sdk.routing.RoutingController;
 import app.organicmaps.sdk.search.SearchEngine;
 import app.organicmaps.sdk.util.StorageUtils;
 import app.organicmaps.sdk.util.concurrency.ThreadPool;
+import app.organicmaps.syria.SyriaLinks;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
@@ -83,7 +84,15 @@ public class Factory
       if (uri == null)
         return false;
 
-      switch (Framework.nativeParseAndSetApiUrl(uri.toString()))
+      // Syria: our shared links carry the core's ge0 link under our domain.
+      String url = uri.toString();
+      final String sharedLink = SyriaLinks.toCore(url);
+      if (sharedLink != null)
+      {
+        url = sharedLink;
+        SyriaLinks.onLinkOpened(target);
+      }
+      switch (Framework.nativeParseAndSetApiUrl(url))
       {
       case RequestType.INCORRECT: return false;
 

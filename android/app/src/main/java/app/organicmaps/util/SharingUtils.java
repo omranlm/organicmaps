@@ -23,6 +23,7 @@ import app.organicmaps.sdk.Framework;
 import app.organicmaps.sdk.bookmarks.data.BookmarkInfo;
 import app.organicmaps.sdk.util.StorageUtils;
 import app.organicmaps.sdk.util.log.Logger;
+import app.organicmaps.syria.SyriaLinks;
 import java.io.File;
 import java.io.IOException;
 
@@ -144,8 +145,9 @@ public class SharingUtils
     Intent intent = new Intent(Intent.ACTION_SEND);
     intent.setType(TEXT_MIME_TYPE);
     intent.putExtra(Intent.EXTRA_SUBJECT, subjectFor(context, data));
-    intent.putExtra(Intent.EXTRA_TEXT, data.mText);
-    intent.putExtra(Intent.EXTRA_HTML_TEXT, data.mHtml);
+    // Syria: links on our domain open this app, or our download page when it is not installed.
+    intent.putExtra(Intent.EXTRA_TEXT, SyriaLinks.toShared(data.mText));
+    intent.putExtra(Intent.EXTRA_HTML_TEXT, SyriaLinks.toShared(data.mHtml));
     context.startActivity(Intent.createChooser(intent, context.getString(R.string.share)));
   }
 

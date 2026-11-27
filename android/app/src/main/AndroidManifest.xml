@@ -155,6 +155,19 @@
         <data android:host="omaps.app"/>
       </intent-filter>
 
+      <!-- Syria: shared place links on our domain (verified by the website's .well-known/assetlinks.json). -->
+      <intent-filter android:autoVerify="@bool/autoVerify">
+        <action android:name="android.intent.action.VIEW"/>
+
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+
+        <data android:scheme="http"/>
+        <data android:scheme="https"/>
+        <data android:host="organicmaps.openstreetmap.sy"/>
+        <data android:pathPrefix="/l/"/>
+      </intent-filter>
+
       <intent-filter>
         <action android:name="android.intent.action.VIEW" />
 

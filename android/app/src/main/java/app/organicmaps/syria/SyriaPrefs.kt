@@ -39,6 +39,7 @@ object SyriaPrefs {
     private const val KEY_DRIVING_REMINDER_AT = "driving_reminder_at"
     private const val KEY_VOICE_PROMPT_AT = "voice_prompt_at"
     private const val KEY_VOICE_DOWNLOAD_AT = "voice_download_at"
+    private const val KEY_INSTALL_SOURCE_LOGGED = "install_source_logged"
     private const val KEY_LIVE = "live_location"
     private const val KEY_LARGE_FONTS_DEFAULT = "large_fonts_default_applied"
     private const val KEY_KEEP_SCREEN_ON_DEFAULT = "keep_screen_on_default_applied"
@@ -284,6 +285,13 @@ object SyriaPrefs {
 
     fun setVoiceDownloadAt(context: Context, timeMs: Long) {
         prefs(context).edit().putLong(KEY_VOICE_DOWNLOAD_AT, timeMs).apply()
+    }
+
+    /** Whether the install source (a shared link) was already recorded, see SyriaLinks. */
+    fun isInstallSourceLogged(context: Context): Boolean = prefs(context).getBoolean(KEY_INSTALL_SOURCE_LOGGED, false)
+
+    fun markInstallSourceLogged(context: Context) {
+        prefs(context).edit().putBoolean(KEY_INSTALL_SOURCE_LOGGED, true).apply()
     }
 
     @JvmStatic

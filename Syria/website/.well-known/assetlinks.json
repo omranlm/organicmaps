@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "sy.openstreetmap.organicmaps",
+      "sha256_cert_fingerprints": [
+        "C2:18:90:1B:A1:87:79:D6:75:5F:11:EC:B6:43:D9:D6:D9:72:33:DF:78:0D:D3:BD:32:4A:89:FE:17:EA:B4:70"
+      ]
+    }
+  }
+]

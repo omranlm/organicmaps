@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>موقع مشترك — Syria Organic Maps</title>
+<meta name="description" content="موقع شاركه معك أحد مستخدمي Syria Organic Maps، تطبيق الخرائط والملاحة دون اتصال لسوريا.">
+<meta property="og:title" content="موقع مشترك عبر Syria Organic Maps">
+<meta property="og:description" content="افتح الموقع في التطبيق، أو نزّل التطبيق مجاناً للملاحة دون إنترنت.">
+<meta property="og:site_name" content="Syria Organic Maps">
+<meta name="robots" content="noindex">
+<!--
+  Landing page of the links the app shares: https://organicmaps.openstreetmap.sy/l/<ge0 code>/<name>.
+  With the app installed, Android opens such links in the app directly (App Links, see
+  /.well-known/assetlinks.json), so this page is only seen without the app, or from browsers that keep links.
+  nginx serves this file for every /l/... path (see ../nginx-share-links.conf).
+-->
+<style>
+  :root {
+    --bg: #f7f8f6;
+    --surface: #ffffff;
+    --text: #1d2420;
+    --muted: #57615b;
+    --accent: #1f7a4d;
+    --accent-soft: #e3f1e9;
+    --border: #dfe4e0;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #121614;
+      --surface: #1b211e;
+      --text: #e8ece9;
+      --muted: #a4aea8;
+      --accent: #5cc08b;
+      --accent-soft: #1f3329;
+      --border: #2c3530;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Noto Kufi Arabic", "Noto Sans Arabic", "Segoe UI", Tahoma, system-ui, sans-serif;
+    line-height: 1.7;
+    font-size: 17px;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 560px; margin: 0 auto; padding: 16px 16px 40px; }
+  .brand { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: .9rem; text-decoration: none; margin-bottom: 14px; }
+  .brand b { color: var(--accent); }
+  section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 18px 18px; margin: 0 0 14px; }
+  .kicker { color: var(--muted); font-size: .9rem; margin: 0; }
+  h1 { font-size: 1.5rem; margin: 2px 0 4px; line-height: 1.4; overflow-wrap: anywhere; }
+  .coords { color: var(--muted); font-size: .95rem; margin: 0 0 12px; }
+  .map { width: 100%; aspect-ratio: 4 / 3; border: 0; border-radius: 12px; background: var(--accent-soft); display: block; }
+  .btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; width: 100%; padding: 13px 18px; border-radius: 12px;
+         text-decoration: none; font-weight: 700; font-size: 1.05rem; background: var(--accent); color: #fff; border: 1px solid var(--accent); margin-top: 12px; }
+  .btn.alt { background: var(--accent-soft); color: var(--accent); }
+  .btn small { font-weight: 400; font-size: .85rem; opacity: .9; }
+  h2 { font-size: 1.15rem; margin: 0 0 6px; }
+  p { margin: 6px 0; }
+  .muted { color: var(--muted); font-size: .95rem; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .row .btn { flex: 1 1 200px; }
+  .links { display: flex; gap: 6px 18px; flex-wrap: wrap; font-size: .95rem; margin-top: 6px; }
+  .error { text-align: center; }
+  footer { text-align: center; color: var(--muted); font-size: .85rem; }
+  bdi, .ltr { unicode-bidi: isolate; direction: ltr; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="brand" href="/"><b>Syria Organic Maps</b> · <span data-t="tagline">خرائط سوريا دون اتصال</span></a>
+
+  <section id="place" hidden>
+    <p class="kicker" data-t="shared">موقع شاركه معك أحد مستخدمي التطبيق</p>
+    <h1 id="name"></h1>
+    <p class="coords"><bdi id="coords"></bdi></p>
+    <iframe id="map" class="map" title="Map" loading="lazy" referrerpolicy="no-referrer"></iframe>
+    <a id="open" class="btn" data-hit="open_app" hidden>
+      <span data-t="open">افتح في التطبيق</span>
+      <small data-t="openHint">إن كان Syria Organic Maps مثبّتاً على هاتفك</small>
+    </a>
+  </section>
+
+  <section id="bad" class="error" hidden>
+    <h1 data-t="badTitle">الرابط غير صالح</h1>
+    <p class="muted" data-t="badText">لم نتمكن من قراءة الموقع من هذا الرابط. اطلب من المرسل مشاركته مرة أخرى.</p>
+  </section>
+
+  <section id="download">
+    <h2 data-t="getTitle">لم تثبّت التطبيق بعد؟</h2>
+    <p class="muted" data-t="getText">تطبيق مجاني للخرائط والملاحة في سوريا، يعمل دون إنترنت وبالعربية.</p>
+    <p class="muted" id="notAndroid" data-t="notAndroid" hidden>التطبيق متوفر حالياً لهواتف أندرويد فقط.</p>
+    <div class="row">
+      <a class="btn" href="/apps/SyriaOrganicMaps-google.apk" download data-hit="download_google">
+        <span data-t="dlGoogle">معظم هواتف أندرويد</span>
+        <small><span data-t="dlGoogleHint">Samsung وXiaomi وغيرها</span> <bdi class="ver" data-flavor="google"></bdi></small>
+      </a>
+      <a class="btn alt" href="/apps/SyriaOrganicMaps-huawei.apk" download data-hit="download_huawei">
+        <span data-t="dlHuawei">هواتف Huawei</span>
+        <small><span data-t="dlHuaweiHint">من دون خدمات Google</span> <bdi class="ver" data-flavor="huawei"></bdi></small>
+      </a>
+    </div>
+    <p class="muted" data-t="afterInstall">بعد التثبيت عُد إلى هذه الصفحة واضغط «افتح في التطبيق» لترى الموقع.</p>
+  </section>
+
+  <section id="other" hidden>
+    <h2 data-t="otherTitle">أو افتحه في تطبيق آخر</h2>
+    <div class="links">
+      <a id="geo" data-hit="other_maps" data-t="geo">تطبيق خرائط على الهاتف</a>
+      <a id="gmaps" data-hit="other_maps" rel="noopener" target="_blank">Google Maps</a>
+      <a id="osm" data-hit="other_maps" rel="noopener" target="_blank">OpenStreetMap</a>
+    </div>
+  </section>
+
+  <footer><a href="/" data-t="site">عن التطبيق</a> · <a href="/privacy.html" data-t="privacy">سياسة الخصوصية</a></footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  const PACKAGE = 'sy.openstreetmap.organicmaps';
+  const HOST = 'organicmaps.openstreetmap.sy';
+
+  // English for browsers that do not prefer Arabic; Arabic is in the markup.
+  const EN = {
+    tagline: 'offline maps of Syria',
+    shared: 'A place shared with you by a user of the app',
+    open: 'Open in the app',
+    openHint: 'If Syria Organic Maps is installed on your phone',
+    badTitle: 'This link is not valid',
+    badText: 'The place could not be read from this link. Ask the sender to share it again.',
+    getTitle: "Don't have the app yet?",
+    getText: 'A free maps and navigation app for Syria that works offline, in Arabic and English.',
+    notAndroid: 'The app is only available for Android phones for now.',
+    dlGoogle: 'Most Android phones',
+    dlGoogleHint: 'Samsung, Xiaomi and others',
+    dlHuawei: 'Huawei phones',
+    dlHuaweiHint: 'Without Google services',
+    afterInstall: 'After installing, come back to this page and tap "Open in the app" to see the place.',
+    otherTitle: 'Or open it in another app',
+    geo: 'A maps app on this phone',
+    site: 'About the app',
+    privacy: 'Privacy policy',
+    placeDefault: 'Shared place',
+  };
+  const arabic = (navigator.languages || [navigator.language || 'ar']).some(l => /^ar\b/i.test(l));
+  if (!arabic) {
+    document.documentElement.lang = 'en';
+    document.documentElement.dir = 'ltr';
+    document.querySelectorAll('[data-t]').forEach(e => { const s = EN[e.dataset.t]; if (s) e.textContent = s; });
+  }
+
+  // Counts visits and taps by kind only (no ids, no coordinates), for the admin "Shared links" card.
+  function hit(kind) {
+    try {
+      const body = new Blob([JSON.stringify({kind: kind})], {type: 'application/json'});
+      if (!navigator.sendBeacon || !navigator.sendBeacon('/api/share-links/hit', body))
+        fetch('/api/share-links/hit', {method: 'POST', body: body, keepalive: true, headers: {'Content-Type': 'application/json'}});
+    } catch (e) { /* counting must never break the page */ }
+  }
+  document.querySelectorAll('[data-hit]').forEach(a => a.addEventListener('click', () => hit(a.dataset.hit)));
+
+  // The ge0 code the core makes (libs/ge0/url_generator.cpp; decoder ported from libs/ge0/ge0.php):
+  // 1 char of zoom, then 9 chars of interleaved latitude/longitude bits, base64url.
+  const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+  function decodeGe0(code) {
+    if (!/^[A-Za-z0-9_-]{2,10}$/.test(code)) return null;
+    const MAX_BYTES = 10, MAX_BITS = MAX_BYTES * 3;
+    const zoomCode = ALPHABET.indexOf(code[0]);
+    if (zoomCode < 0 || zoomCode > 63) return null;
+    const zoom = zoomCode / 4 + 4;
+    const latLon = code.slice(1);
+    let lat = 0, lon = 0;
+    for (let i = 0, shift = MAX_BITS - 3; i < latLon.length; i++, shift -= 3) {
+      const a = ALPHABET.indexOf(latLon[i]);
+      const lat1 = (((a >> 5) & 1) << 2) | (((a >> 3) & 1) << 1) | ((a >> 1) & 1);
+      const lon1 = (((a >> 4) & 1) << 2) | (((a >> 2) & 1) << 1) | (a & 1);
+      lat += lat1 * 2 ** shift;
+      lon += lon1 * 2 ** shift;
+    }
+    const middle = 2 ** (3 * (MAX_BYTES - latLon.length) - 1);
+    lat = (lat + middle) / (2 ** MAX_BITS - 1) * 180 - 90;
+    lon = (lon + middle) / 2 ** MAX_BITS * 360 - 180;
+    if (lat <= -90 || lat >= 90 || lon <= -180 || lon >= 180) return null;
+    return {lat: Math.round(lat * 1e5) / 1e5, lon: Math.round(lon * 1e5) / 1e5, zoom: zoom};
+  }
+
+  const isAndroid = /Android/i.test(navigator.userAgent);
+  document.getElementById('notAndroid').hidden = isAndroid;
+  hit('view');
+
+  // /l/<code>[/<name>]
+  const parts = location.pathname.replace(/^\/l\/?/, '').split('/');
+  const place = decodeGe0(parts[0] || '');
+  if (!place) {
+    document.getElementById('bad').hidden = false;
+    return;
+  }
+  let name = '';
+  try { name = decodeURIComponent((parts.slice(1).join('/') || '').replace(/_/g, ' ')).trim(); } catch (e) { name = ''; }
+  const title = name || (arabic ? 'موقع مشترك' : EN.placeDefault);
+  document.getElementById('name').textContent = title;
+  document.title = title + ' — Syria Organic Maps';
+  const ll = place.lat.toFixed(5) + ', ' + place.lon.toFixed(5);
+  document.getElementById('coords').textContent = ll;
+
+  const d = 0.004;
+  document.getElementById('map').src = 'https://www.openstreetmap.org/export/embed.html?bbox=' +
+    [place.lon - d, place.lat - d * 0.8, place.lon + d, place.lat + d * 0.8].map(v => v.toFixed(5)).join('%2C') +
+    '&layer=mapnik&marker=' + place.lat + '%2C' + place.lon;
+
+  // Hands the same link to the app; without the app Chrome goes to the fallback, the download section here.
+  const path = location.pathname + location.search;
+  const fallback = location.origin + location.pathname + '#download';
+  const open = document.getElementById('open');
+  if (isAndroid) {
+    open.href = 'intent://' + HOST + path + '#Intent;scheme=https;package=' + PACKAGE +
+      ';S.browser_fallback_url=' + encodeURIComponent(fallback) + ';end';
+    open.hidden = false;
+  }
+
+  const label = encodeURIComponent(title);
+  document.getElementById('geo').href = 'geo:' + place.lat + ',' + place.lon + '?q=' + place.lat + ',' + place.lon + '(' + label + ')';
+  document.getElementById('geo').hidden = !isAndroid;
+  document.getElementById('gmaps').href = 'https://www.google.com/maps/search/?api=1&query=' + place.lat + '%2C' + place.lon;
+  document.getElementById('osm').href = 'https://www.openstreetmap.org/?mlat=' + place.lat + '&mlon=' + place.lon + '#map=17/' + place.lat + '/' + place.lon;
+  document.getElementById('place').hidden = false;
+  document.getElementById('other').hidden = false;
+
+  // The version of each download, from the file the app's "new version" check reads too.
+  fetch('/apps/version.json', {cache: 'no-store'}).then(r => r.ok ? r.json() : null).then(v => {
+    if (!v) return;
+    document.querySelectorAll('.ver').forEach(e => { const f = v[e.dataset.flavor]; if (f) e.textContent = '· ' + f.versionName; });
+  }).catch(() => {});
+})();
+</script>
+</body>
+</html>

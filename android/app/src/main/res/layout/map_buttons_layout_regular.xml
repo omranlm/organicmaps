@@ -32,6 +32,15 @@
       app:layout_constraintEnd_toEndOf="@+id/layers_button"
       app:layout_constraintStart_toStartOf="@+id/layers_button"
       app:layout_constraintTop_toBottomOf="@+id/layers_button" />
+    <!-- Under the layers button: room for it in portrait and landscape (see NorthButton). -->
+    <include
+      layout="@layout/map_buttons_syria_north"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/margin_half"
+      app:layout_constraintEnd_toEndOf="@+id/layers_button"
+      app:layout_constraintStart_toStartOf="@+id/layers_button"
+      app:layout_constraintTop_toBottomOf="@+id/syria_connectivity" />
   </androidx.constraintlayout.widget.ConstraintLayout>
   <include
     layout="@layout/map_status_track_recording"

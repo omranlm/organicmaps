@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The north button on the map (NorthButton): a needle whose red half and "N" point north. Centred on (12, 12)
+     so that it turns around its middle. Fixed colours, readable on the light and the dark map buttons. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+  android:width="24dp"
+  android:height="24dp"
+  android:viewportWidth="24"
+  android:viewportHeight="24">
+  <path
+    android:fillColor="#00000000"
+    android:pathData="M10.3,4.4V0.8L13.7,4.4V0.8"
+    android:strokeColor="#C1272D"
+    android:strokeLineCap="round"
+    android:strokeLineJoin="round"
+    android:strokeWidth="1.2" />
+  <path
+    android:fillColor="#C1272D"
+    android:pathData="M12,6L15.2,14.6H8.8Z" />
+  <path
+    android:fillColor="#9AA3B0"
+    android:pathData="M8.8,14.6H15.2L12,23.2Z" />
+</vector>

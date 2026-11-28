@@ -70,6 +70,7 @@ public final class Map
 
   private int mCurrentCompassOffsetX;
   private int mCurrentCompassOffsetY;
+  private boolean mCompassWidgetEnabled = true;
   private int mBottomWidgetOffsetX;
   private int mBottomWidgetOffsetY;
 
@@ -116,14 +117,25 @@ public final class Map
   {
     final int x = offsetX < 0 ? mCurrentCompassOffsetX : offsetX;
     final int y = offsetY < 0 ? mCurrentCompassOffsetY : offsetY;
+    mCurrentCompassOffsetX = x;
+    mCurrentCompassOffsetY = y;
+    if (!mCompassWidgetEnabled)
+      return;
     final int navPadding = Utils.dimen(context, R.dimen.nav_frame_padding);
     final int marginX = Utils.dimen(context, R.dimen.margin_compass) + navPadding;
     final int marginY = Utils.dimen(context, R.dimen.margin_compass_top) + navPadding;
     nativeSetupWidget(WIDGET_COMPASS, mWidth - x - marginX, y + marginY, ANCHOR_CENTER);
     if (forceRedraw && mSurfaceCreated)
       nativeApplyWidgets();
-    mCurrentCompassOffsetX = x;
-    mCurrentCompassOffsetY = y;
+  }
+
+  /**
+   * Leaves the compass out of the renderer, for an app that shows its own north button (see
+   * {@link Framework#nativeSetMapRotationListener}). Call before the map surface is created.
+   */
+  public void setCompassWidgetEnabled(boolean enabled)
+  {
+    mCompassWidgetEnabled = enabled;
   }
 
   /**

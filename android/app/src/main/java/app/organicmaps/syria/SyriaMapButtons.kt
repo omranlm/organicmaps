@@ -40,6 +40,7 @@ object SyriaMapButtons {
     /** Binds the views of the regular map buttons layout; the navigation layout has none of them. */
     @JvmStatic
     fun bind(owner: LifecycleOwner, frame: View) {
+        frame.findViewById<ImageView>(R.id.syria_north_button)?.let { NorthButton.bind(it) }
         frame.findViewById<ImageView>(R.id.syria_recording_button)?.let { button ->
             owner.lifecycle.addObserver(Pulse(button))
             renderRecording(button, null)

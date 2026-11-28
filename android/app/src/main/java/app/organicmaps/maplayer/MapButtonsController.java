@@ -196,6 +196,10 @@ public class MapButtonsController extends Fragment
       syriaRecording.setOnClickListener(v -> mMapButtonClickListener.onMapButtonClick(MapButtons.syriaRecording));
       mButtonsMap.put(MapButtons.syriaRecording, syriaRecording);
     }
+    // Its clicks are handled by NorthButton (SyriaMapButtons.bind).
+    final View syriaNorth = mFrame.findViewById(R.id.syria_north_button);
+    if (syriaNorth != null)
+      mButtonsMap.put(MapButtons.syriaNorth, syriaNorth);
     showButton(false, MapButtons.trackRecordingStatus);
     return mFrame;
   }
@@ -231,7 +235,8 @@ public class MapButtonsController extends Fragment
       animateIconBlinking(show, (FloatingActionButton) buttonView);
       break;
     // Stays visible while planning and navigating: it is outside the sliding columns.
-    case syriaRecording: UiUtils.showIf(show, buttonView); break;
+    case syriaRecording:
+    case syriaNorth: UiUtils.showIf(show, buttonView); break;
     }
   }
 
@@ -563,7 +568,8 @@ public class MapButtonsController extends Fragment
     menu,
     help,
     trackRecordingStatus,
-    syriaRecording
+    syriaRecording,
+    syriaNorth
   }
 
   public interface MapButtonClickListener

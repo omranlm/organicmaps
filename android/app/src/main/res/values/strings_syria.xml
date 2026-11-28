@@ -287,4 +287,6 @@ Remember that road conditions, traffic laws and road signs always take priority 
   <string name="syria_delete_account_done">Your account and its data were deleted.</string>
   <string name="syria_delete_account_stop_recording">Stop the recording before deleting your account.</string>
   <string name="syria_delete_account_offline">No connection to the server. Connect to the internet and try again.</string>
+  <!-- The north button on the map (NorthButton), read by screen readers. -->
+  <string name="syria_north">North</string>
 </resources>

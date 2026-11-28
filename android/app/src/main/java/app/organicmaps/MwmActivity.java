@@ -668,6 +668,8 @@ public class MwmActivity extends BaseMwmFragmentActivity
   {
     mMapController = new MapController(findViewById(R.id.map), MwmApplication.from(this).getLocationHelper(), this,
                                        this::reportUnsupported, isLaunchByDeeplink);
+    // Syria: the north button (NorthButton) replaces the renderer's compass, which was hidden by the buttons.
+    mMapController.setCompassWidgetEnabled(false);
     getLifecycle().addObserver(mMapController);
 
     initNavigationButtons();

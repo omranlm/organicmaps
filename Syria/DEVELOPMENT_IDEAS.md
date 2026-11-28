@@ -92,6 +92,11 @@ A payments section in the admin panel that pays drivers for the kilometres they 
 
 ### North button on the map
 
+Done: `NorthButton`, under the layers button in every map button layout (at the top of the start column while
+navigating, where the layers button is hidden). Next to the zoom buttons it overlapped the traffic light in landscape. The renderer's compass is switched off on
+the phone (`MapController.setCompassWidgetEnabled`), and the needle follows the map through
+`Framework.nativeSetMapRotationListener`.
+
 A map button that always shows where north is, and turns the map back to north-up with one tap:
 
 - Today Organic Maps draws a small compass on the map only while the map is rotated, and in our app it ends up

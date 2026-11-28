@@ -1881,6 +1881,30 @@ JNIEXPORT void Java_app_organicmaps_sdk_Framework_nativeStopLocationFollow(JNIEn
   frm()->StopLocationFollow();
 }
 
+JNIEXPORT void Java_app_organicmaps_sdk_Framework_nativeSetMapRotationListener(JNIEnv * env, jclass, jobject listener)
+{
+  if (listener == nullptr)
+  {
+    frm()->SetViewportListener(nullptr);
+    return;
+  }
+  static jmethodID const method = jni::GetMethodID(env, listener, "onMapRotated", "(D)V");
+  // Every pan and zoom lands here too: only a turn of at least half a degree reaches Java.
+  frm()->SetViewportListener([listenerRef = jni::make_global_ref(listener), last = -1.0](ScreenBase const & screen) mutable
+  {
+    double const azimuth = ang::AngleIn2PI(screen.GetAngle());
+    if (last >= 0 && std::abs(ang::GetShortestDistance(last, azimuth)) < math::DegToRad(0.5))
+      return;
+    last = azimuth;
+    jni::GetEnv()->CallVoidMethod(*listenerRef, method, azimuth);
+  });
+}
+
+JNIEXPORT void Java_app_organicmaps_sdk_Framework_nativeRotateToNorth(JNIEnv *, jclass)
+{
+  frm()->Rotate(0.0, true /* isAnim */);
+}
+
 JNIEXPORT void Java_app_organicmaps_sdk_Framework_nativeSetSearchViewport(JNIEnv *, jclass, jdouble lat, jdouble lon,
                                                                           jint zoom)
 {

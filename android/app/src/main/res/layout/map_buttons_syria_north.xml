@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Syria Organic Maps: the north button, under the layers button (at the top of the start column while
+     navigating, where there is no layers button). Replaces the renderer's compass, which only
+     showed while the map was turned and ended up under the layers button (see NorthButton). -->
+<com.google.android.material.floatingactionbutton.FloatingActionButton
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/syria_north_button"
+  style="@style/MwmWidget.MapButton"
+  android:contentDescription="@string/syria_north"
+  app:srcCompat="@drawable/ic_syria_north" />

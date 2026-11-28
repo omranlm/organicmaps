@@ -502,6 +502,22 @@ public class Framework
   public static native void nativeSetViewportCenter(double lat, double lon, int zoom);
   public static native void nativeStopLocationFollow();
 
+  /** Receives the map rotation, on the main thread. */
+  public interface MapRotationListener
+  {
+    /** @param azimuth Map rotation in radians, [0, 2π): how far north is turned clockwise on the screen; 0 is north up. */
+    void onMapRotated(double azimuth);
+  }
+
+  /**
+   * Reports turns of the map of at least half a degree, the first one right away on the next map change.
+   * One listener at a time; null removes it.
+   */
+  public static native void nativeSetMapRotationListener(@Nullable MapRotationListener listener);
+
+  /** Turns the map back to north up, with an animation. */
+  public static native void nativeRotateToNorth();
+
   public static native void nativeSetSearchViewport(double lat, double lon, int zoom);
 
   /**

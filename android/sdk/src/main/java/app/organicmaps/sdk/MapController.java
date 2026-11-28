@@ -69,6 +69,12 @@ public class MapController implements DefaultLifecycleObserver
    * @param offsetX inset from the right edge, in pixels; negative keeps the previous value
    * @param offsetY inset from the top edge, in pixels; negative keeps the previous value
    */
+  /** See {@link Map#setCompassWidgetEnabled}. */
+  public void setCompassWidgetEnabled(boolean enabled)
+  {
+    mMap.setCompassWidgetEnabled(enabled);
+  }
+
   public void updateCompassOffset(int offsetX, int offsetY)
   {
     mMap.updateCompassOffset(mMapView.getContext(), offsetX, offsetY, true);

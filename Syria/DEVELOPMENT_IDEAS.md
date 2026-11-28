@@ -4,7 +4,13 @@ Next pieces of work for Syria Organic Maps, to pick up soon.
 
 ## Next steps
 
-- [ ] Deploy on Google Play and do more testing.
+- [ ] Deploy on Google Play and do more testing. Before submitting, to meet the Google Play policies:
+  - [ ] **Account deletion:** a "Delete account" action in Settings → Account, a backend endpoint that deletes
+        the account and all its data, and a web page (or a privacy policy section) explaining how to request
+        deletion, whose link goes in the Play Console.
+  - [ ] **Consent before collecting data:** a short screen before signing in or the first upload that lists what
+        is collected (recordings, live location, searches with their location, map download events) and why,
+        links the privacy policy, and has "Agree" and "Not now" buttons.
 
 ## Ideas
 
@@ -77,3 +83,60 @@ A payments section in the admin panel that pays drivers for the kilometres they 
   for each payment.
 - Export a period to CSV for the transfers. The transfers themselves happen outside the app.
 - Drivers see their kilometres and payments in the app.
+
+### North button on the map
+
+A map button that always shows where north is, and turns the map back to north-up with one tap:
+
+- Today Organic Maps draws a small compass on the map only while the map is rotated, and in our app it ends up
+  hidden behind the layers button, so users cannot see or tap it. First fix: move it so it never overlaps the
+  layers button or our own buttons and badges (recording, live location). Its position is set in
+  `MwmActivity.updateCompassOffset()`. Check it in portrait and landscape, in Arabic (RTL) and English, and while
+  navigating.
+- Then make it a button that stays visible next to the other map buttons, in the same style.
+- Its arrow (a red "N" pointer) turns with the map, so it always points north.
+- Tapping it turns the map back to north-up. While following your position, a second tap could switch to
+  "direction of travel up", like in navigation.
+- Label for screen readers: «الشمال» (North).
+
+### iOS app
+
+The Syria features are Android only (Kotlin in `android/app/.../syria/`). On iOS, only what comes from the shared
+C++ core and map data already applies:
+
+- maps from our server (`private.h`);
+- the map download fixes (`libs/storage`);
+- the map styles, and the Syria `countries.json` and country names.
+
+Everything else needs porting to Swift. It needs a Mac with Xcode and an Apple developer account, and the iOS CI
+check has to be turned back on (it was switched off in "[ci] Run only the Syria Android check").
+
+Order to port, most important first:
+
+1. **Basics:**
+   - Arabic as the default language, and the Syria map downloaded on the first launch.
+   - The Syria branding: app icon, launch screen and the map menu button.
+   - The About page and the privacy policy link.
+2. **Account and consent:**
+   - Sign-in with phone number and PIN, or with Telegram.
+   - The consent screen before data collection.
+   - "Delete account" in the app, which the App Store requires too.
+3. **Trip recording:**
+   - Recording, offline sync, and the sync and connection status on the map.
+   - Recording in the background needs iOS background location, a clear explanation in the location permission
+     text, and a justification for App Store review.
+4. **Live location**, with the auto-stop after 10 minutes without movement.
+5. **Logging** of searches and map downloads and updates.
+6. **Driving extras:**
+   - The trip progress as a Live Activity (lock screen and Dynamic Island).
+   - The "Drive safely" notice and the "Are you driving?" reminder.
+   - A check that an Arabic voice is available for navigation.
+7. **Share links:**
+   - Share places with our `/l/` links.
+   - Open them in the app with Universal Links (an `apple-app-site-association` file on the website, next to
+     `assetlinks.json`).
+   - An App Store button on the landing page for iPhones.
+8. **Version history** in About. App updates come from the App Store, so the "new version" notice is not needed.
+
+Before starting, check that the App Store is available in Syria. If it is not, TestFlight or the App Store in
+other countries are the only ways to install, since iOS does not allow installing apps from a website.

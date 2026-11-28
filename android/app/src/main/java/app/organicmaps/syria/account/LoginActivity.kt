@@ -63,6 +63,11 @@ class LoginActivity : BaseMwmFragmentActivity() {
 
     override fun onSafeCreate(savedInstanceState: Bundle?) {
         super.onSafeCreate(savedInstanceState)
+        // Consent first; that screen opens this one again once the user agrees.
+        if (ConsentActivity.redirectIfNeeded(this, intent)) {
+            finish()
+            return
+        }
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.setTitle(R.string.syria_login_title)
         UiUtils.showHomeUpButton(toolbar)

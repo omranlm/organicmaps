@@ -25,6 +25,7 @@ import app.organicmaps.sdk.util.log.Logger
 import app.organicmaps.syria.ApiClient
 import app.organicmaps.syria.SyriaPrefs
 import app.organicmaps.syria.SyriaStatus
+import app.organicmaps.syria.account.ConsentActivity
 import java.io.IOException
 import java.util.UUID
 import java.util.concurrent.Executors
@@ -48,9 +49,7 @@ class LiveLocationService : Service(), LocationListener {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (intent?.action == ACTION_STOP || !SyriaPrefs.isLiveEnabled(this) || !SyriaPrefs.isLoggedIn(this) ||
-            !LocationUtils.checkFineLocationPermission(this)
-        ) {
+        if (intent?.action == ACTION_STOP || !canRun(this)) {
             stopSelf()
             return START_NOT_STICKY
         }
@@ -202,11 +201,16 @@ class LiveLocationService : Service(), LocationListener {
             context.stopService(Intent(context, LiveLocationService::class.java))
         }
 
+        /** Switched on, signed in, agreed to (ConsentActivity) and allowed to read the location. */
+        private fun canRun(context: Context): Boolean = SyriaPrefs.isLiveEnabled(context) &&
+            SyriaPrefs.isLoggedIn(context) &&
+            ConsentActivity.isGiven(context) &&
+            LocationUtils.checkFineLocationPermission(context)
+
         /** Brings live location back after the app was closed; only from a visible screen (Android rules). */
         @JvmStatic
         fun startIfEnabled(context: Context) {
-            if (isRunning() || !SyriaPrefs.isLiveEnabled(context) || !SyriaPrefs.isLoggedIn(context)) return
-            if (!LocationUtils.checkFineLocationPermission(context)) return
+            if (isRunning() || !canRun(context)) return
             ContextCompat.startForegroundService(context, Intent(context, LiveLocationService::class.java))
         }
 

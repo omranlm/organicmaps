@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Consent before data collection (ConsentActivity). "Agree" is the big filled button that stays in view
+     at the bottom; "Not now" is a small text button under it. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/consent_root"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+
+  <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:paddingStart="@dimen/margin_base_plus"
+      android:paddingTop="@dimen/margin_double"
+      android:paddingEnd="@dimen/margin_base_plus"
+      android:paddingBottom="@dimen/margin_base">
+
+      <ImageView
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/bg_syria_consent_badge"
+        android:contentDescription="@null"
+        android:padding="18dp"
+        android:src="@drawable/ic_syria_privacy"
+        app:tint="@android:color/white" />
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_base"
+        android:gravity="center_horizontal"
+        android:text="@string/syria_consent_title"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textStyle="bold" />
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_base"
+        android:text="@string/syria_consent_intro"
+        android:textAppearance="?android:textAppearanceMedium" />
+
+      <!-- One row per kind of data, added by ConsentActivity. -->
+      <LinearLayout
+        android:id="@+id/consent_items"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_half"
+        android:orientation="vertical" />
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_base"
+        android:background="@drawable/bg_syria_consent_note"
+        android:padding="@dimen/margin_base"
+        android:text="@string/syria_consent_why"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="?android:textColorPrimary" />
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_base"
+        android:text="@string/syria_consent_delete_note"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="?android:textColorSecondary" />
+
+      <TextView
+        android:id="@+id/consent_privacy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_half"
+        android:background="?selectableItemBackground"
+        android:drawablePadding="@dimen/margin_half"
+        android:minHeight="48dp"
+        android:gravity="center_vertical"
+        android:text="@string/syria_privacy_policy"
+        android:textColor="@color/syria_brand_teal"
+        android:textStyle="bold"
+        app:drawableStartCompat="@drawable/ic_syria_privacy"
+        app:drawableTint="@color/syria_brand_teal" />
+    </LinearLayout>
+  </ScrollView>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:colorBackground"
+    android:elevation="8dp"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/margin_base_plus"
+    android:paddingTop="@dimen/margin_base"
+    android:paddingEnd="@dimen/margin_base_plus"
+    android:paddingBottom="@dimen/margin_half">
+
+    <com.google.android.material.button.MaterialButton
+      android:id="@+id/consent_agree"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:minHeight="64dp"
+      android:text="@string/syria_consent_agree"
+      android:textColor="@color/syria_btn_on_start"
+      android:textSize="20sp"
+      android:textStyle="bold"
+      app:backgroundTint="@color/syria_btn_start"
+      app:cornerRadius="32dp"
+      app:elevation="4dp"
+      app:icon="@drawable/ic_done"
+      app:iconGravity="textStart"
+      app:iconSize="28dp"
+      app:iconTint="@color/syria_btn_on_start" />
+
+    <com.google.android.material.button.MaterialButton
+      android:id="@+id/consent_not_now"
+      style="@style/Widget.MaterialComponents.Button.TextButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:layout_marginTop="4dp"
+      android:text="@string/syria_consent_not_now"
+      android:textAllCaps="false"
+      android:textColor="?android:textColorSecondary"
+      android:textSize="14sp" />
+  </LinearLayout>
+</LinearLayout>

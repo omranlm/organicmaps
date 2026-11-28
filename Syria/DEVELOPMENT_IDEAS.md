@@ -5,12 +5,18 @@ Next pieces of work for Syria Organic Maps, to pick up soon.
 ## Next steps
 
 - [ ] Deploy on Google Play and do more testing. Before submitting, to meet the Google Play policies:
-  - [ ] **Account deletion:** a "Delete account" action in Settings → Account, a backend endpoint that deletes
+  - [x] **Account deletion:** a "Delete account" action in Settings → Account, a backend endpoint that deletes
         the account and all its data, and a web page (or a privacy policy section) explaining how to request
         deletion, whose link goes in the Play Console.
-  - [ ] **Consent before collecting data:** a short screen before signing in or the first upload that lists what
+        Done: `DELETE /me` (recorded as an `account_deleted` activity event without personal data) and the
+        privacy policy section `https://organicmaps.openstreetmap.sy/privacy.html#delete-account`, which is the
+        link for the Play Console once the website is deployed.
+  - [x] **Consent before collecting data:** a short screen before signing in or the first upload that lists what
         is collected (recordings, live location, searches with their location, map download events) and why,
         links the privacy policy, and has "Agree" and "Not now" buttons.
+        Done: `ConsentActivity`, shown before signing in and recording, and once per start to users signed in
+        before it existed. Nothing is uploaded and live location stays off until "Agree"; the agreement is sent
+        as a `consent` activity event.
 
 ## Ideas
 

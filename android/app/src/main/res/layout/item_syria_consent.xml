@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One kind of data on the consent screen (ConsentActivity). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:gravity="center_vertical"
+  android:minHeight="48dp"
+  android:orientation="horizontal"
+  android:paddingTop="4dp"
+  android:paddingBottom="4dp">
+
+  <ImageView
+    android:id="@+id/consent_item_icon"
+    android:layout_width="24dp"
+    android:layout_height="24dp"
+    android:contentDescription="@null"
+    app:tint="@color/syria_brand_teal" />
+
+  <TextView
+    android:id="@+id/consent_item_text"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/margin_base"
+    android:layout_weight="1"
+    android:textAppearance="?android:textAppearanceSmall"
+    android:textColor="?android:textColorPrimary" />
+</LinearLayout>

@@ -46,6 +46,7 @@ import app.organicmaps.syria.SyriaFormat;
 import app.organicmaps.syria.SyriaLocale;
 import app.organicmaps.syria.SyriaPrefs;
 import app.organicmaps.syria.SyriaServer;
+import app.organicmaps.syria.account.AccountDeletion;
 import app.organicmaps.syria.account.LoginActivity;
 import app.organicmaps.syria.account.PinDialog;
 import app.organicmaps.syria.tracking.ActivityTrackingService;
@@ -176,6 +177,11 @@ public class SettingsPrefsFragment extends BaseXmlSettingsFragment implements La
         PinDialog.show(requireActivity());
         return true;
       }
+      else if (key.equals(getString(R.string.pref_syria_delete_account)))
+      {
+        AccountDeletion.confirm(requireActivity(), this::updateSyriaAccountSummary);
+        return true;
+      }
       else if (key.equals(getString(R.string.pref_syria_tracking)))
       {
         startActivity(new Intent(requireActivity(), TrackingActivity.class));
@@ -264,6 +270,7 @@ public class SettingsPrefsFragment extends BaseXmlSettingsFragment implements La
     // The PIN belongs to an account with a phone number.
     getPreference(getString(R.string.pref_syria_pin))
         .setVisible(SyriaPrefs.isLoggedIn(context) && !SyriaPrefs.isAnonymous(context));
+    getPreference(getString(R.string.pref_syria_delete_account)).setVisible(SyriaPrefs.isLoggedIn(context));
     if (!SyriaPrefs.isLoggedIn(context))
     {
       pref.setSummary(R.string.syria_pref_account_logged_out);

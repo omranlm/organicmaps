@@ -90,6 +90,12 @@ object ApiClient {
         put("/me/pin", JSONObject().put("pin", pin), token)
     }
 
+    /** Deletes the signed-in account and all its data on the server, for good. */
+    @WorkerThread
+    fun deleteAccount(context: Context) {
+        authed(context) { token -> execute(Request.Builder().url("$baseUrl/me").delete(), token) }
+    }
+
     private fun storeSession(context: Context, res: JSONObject, fallbackPhone: String?) {
         val user = res.getJSONObject("user")
         val name = user.optString("displayName").takeIf { it.isNotEmpty() && it != "null" }

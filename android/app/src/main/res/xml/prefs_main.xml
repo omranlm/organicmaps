@@ -22,6 +22,13 @@
       android:persistent="false"
       android:order="0" />
     <Preference
+      android:key="@string/pref_syria_delete_account"
+      android:title="@string/syria_pref_delete_account"
+      android:summary="@string/syria_pref_delete_account_summary"
+      app:singleLineTitle="false"
+      android:persistent="false"
+      android:order="0" />
+    <Preference
       android:key="@string/pref_syria_tracking"
       android:title="@string/syria_tracking_title"
       app:singleLineTitle="false"

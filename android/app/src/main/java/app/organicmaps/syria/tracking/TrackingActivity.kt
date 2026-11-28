@@ -37,6 +37,7 @@ import app.organicmaps.syria.SyriaMapButtons
 import app.organicmaps.syria.SyriaPrefs
 import app.organicmaps.syria.SyriaStatus
 import app.organicmaps.syria.SyriaTutorial
+import app.organicmaps.syria.account.ConsentActivity
 import app.organicmaps.syria.account.LoginActivity
 import app.organicmaps.util.UiUtils
 import app.organicmaps.util.Utils
@@ -119,6 +120,11 @@ class TrackingActivity : BaseMwmFragmentActivity() {
         if (!SyriaPrefs.isLoggedIn(this)) {
             // The login screen comes back here, with the guide when the driving reminder was tapped.
             startActivity(Intent(this, LoginActivity::class.java).putExtra(EXTRA_DRIVING_GUIDE, drivingGuide))
+            finish()
+            return
+        }
+        // Signed in before the consent screen existed: asked here before recording.
+        if (ConsentActivity.redirectIfNeeded(this, intent)) {
             finish()
             return
         }

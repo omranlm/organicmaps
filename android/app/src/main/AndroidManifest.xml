@@ -621,6 +621,10 @@
         android:value="7" />
     <!-- Syria Organic Maps: account, activity tracking and per-app language (Arabic by default) -->
     <activity
+      android:name=".syria.account.ConsentActivity"
+      android:exported="false"
+      android:label="@string/syria_consent_title" />
+    <activity
       android:name=".syria.account.LoginActivity"
       android:exported="false"
       android:label="@string/syria_login_title"

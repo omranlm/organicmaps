@@ -69,6 +69,7 @@ import app.organicmaps.syria.SyriaDefaults;
 import app.organicmaps.syria.SyriaLocale;
 import app.organicmaps.syria.SyriaPrefs;
 import app.organicmaps.syria.VoicePrompt;
+import app.organicmaps.syria.account.ConsentActivity;
 import app.organicmaps.syria.account.LoginActivity;
 import app.organicmaps.syria.tracking.ActivityTrackingService;
 import app.organicmaps.syria.tracking.TrackingActivity;
@@ -1034,6 +1035,8 @@ public class MwmActivity extends BaseMwmFragmentActivity
     makeNavigationBarTransparentInLightMode();
     SyriaLocale.checkChanged(this);
     AppUpdates.onResume(this);
+    // Syria: signed in before the consent screen existed, so nothing is uploaded until they agree.
+    ConsentActivity.askSignedInUser(this);
     // Syria: the "Are you driving?" reminder is a notification. Asked once, after the location permission
     // request is over, as Android handles one permission request at a time.
     if (LocationUtils.checkFineLocationPermission(this) && !SyriaPrefs.isNotificationPermissionAsked(this))

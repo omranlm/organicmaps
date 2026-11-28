@@ -40,6 +40,7 @@ object SyriaPrefs {
     private const val KEY_VOICE_PROMPT_AT = "voice_prompt_at"
     private const val KEY_VOICE_DOWNLOAD_AT = "voice_download_at"
     private const val KEY_INSTALL_SOURCE_LOGGED = "install_source_logged"
+    private const val KEY_CONSENT_VERSION = "consent_version"
     private const val KEY_LIVE = "live_location"
     private const val KEY_LARGE_FONTS_DEFAULT = "large_fonts_default_applied"
     private const val KEY_KEEP_SCREEN_ON_DEFAULT = "keep_screen_on_default_applied"
@@ -292,6 +293,14 @@ object SyriaPrefs {
 
     fun markInstallSourceLogged(context: Context) {
         prefs(context).edit().putBoolean(KEY_INSTALL_SOURCE_LOGGED, true).apply()
+    }
+
+    /** Version of the consent screen the user agreed to (ConsentActivity.VERSION), 0 if never. */
+    @JvmStatic
+    fun consentVersion(context: Context): Int = prefs(context).getInt(KEY_CONSENT_VERSION, 0)
+
+    fun setConsentVersion(context: Context, version: Int) {
+        prefs(context).edit().putInt(KEY_CONSENT_VERSION, version).apply()
     }
 
     @JvmStatic

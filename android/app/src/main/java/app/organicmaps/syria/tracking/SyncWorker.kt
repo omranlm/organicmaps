@@ -16,6 +16,7 @@ import app.organicmaps.syria.ApiClient
 import app.organicmaps.syria.ApiException
 import app.organicmaps.syria.SyriaPrefs
 import app.organicmaps.syria.SyriaStatus
+import app.organicmaps.syria.account.ConsentActivity
 import java.io.IOException
 import java.time.Instant
 import java.util.concurrent.TimeUnit
@@ -27,7 +28,8 @@ class SyncWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         val context = applicationContext
-        if (!SyriaPrefs.isLoggedIn(context)) return@withContext Result.success()
+        // Nothing leaves the phone before the user agreed (ConsentActivity); kept in the outbox until then.
+        if (!SyriaPrefs.isLoggedIn(context) || !ConsentActivity.isGiven(context)) return@withContext Result.success()
         val db = TrackingDb.get(context)
         SyriaStatus.setSyncing(context, true)
         try {

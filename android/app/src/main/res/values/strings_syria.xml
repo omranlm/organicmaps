@@ -265,4 +265,27 @@ Remember that road conditions, traffic laws and road signs always take priority 
   <string name="syria_trip_progress">%1$d%% done · %2$s · %3$s · arrive %4$s</string>
   <!-- %s: the destination. -->
   <string name="syria_trip_destination">To %s</string>
+  <!-- Consent screen (ConsentActivity): shown before signing in, recording or the first upload. -->
+  <string name="syria_consent_title">Before you start</string>
+  <string name="syria_consent_intro">When you sign in, the app sends this to our server:</string>
+  <string name="syria_consent_recordings">Your recordings: the route, distance and time of the trips you record</string>
+  <string name="syria_consent_live">Your live location, only while you have it on</string>
+  <string name="syria_consent_searches">Your searches, with the place you searched from</string>
+  <string name="syria_consent_maps">Map downloads and updates</string>
+  <string name="syria_consent_device">Your phone number, if you use one, and the phone model, Android and app version</string>
+  <string name="syria_consent_why">To save and sync your recordings, to improve the roads and places of Syria on OpenStreetMap, and for traffic and academic research. We never sell your data or use it for ads.</string>
+  <string name="syria_consent_delete_note">You can delete your account and all its data at any time in Settings → Account.</string>
+  <string name="syria_consent_agree">Agree and continue</string>
+  <string name="syria_consent_not_now">Not now</string>
+  <string name="syria_consent_declined">Nothing is sent to our server until you agree. The map works without it.</string>
+  <!-- Settings → Account → Delete account (AccountDeletion). -->
+  <string name="syria_pref_delete_account">Delete account</string>
+  <string name="syria_pref_delete_account_summary">Delete your account and all its data from the server</string>
+  <string name="syria_delete_account_title">Delete your account?</string>
+  <string name="syria_delete_account_confirm">Your account and everything stored with it on our server will be deleted for good: recordings, live locations, searches and map events. The recordings on this phone are deleted too. This cannot be undone.</string>
+  <string name="syria_delete_account_button">Delete</string>
+  <string name="syria_delete_account_progress">Deleting your account…</string>
+  <string name="syria_delete_account_done">Your account and its data were deleted.</string>
+  <string name="syria_delete_account_stop_recording">Stop the recording before deleting your account.</string>
+  <string name="syria_delete_account_offline">No connection to the server. Connect to the internet and try again.</string>
 </resources>

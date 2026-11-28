@@ -231,4 +231,25 @@
   <string name="syria_voice_prompt_later">ليس الآن</string>
   <string name="syria_trip_progress">أُنجز %1$d%% · %2$s · %3$s · الوصول %4$s</string>
   <string name="syria_trip_destination">إلى %s</string>
+  <string name="syria_consent_title">قبل أن تبدأ</string>
+  <string name="syria_consent_intro">عند تسجيل الدخول، يرسل التطبيق إلى خادمنا:</string>
+  <string name="syria_consent_recordings">تسجيلاتك: مسار الرحلات التي تسجّلها ومسافتها ومدّتها</string>
+  <string name="syria_consent_live">موقعك المباشر، فقط عندما تشغّله</string>
+  <string name="syria_consent_searches">عمليات البحث، مع المكان الذي بحثت منه</string>
+  <string name="syria_consent_maps">تنزيل الخرائط وتحديثها</string>
+  <string name="syria_consent_device">رقم هاتفك إن استخدمته، وطراز الهاتف وإصدار أندرويد والتطبيق</string>
+  <string name="syria_consent_why">لحفظ تسجيلاتك ومزامنتها، ولتحسين طرق سوريا وأماكنها على OpenStreetMap، ولدراسات حركة المرور والبحث الأكاديمي. لا نبيع بياناتك ولا نستخدمها للإعلانات أبداً.</string>
+  <string name="syria_consent_delete_note">يمكنك حذف حسابك وكل بياناته في أي وقت من الإعدادات ← الحساب.</string>
+  <string name="syria_consent_agree">أوافق وأتابع</string>
+  <string name="syria_consent_not_now">ليس الآن</string>
+  <string name="syria_consent_declined">لن يُرسَل شيء إلى خادمنا قبل موافقتك. الخريطة تعمل من دونها.</string>
+  <string name="syria_pref_delete_account">حذف الحساب</string>
+  <string name="syria_pref_delete_account_summary">احذف حسابك وكل بياناته من الخادم</string>
+  <string name="syria_delete_account_title">حذف حسابك؟</string>
+  <string name="syria_delete_account_confirm">سيُحذف حسابك وكل ما حُفظ معه على خادمنا نهائياً: التسجيلات والمواقع المباشرة وعمليات البحث وأحداث الخرائط. وتُحذف التسجيلات من هذا الهاتف أيضاً. لا يمكن التراجع عن ذلك.</string>
+  <string name="syria_delete_account_button">احذف</string>
+  <string name="syria_delete_account_progress">جارٍ حذف حسابك…</string>
+  <string name="syria_delete_account_done">حُذف حسابك وبياناته.</string>
+  <string name="syria_delete_account_stop_recording">أوقف التسجيل قبل حذف حسابك.</string>
+  <string name="syria_delete_account_offline">لا يوجد اتصال بالخادم. اتصل بالإنترنت وحاول مجدداً.</string>
 </resources>

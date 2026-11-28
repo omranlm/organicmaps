@@ -187,6 +187,19 @@ class TrackingDb private constructor(private val appContext: Context) :
         return deleted
     }
 
+    /** After the account was deleted: recordings and queued events go too, the one in progress included. */
+    fun deleteAll() {
+        val db = writableDatabase
+        db.beginTransaction()
+        try {
+            for (table in listOf("point", "segment", "session", "event")) db.delete(table, null, null)
+            db.setTransactionSuccessful()
+        } finally {
+            db.endTransaction()
+        }
+        changed()
+    }
+
     // ---- segments
 
     fun insertSegment(seg: Segment) {

@@ -42,6 +42,7 @@
       "description": "سياسة الخصوصية لتطبيق Syria Organic Maps: ما البيانات التي نجمعها، ولماذا، وكيف نحميها، وما حقوقك.",
       "inLanguage": "ar",
       "datePublished": "2026-11-17",
+      "dateModified": "2026-11-28",
       "isPartOf": {"@type": "WebSite", "@id": "https://organicmaps.openstreetmap.sy/#website", "name": "Syria Organic Maps", "url": "https://organicmaps.openstreetmap.sy/"},
       "about": {"@id": "https://organicmaps.openstreetmap.sy/#app"},
       "publisher": {"@type": "Organization", "@id": "https://organicmaps.openstreetmap.sy/#org", "name": "OpenStreetMap Syria", "url": "https://openstreetmap.sy"},
@@ -250,6 +251,8 @@
   .not li { display: grid; grid-template-columns: 26px 1fr; gap: 10px; }
   .not .i { width: 22px; height: 22px; color: var(--muted); margin-top: 4px; }
   .callout { display: flex; gap: 12px; align-items: flex-start; background: var(--tint); border-radius: 14px; padding: 14px 16px; margin-top: 16px; }
+  .callout h3 { margin: 0 0 6px; }
+  .callout p { margin: 8px 0 0; }
 
   /* Footer */
   .footer { background: var(--ink); color: #c9cfd8; margin-top: 48px; }
@@ -319,7 +322,7 @@
         <span lang="ar">سياسة الخصوصية <small>لتطبيق <span class="wordmark">Syria Organic Maps</span></small></span>
         <span lang="en">Privacy policy <small>for <span class="wordmark">Syria Organic Maps</span></small></span>
       </h1>
-      <p class="meta"><i class="dot" style="width:8px;height:8px;margin:4px"></i><span lang="ar">تاريخ السريان: 17 تشرين الثاني 2026</span><span lang="en">Effective date: 17 November 2026</span></p>
+      <p class="meta"><i class="dot" style="width:8px;height:8px;margin:4px"></i><span lang="ar">تاريخ السريان: 28 تشرين الثاني 2026</span><span lang="en">Effective date: 28 November 2026</span></p>
     </div>
     <div class="seal" aria-hidden="true"><svg><use href="#leaf-out"/></svg></div>
   </div>
@@ -476,8 +479,8 @@
         <li><span class="lf"><svg class="leaf-i" aria-hidden="true"><use href="#leaf"/></svg></span><span><strong>Traffic analysis:</strong> studying traffic patterns, congestion and travel times.</span></li>
         <li><span class="lf"><svg class="leaf-i" aria-hidden="true"><use href="#leaf"/></svg></span><span><strong>Running and protecting the service:</strong> preventing abuse of verification messages, and fixing faults.</span></li>
       </ul>
-      <p class="callout" lang="ar"><i class="dot"></i><span>باستخدامك تسجيل الدخول وبدء التسجيل فإنك توافق على هذا الجمع. يمكنك سحب موافقتك في أي وقت (انظر <a href="#rights">الفقرة 7</a>).</span></p>
-      <p class="callout" lang="en"><i class="dot"></i><span>By signing in and starting a recording, you agree to this collection. You can withdraw your consent at any time (see <a href="#rights">section 7</a>).</span></p>
+      <p class="callout" lang="ar"><i class="dot"></i><span>قبل تسجيل الدخول أو بدء التسجيل، يعرض التطبيق ما يجمعه ويطلب موافقتك، ولا يُرسَل شيء إلى خادمنا قبل أن تضغط «أوافق وأتابع». يمكنك سحب موافقتك في أي وقت بحذف حسابك (انظر <a href="#delete-account">الفقرة 7</a>).</span></p>
+      <p class="callout" lang="en"><i class="dot"></i><span>Before you sign in or start a recording, the app shows what it collects and asks for your consent; nothing is sent to our server until you tap “Agree and continue”. You can withdraw your consent at any time by deleting your account (see <a href="#delete-account">section 7</a>).</span></p>
     </section>
 
     <section id="share" class="card">
@@ -515,18 +518,29 @@
         <li>استخدم الخريطة والبحث والملاحة دون تسجيل الدخول.</li>
         <li>لا يبدأ تسجيل النشاط إلا عندما تضغط «ابدأ التسجيل»، ويمكنك إيقافه مؤقتاً أو نهائياً في أي وقت.</li>
         <li>أوقف «تسجيل تحديثات بيانات الخريطة» من الإعدادات.</li>
-        <li>احذف أي تسجيل من هاتفك من شاشة «تسجيل النشاط» (ما أُرسل سابقاً يبقى على الخادم إلى أن تطلب حذفه).</li>
+        <li>احذف أي تسجيل من هاتفك من شاشة «تسجيل النشاط» (ما أُرسل سابقاً يبقى على الخادم إلى أن تحذف حسابك).</li>
         <li>سجّل الخروج من الإعدادات ← الحساب.</li>
-        <li>اطلب نسخة من بياناتك أو تصحيحها أو حذف حسابك وكل بياناته من الخادم عبر التواصل معنا (<a href="#contact">الفقرة 9</a>)، وسنستجيب خلال 30 يوماً.</li>
+        <li>اطلب نسخة من بياناتك أو تصحيحها عبر التواصل معنا (<a href="#contact">الفقرة 9</a>)، وسنستجيب خلال 30 يوماً.</li>
       </ul>
       <ul class="dots" lang="en">
         <li>Use the map, search and navigation without signing in.</li>
         <li>Activity recording starts only when you tap “Start recording”, and you can pause or stop it at any time.</li>
         <li>Turn off “Log map data updates” in Settings.</li>
-        <li>Delete any recording from your phone on the “Activity recording” screen (what was already sent stays on the server until you ask for it to be deleted).</li>
+        <li>Delete any recording from your phone on the “Activity recording” screen (what was already sent stays on the server until you delete your account).</li>
         <li>Sign out from Settings → Account.</li>
-        <li>Ask for a copy of your data, for its correction, or for your account and all its data to be deleted from the server by contacting us (<a href="#contact">section 9</a>), and we will respond within 30 days.</li>
+        <li>Ask for a copy of your data or for its correction by contacting us (<a href="#contact">section 9</a>), and we will respond within 30 days.</li>
       </ul>
+      <div id="delete-account" class="callout">
+        <i class="dot"></i>
+        <div>
+          <h3 lang="ar">حذف حسابك وبياناته</h3>
+          <h3 lang="en">Deleting your account and its data</h3>
+          <p lang="ar"><strong>من التطبيق:</strong> افتح الإعدادات ← الحساب ← <strong>حذف الحساب</strong>، ثم اضغط «احذف». يُحذف حسابك فوراً ونهائياً من خادمنا مع كل بياناته: التسجيلات، والمواقع المباشرة، وعمليات البحث، وأحداث تنزيل الخرائط وتحديثها، ومعلومات الجهاز، وطرق تسجيل الدخول المرتبطة بالحساب. وتُحذف التسجيلات المحفوظة على هاتفك أيضاً. لا يبقى إلا سجلّ بأن حساباً قد حُذف، مع عدد ما حُذف، دون رقم هاتف ودون أي معلومة شخصية.</p>
+          <p lang="en"><strong>In the app:</strong> open Settings → Account → <strong>Delete account</strong>, then tap “Delete”. Your account is deleted from our server at once and for good, with all its data: recordings, live locations, searches, map download and update events, device information, and the sign-in methods linked to the account. The recordings saved on your phone are deleted too. Only a record that an account was deleted is kept, with how much was deleted, without the phone number or any personal information.</p>
+          <p lang="ar"><strong>دون التطبيق:</strong> إن لم يعد التطبيق مثبّتاً لديك، تواصل معنا (<a href="#contact">الفقرة 9</a>) واذكر رقم الهاتف المرتبط بحسابك، أو معرّف الجهاز للحسابات دون رقم، فنحذف الحساب وكل بياناته خلال 30 يوماً.</p>
+          <p lang="en"><strong>Without the app:</strong> if the app is no longer installed, contact us (<a href="#contact">section 9</a>) with the phone number linked to your account, or the device ID for accounts without a number, and we will delete the account and all its data within 30 days.</p>
+        </div>
+      </div>
     </section>
 
     <section id="children" class="card">

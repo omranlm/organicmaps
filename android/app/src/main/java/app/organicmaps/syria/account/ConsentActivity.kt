@@ -34,6 +34,9 @@ import org.json.JSONObject
  * Asks for consent before anything is sent to our server (Google Play user data policy): before signing in,
  * before recording, and once per app start for a signed-in user who has not agreed yet (installs from before
  * this screen). Until the user agrees, nothing is uploaded and live location stays off.
+ *
+ * The agreement holds for one account: signing out or deleting the account forgets it (SyriaPrefs.clearSession),
+ * so every sign-in asks once and sends its own "consent" event, which the server keeps with that account.
  */
 class ConsentActivity : BaseMwmFragmentActivity() {
 

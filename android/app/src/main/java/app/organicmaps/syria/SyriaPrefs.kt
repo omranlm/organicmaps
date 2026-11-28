@@ -125,6 +125,10 @@ object SyriaPrefs {
         prefs(context).edit().putString(KEY_ACCESS, accessToken).putString(KEY_REFRESH, refreshToken).apply()
     }
 
+    /**
+     * Signs out. The consent goes too (ConsentActivity): it belongs to the account, so the next sign-in, maybe
+     * of another person or of a new account after "Delete account", asks again and records it for that account.
+     */
     @JvmStatic
     fun clearSession(context: Context) {
         prefs(context).edit()
@@ -134,6 +138,7 @@ object SyriaPrefs {
             .remove(KEY_PHONE)
             .remove(KEY_NAME)
             .remove(KEY_ANONYMOUS)
+            .remove(KEY_CONSENT_VERSION)
             .apply()
         loggedIn.postValue(false)
         SyriaStatus.refresh(context)
@@ -156,6 +161,7 @@ object SyriaPrefs {
             .remove(KEY_PHONE)
             .remove(KEY_NAME)
             .remove(KEY_ANONYMOUS)
+            .remove(KEY_CONSENT_VERSION)
             .remove(KEY_LAST_SYNC)
             .remove(KEY_LAST_SYNC_FAILED)
             .remove(KEY_LAST_SYNC_ERROR)
@@ -295,7 +301,7 @@ object SyriaPrefs {
         prefs(context).edit().putBoolean(KEY_INSTALL_SOURCE_LOGGED, true).apply()
     }
 
-    /** Version of the consent screen the user agreed to (ConsentActivity.VERSION), 0 if never. */
+    /** Version of the consent screen the signed-in user agreed to (ConsentActivity.VERSION), 0 if not yet. */
     @JvmStatic
     fun consentVersion(context: Context): Int = prefs(context).getInt(KEY_CONSENT_VERSION, 0)
 

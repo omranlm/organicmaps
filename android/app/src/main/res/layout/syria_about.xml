@@ -23,17 +23,26 @@
         android:contentDescription="@string/app_name"
         app:srcCompat="@drawable/logo_on_dark" />
 
-    <!-- The app name is always written in Latin letters; "Organic Maps" is coloured in code. -->
+    <!-- The two names of the app, set in SyriaAbout: the one in the UI language, and the other one small under it. -->
     <TextView
         android:id="@+id/syria_about_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_half"
-        android:text="@string/syria_brand_name"
         android:textAppearance="@style/MwmTextAppearance.Headline"
         android:textColor="#FFFFFF"
-        android:textDirection="ltr"
+        android:textDirection="firstStrong"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/syria_about_name_other"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_quarter"
+        android:alpha="0.85"
+        android:textColor="#FFFFFF"
+        android:textDirection="firstStrong"
+        android:textSize="15sp" />
 
     <TextView
         android:layout_width="wrap_content"

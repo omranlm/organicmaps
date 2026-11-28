@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>موقع مشترك — Syria Organic Maps</title>
-<meta name="description" content="موقع شاركه معك أحد مستخدمي Syria Organic Maps، تطبيق الخرائط والملاحة دون اتصال لسوريا.">
-<meta property="og:title" content="موقع مشترك عبر Syria Organic Maps">
+<title>موقع مشترك — خرائط سوريا · Syria Organic Maps</title>
+<meta name="description" content="موقع شاركه معك أحد مستخدمي خرائط سوريا، تطبيق الخرائط والملاحة دون اتصال لسوريا.">
+<meta property="og:title" content="موقع مشترك عبر خرائط سوريا">
 <meta property="og:description" content="افتح الموقع في التطبيق، أو نزّل التطبيق مجاناً للملاحة دون إنترنت.">
-<meta property="og:site_name" content="Syria Organic Maps">
+<meta property="og:site_name" content="خرائط سوريا · Syria Organic Maps">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ar_SY">
 <meta property="og:image" content="https://organicmaps.openstreetmap.sy/og-image.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="شعار Syria Organic Maps وعبارة: كل مشوار يرسم الخريطة">
+<meta property="og:image:alt" content="شعار خرائط سوريا وعبارة: كل مشوار يرسم الخريطة">
 <meta name="twitter:card" content="summary_large_image">
 <!-- Shared places are people's own links: keep them out of search results, but follow the links to the site. -->
 <meta name="robots" content="noindex, follow">
@@ -102,8 +102,14 @@
   .topbar { display: flex; align-items: center; gap: 12px; padding-top: 14px; padding-bottom: 14px; }
   .brand { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; min-width: 0; }
   .brand svg { width: 30px; height: 38px; flex: none; }
-  .brand b { display: block; font: 700 16px/1.15 var(--display); white-space: nowrap; direction: ltr; unicode-bidi: isolate; }
+  /* The two names of the app: the one in the page language first, the other one small under it. */
+  .brand > span { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+  .brand b { display: block; font: 700 16px/1.15 var(--display); white-space: nowrap; unicode-bidi: isolate; }
   .brand b span { color: var(--teal-light); }
+  .brand .wm-ar { font-size: 18px; direction: rtl; }
+  .brand .wm-en { direction: ltr; }
+  html[lang="en"] .brand .wm-ar { order: 2; }
+  html[lang="ar"] .brand .wm-en, html[lang="en"] .brand .wm-ar { font-size: 11.5px; font-weight: 500; opacity: .85; }
   .brand small { display: block; color: #aeb6c2; font: 500 12.5px/1.4 var(--display); margin-top: 3px; }
   .lang-switch { display: inline-flex; margin-inline-start: auto; padding: 3px; gap: 2px; border-radius: 999px; flex: none;
                  background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .12); }
@@ -191,7 +197,7 @@
 <header class="top">
   <div class="wrap topbar">
     <a class="brand" href="/"><svg viewBox="0 0 240 300" aria-hidden="true"><use href="#mark-dark"/></svg>
-      <span><b>Syria <span>Organic Maps</span></b><small data-t="tagline">خرائط سوريا دون اتصال</small></span></a>
+      <span><b class="wm-ar">خرائط <span>سوريا</span></b><b class="wm-en">Syria <span>Organic Maps</span></b></span></a>
     <nav class="lang-switch" aria-label="Language · اللغة">
       <a href="?lang=ar" hreflang="ar" data-set-lang="ar">العربية</a>
       <a href="?lang=en" hreflang="en" data-set-lang="en">English</a>
@@ -208,7 +214,7 @@
     <div class="map-frame"><iframe id="map" class="map" title="Map" loading="lazy" referrerpolicy="no-referrer"></iframe></div>
     <a id="open" class="btn" data-hit="open_app" hidden>
       <span data-t="open">افتح في التطبيق</span>
-      <small data-t="openHint">إن كان Syria Organic Maps مثبّتاً على هاتفك</small>
+      <small data-t="openHint">إن كان تطبيق خرائط سوريا مثبّتاً على هاتفك</small>
     </a>
   </section>
 
@@ -261,7 +267,6 @@
 
   // Arabic is in the markup; the language itself is picked in <head> (?lang=, saved choice, then Arabic).
   const EN = {
-    tagline: 'offline maps of Syria',
     shared: 'A place shared with you by a user of the app',
     open: 'Open in the app',
     openHint: 'If Syria Organic Maps is installed on your phone',
@@ -282,6 +287,7 @@
     placeDefault: 'Shared place',
   };
   const AR = {placeDefault: 'موقع مشترك'};
+  const BRAND = {ar: 'خرائط سوريا', en: 'Syria Organic Maps'};
   document.querySelectorAll('[data-t]').forEach(e => { AR[e.dataset.t] = e.textContent; });
   const root = document.documentElement;
   let lang = root.lang === 'en' ? 'en' : 'ar';
@@ -290,10 +296,10 @@
   // The place name (or the default one, in the current language) in the heading, the title and the geo: label.
   function showTitle() {
     const dict = lang === 'ar' ? AR : EN;
-    if (!place) { document.title = dict.placeDefault + ' — Syria Organic Maps'; return; }
+    if (!place) { document.title = dict.placeDefault + ' — ' + BRAND[lang]; return; }
     const title = name || dict.placeDefault;
     document.getElementById('name').textContent = title;
-    document.title = title + ' — Syria Organic Maps';
+    document.title = title + ' — ' + BRAND[lang];
     const label = encodeURIComponent(title);
     document.getElementById('geo').href = 'geo:' + place.lat + ',' + place.lon + '?q=' + place.lat + ',' + place.lon + '(' + label + ')';
   }

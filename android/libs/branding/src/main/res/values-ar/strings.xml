@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- The Arabic name of Syria Organic Maps, under the app icon on phones in Arabic. -->
+  <string name="app_name">خرائط سوريا</string>
+</resources>

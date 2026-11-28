@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>الهوية البصرية — Syria Organic Maps</title>
+<title>الهوية البصرية — خرائط سوريا · Syria Organic Maps</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -69,17 +69,18 @@
   /* Lockups */
   .lockup { display: flex; align-items: center; gap: 16px; }
   .lockup svg { width: 74px; height: auto; flex: none; }
-  .lockup .name { font: 700 26px/1.1 var(--display); direction: ltr; }
-  .lockup .name span { color: var(--teal-deep); }
+  .lockup .name { font: 700 30px/1.15 var(--display); }
+  .lockup .name-en { font: 500 14px/1.2 var(--display); direction: ltr; text-align: right; opacity: .8; margin-top: 2px; }
+  .lockup .name span, .lockup .name-en span { color: var(--teal-deep); }
   .lockup .tag { font: 500 15px var(--display); color: var(--muted); margin-top: 4px; }
   .lockups { display: grid; gap: 14px; }
   .lockups > div { border-radius: 14px; padding: 22px; }
   .on-paper { background: #fff; border: 1px solid var(--line); }
   .on-ink { background: var(--ink); color: #fff; }
-  .on-ink .name span { color: #6FD3C3; }
+  .on-ink .name span, .on-ink .name-en span { color: #6FD3C3; }
   .on-ink .tag { color: #AEB6C2; }
   .on-teal { background: var(--teal); color: #fff; }
-  .on-teal .name span { color: #CDEFE9; }
+  .on-teal .name span, .on-teal .name-en span { color: #CDEFE9; }
   .on-teal .tag { color: #DDF3EF; }
 
   /* Palette */
@@ -124,7 +125,9 @@
   .sticker svg.m { width: 92px; height: auto; margin-bottom: 52px; }
   .sticker h3 { font-size: 25px; line-height: 1.3; }
   .sticker h3 em { font-style: normal; color: #6FD3C3; }
-  .sticker p { color: #AEB6C2; font-size: 13px; margin-top: 6px; direction: ltr; text-align: right; }
+  .sticker p { color: #AEB6C2; font-size: 13px; margin-top: 6px; }
+  .sticker p b { color: #fff; }
+  .sticker p bdi { direction: ltr; }
   .sticker .road { position: absolute; inset: auto 0 0; height: 34px; background: var(--road); }
   .sticker .road::after { content: ""; position: absolute; inset: 15px 0 auto; height: 4px;
                           background: repeating-linear-gradient(to left, var(--cloud) 0 20px, transparent 20px 36px); }
@@ -188,7 +191,7 @@
     <div>
       <p class="label">الهوية البصرية · نوفمبر 2026</p>
       <h1>كل مشوار<br><em>يرسم الخريطة</em></h1>
-      <p>هوية حملة <bdi>Syria Organic Maps</bdi> للسائقين، مأخوذة من شعار <bdi>OpenStreetMap</bdi> سوريا وشعار <bdi>Organic Maps</bdi>: الطريق ودوّار الوصول والنجوم الثلاث من الأول، والدبوس والورقة الخضراء من الثاني.</p>
+      <p>هوية حملة خرائط سوريا (<bdi>Syria Organic Maps</bdi>) للسائقين، مأخوذة من شعار <bdi>OpenStreetMap</bdi> سوريا وشعار <bdi>Organic Maps</bdi>: الطريق ودوّار الوصول والنجوم الثلاث من الأول، والدبوس والورقة الخضراء من الثاني.</p>
     </div>
     <svg class="mark" viewBox="0 0 240 300" role="img" aria-label="رمز الحملة"><use href="#mark-dark"/></svg>
     <div class="hero-road"></div>
@@ -228,18 +231,18 @@
     <div class="lockups">
       <div class="on-paper lockup">
         <svg viewBox="0 0 240 300"><use href="#mark"/></svg>
-        <div><div class="name">Syria <span>Organic Maps</span></div><div class="tag">كل مشوار يرسم الخريطة</div></div>
+        <div><div class="name">خرائط <span>سوريا</span></div><div class="name-en">Syria <span>Organic Maps</span></div><div class="tag">كل مشوار يرسم الخريطة</div></div>
       </div>
       <div class="on-ink lockup">
         <svg viewBox="0 0 240 300"><use href="#mark-dark"/></svg>
-        <div><div class="name">Syria <span>Organic Maps</span></div><div class="tag">كل مشوار يرسم الخريطة</div></div>
+        <div><div class="name">خرائط <span>سوريا</span></div><div class="name-en">Syria <span>Organic Maps</span></div><div class="tag">كل مشوار يرسم الخريطة</div></div>
       </div>
       <div class="on-teal lockup">
         <svg viewBox="0 0 240 300"><use href="#mark-dark"/></svg>
-        <div><div class="name">Syria <span>Organic Maps</span></div><div class="tag">كل مشوار يرسم الخريطة</div></div>
+        <div><div class="name">خرائط <span>سوريا</span></div><div class="name-en">Syria <span>Organic Maps</span></div><div class="tag">كل مشوار يرسم الخريطة</div></div>
       </div>
     </div>
-    <p class="muted" style="margin-top:14px;font-size:13.5px">اسم التطبيق يُكتب دائماً بالحروف اللاتينية <bdi>Syria Organic Maps</bdi> كما يظهر على الهاتف، والشعار العربي تحته. على الخلفيات الداكنة نستعمل الرمز بحدّ فاتح.</p>
+    <p class="muted" style="margin-top:14px;font-size:13.5px">اسم التطبيق بالعربية «خرائط سوريا»، وبالإنجليزية <bdi>Syria Organic Maps</bdi>. في المواد العربية يأتي «خرائط سوريا» أولاً وبخط كبير، والاسم الإنجليزي تحته بخط صغير، ثم الشعار؛ وفي المواد الإنجليزية العكس. وفي النص العربي نكتب «خرائط سوريا»، ونضيف الاسم الإنجليزي بين قوسين عند ذكره أول مرة. على الخلفيات الداكنة نستعمل الرمز بحدّ فاتح.</p>
   </section>
 
   <!-- 4. Palette -->
@@ -329,7 +332,7 @@
           <svg class="m" viewBox="0 0 240 300"><use href="#mark-dark"/></svg>
           <div style="margin-bottom:52px">
             <h3>هذه السيارة<br><em>ترسم خريطة سوريا</em></h3>
-            <p>Syria Organic Maps · OpenStreetMap</p>
+            <p><b>خرائط سوريا</b> · <bdi>Syria Organic Maps</bdi></p>
           </div>
           <div class="road"></div>
         </div>

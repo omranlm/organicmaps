@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<title>ملصق السيارة — Syria Organic Maps</title>
+<title>ملصق السيارة — خرائط سوريا</title>
 <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@500;700&display=swap" rel="stylesheet">
 <style>
   /* Rear-window sticker, 200 × 100 mm (1000 × 500 px). */
@@ -16,7 +16,9 @@
   .text { position: absolute; right: 330px; left: 50px; top: 110px; }
   h1 { margin: 0; font-size: 60px; line-height: 1.2; font-weight: 700; }
   h1 em { font-style: normal; color: #6FD3C3; }
-  p { margin: 18px 0 0; font-size: 24px; color: #AEB6C2; direction: ltr; text-align: right; font-weight: 500; }
+  p { margin: 18px 0 0; font-size: 26px; color: #AEB6C2; font-weight: 500; }
+  p b { color: #fff; font-weight: 700; }
+  p bdi { direction: ltr; }
   .road { position: absolute; left: 0; right: 0; bottom: 0; height: 84px; background: #404E5E; }
   .road::after { content: ""; position: absolute; left: 0; right: 0; top: 39px; height: 8px;
                  background: repeating-linear-gradient(to left, #F2F2F2 0 52px, transparent 52px 92px); }
@@ -27,7 +29,7 @@
   <img class="mark" src="../mark-dark.svg" alt="">
   <div class="text">
     <h1>هذه السيارة<br><em>ترسم خريطة سوريا</em></h1>
-    <p>Syria Organic Maps · OpenStreetMap</p>
+    <p><b>خرائط سوريا</b> · <bdi>Syria Organic Maps</bdi></p>
   </div>
   <div class="road"></div>
 </div>

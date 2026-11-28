@@ -123,7 +123,8 @@
   <string name="syria_tutorial_menu_text">تنزيل الخرائط والإعدادات وتسجيل النشاط ومشاركة موقعك.</string>
   <string name="syria_tutorial_help_title">المساعدة</string>
   <string name="syria_tutorial_help_text">اضغط هنا في أي وقت لعرض هذا الدليل مجدداً.</string>
-  <string name="syria_about_title">حول Syria Organic Maps</string>
+  <string name="syria_pref_category">خرائط سوريا</string>
+  <string name="syria_about_title">حول خرائط سوريا</string>
   <string name="syria_about_fork">هذا التطبيق نسخة مشتقّة من تطبيق Organic Maps مفتوح المصدر، مخصّصة لسوريا وتستخدم بيانات OpenStreetMap المحلية لسوريا، ويطوّرها ويصونها مجتمع OpenStreetMap سوريا.</string>
   <string name="syria_about_proposition_1">بلا إعلانات. لا يُسجَّل نشاطك إلا عندما تبدأ التسجيل بنفسك.</string>
   <string name="syria_about_website">الموقع</string>
@@ -140,7 +141,7 @@
   <string name="syria_about_source">الشيفرة المصدرية</string>
   <string name="syria_about_privacy">سياسة الخصوصية</string>
   <string name="syria_about_om_title">حول Organic Maps</string>
-  <string name="syria_about_om_intro">بُني Syria Organic Maps على Organic Maps، وفيما يلي تفاصيل التطبيق الأصلي.</string>
+  <string name="syria_about_om_intro">بُنيت خرائط سوريا على Organic Maps، وفيما يلي تفاصيل التطبيق الأصلي.</string>
   <string name="syria_version_history">سجلّ الإصدارات</string>
   <string name="syria_version_this">هذا الإصدار</string>
   <string name="syria_version_history_language">ar</string>
@@ -153,7 +154,7 @@
   <string name="syria_pref_device_id_copied">تم نسخ معرّف الجهاز</string>
 
   <string name="syria_pref_server">خادم البيانات (للتطوير)</string>
-  <string name="syria_server_production">خادم Organic Maps سوريا (%s)</string>
+  <string name="syria_server_production">خادم خرائط سوريا (%s)</string>
   <string name="syria_server_local">خادم التطوير المحلي (%s)</string>
   <string name="syria_server_switch_confirm">تغيير خادم الواجهة البرمجية وتنزيل الخرائط؟ سيتم تسجيل خروجك (تبقى التسجيلات غير المتزامنة على هذا الهاتف) وسيُعاد تشغيل التطبيق.</string>
   <string name="syria_server_stop_recording_first">أوقف التسجيل قبل تغيير الخادم.</string>

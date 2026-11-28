@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>صورة المتجر الرئيسية — خرائط سوريا</title>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* Google Play feature graphic, 1024 × 500 px. ?lang=en for the English listing. Play may cover the lower
+     part with a play button or text, so the name and slogan stay in the upper-middle area. */
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  .card { width: 1024px; height: 500px; background: #21242A; color: #fff; position: relative; overflow: hidden;
+          font-family: "Readex Pro", sans-serif; }
+  .card::before { content: ""; position: absolute; inset: 0;
+                  background: radial-gradient(50% 80% at 20% 40%, rgba(12, 124, 112, .45), transparent 70%); }
+  .mark { position: absolute; left: 110px; top: 50px; width: 250px; filter: drop-shadow(0 20px 30px rgba(0, 0, 0, .5)); }
+  .text { position: absolute; right: 70px; top: 70px; width: 560px; }
+  .name { font-size: 64px; font-weight: 700; line-height: 1.1; }
+  .name span, .other span { color: #6FD3C3; }
+  .other { margin-top: 6px; font-size: 26px; font-weight: 500; color: #C9CFD8; }
+  h1 { margin: 26px 0 0; font-size: 42px; line-height: 1.25; font-weight: 700; }
+  h1 em { font-style: normal; color: #6FD3C3; }
+  .road { position: absolute; left: 0; right: 0; bottom: 0; height: 70px; background: #404E5E; }
+  .road::after { content: ""; position: absolute; left: 0; right: 0; top: 31px; height: 8px;
+                 background: repeating-linear-gradient(90deg, #F2F2F2 0 52px, transparent 52px 92px); }
+  [dir="ltr"] .text { right: auto; left: 420px; width: 560px; }
+  [dir="ltr"] .mark { left: auto; right: auto; left: 100px; }
+  .other.ltr { direction: ltr; text-align: right; }
+  [dir="ltr"] .name { font-size: 52px; white-space: nowrap; }
+  [dir="ltr"] .other.rtl { direction: rtl; text-align: left; }
+</style>
+</head>
+<body data-home="../index.html">
+<div class="card">
+  <img class="mark" src="../mark-dark.svg" alt="">
+  <div class="text" id="text"></div>
+  <div class="road"></div>
+</div>
+<script>
+  const en = new URLSearchParams(location.search).get('lang') === 'en';
+  document.documentElement.lang = en ? 'en' : 'ar';
+  document.documentElement.dir = en ? 'ltr' : 'rtl';
+  document.getElementById('text').innerHTML = en
+    ? '<div class="name">Syria <span>Organic Maps</span></div><div class="other rtl">خرائط <span>سوريا</span></div>' +
+      '<h1>The map of Syria <em>without internet</em></h1>'
+    : '<div class="name">خرائط <span>سوريا</span></div><div class="other ltr">Syria <span>Organic Maps</span></div>' +
+      '<h1>خريطة سوريا <em>بدون إنترنت</em></h1>';
+</script>
+<script src="../toolbar.js"></script>
+</body>
+</html>

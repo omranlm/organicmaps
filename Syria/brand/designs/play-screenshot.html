@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>صور المتجر — خرائط سوريا</title>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* Google Play phone screenshot, 1080 × 1920 px (9:16): a caption above an app screenshot from play/shots/.
+     ?n=1..4 picks the screen, ?lang=en the English caption (the app itself is shown in Arabic). */
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  .shot { width: 1080px; height: 1920px; position: relative; overflow: hidden; background: #21242A; color: #fff;
+          font-family: "Readex Pro", sans-serif; }
+  .shot::before { content: ""; position: absolute; inset: 0;
+                  background: radial-gradient(70% 40% at 50% 8%, rgba(12, 124, 112, .55), transparent 75%); }
+  .brand { position: absolute; top: 64px; inset-inline-start: 80px; display: flex; align-items: center; gap: 16px; }
+  .brand img { width: 48px; }
+  .brand b { font-size: 30px; }
+  .brand b span { color: #6FD3C3; }
+  h1 { position: absolute; top: 150px; inset-inline: 80px; margin: 0; font-size: 76px; line-height: 1.2; font-weight: 700; }
+  h1 em { display: block; font-style: normal; color: #6FD3C3; font-size: 54px; margin-top: 8px; }
+  .phone { position: absolute; top: 470px; left: 110px; width: 860px; border-radius: 56px; overflow: hidden;
+           border: 14px solid #0E1013; box-shadow: 0 30px 60px rgba(0, 0, 0, .55); background: #0E1013; }
+  .phone img { display: block; width: 100%; }
+  [dir="ltr"] h1 { letter-spacing: -.01em; }
+</style>
+</head>
+<body data-home="../index.html">
+<div class="shot">
+  <div class="brand"><img src="../mark-dark.svg" alt=""><b id="name"></b></div>
+  <h1><span id="l1"></span><em id="l2"></em></h1>
+  <div class="phone"><img id="img" alt=""></div>
+</div>
+<script>
+  const SHOTS = {
+    1: {img: '1-map.png', ar: ['خريطة سوريا كاملة', 'بدون إنترنت'], en: ['The whole map of Syria', 'works without internet']},
+    2: {img: '2-search.png', ar: ['ابحث بالعربي', 'عن أي مكان حولك'], en: ['Search in Arabic', 'for any place around you']},
+    3: {img: '3-recording.png', ar: ['سجّل مشاويرك', 'وساعد في رسم الخريطة'], en: ['Record your trips', 'and help draw the map']},
+    4: {img: '4-about.png', ar: ['مجانية وبلا إعلانات', 'من مجتمع OpenStreetMap سوريا'], en: ['Free, with no ads', 'by the OpenStreetMap Syria community']},
+  };
+  const q = new URLSearchParams(location.search);
+  const lang = q.get('lang') === 'en' ? 'en' : 'ar';
+  const shot = SHOTS[q.get('n')] || SHOTS[1];
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.getElementById('name').innerHTML = lang === 'ar' ? 'خرائط <span>سوريا</span>' : 'Syria <span>Organic Maps</span>';
+  document.getElementById('l1').textContent = shot[lang][0];
+  document.getElementById('l2').textContent = shot[lang][1];
+  document.getElementById('img').src = '../play/shots/' + shot.img;
+</script>
+<script src="../toolbar.js"></script>
+</body>
+</html>
